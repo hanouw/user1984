@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:replace="~{backend/layouts/base :: base(~{this::content})}">
+    <th:block th:fragment="content">
+        <div class="search_bar_wrap">
+            <div class="search_date_wrap">
+                <div class="item">
+                    <h2>카테고리관리</h2>
+                </div>
+                <div class="item">
+                    <button class="grey_btn">오늘</button>
+                    <button class="grey_btn">일주일</button>
+                    <button class="grey_btn">한달</button>
+                    <input type="date" />
+                    <input type="date" />
+                    <button class="black_btn">조회</button>
+                </div>
+            </div>
+            <hr />
+            <div class="search_text_wrap">
+                <div class="item">
+                    <select name="categoryName" id="selectCategory">
+                        <option value="">전체</option>
+                    </select>
+                    <input type="text" />
+                    <button class="black_btn">검색</button>
+                </div>
+                <div class="item">
+                    <select name="" id="">
+                        <option value="">최신순</option>
+                        <option value="">이전순</option>
+                    </select>
+                    <button class="black_btn" th:onclick="|location.href='@{/cms/bookCategory/add}'|">추가</button>
+<!--                    <button class="black_btn" onclick="bookCategoryAdd()">추가</button>-->
+                </div>
+            </div>
+            <div class="list_table_wrap">
+                <table class="list_table">
+                    <tr>
+                        <th>NO</th>
+                        <th>카테고리명</th>
+                        <th>활성화</th>
+                        <th>수정일</th>
+                        <th>등록일</th>
+                    </tr>
+                    <tr th:each="bookCategoryList : ${bookCategoryList}">
+
+                            <td><a th:text="${bookCategoryList.bookCategoryId}" th:href="@{/cms/bookCategory/{id}(id=${bookCategoryList.bookCategoryId})}"></a></td>
+                            <td><a th:text="${bookCategoryList.bookCategoryName}" th:href="@{/cms/bookCategory/{id}(id=${bookCategoryList.bookCategoryId})}"></a></td>
+                            <td th:text="${bookCategoryList.bookCategoryStatus}"></td>
+                            <td th:text="${#temporals.format(bookCategoryList.lastModifiedDate, 'yyyy-MM-dd HH:mm')}"></td>
+                            <td th:text="${#temporals.format(bookCategoryList.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </th:block>
+</th:block>
+</body>
+</html>
