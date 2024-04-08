@@ -41,7 +41,6 @@ public class MemberController {
         return "frontend/member/login";
     }
 
-
     // 로그인 처리 요청
 //    @PostMapping("/login")
 //    public String loginPro(MemberLoginDTO memberLoginDTO, HttpSession session, Model model){

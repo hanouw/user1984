@@ -5,9 +5,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,25 +23,28 @@ import javax.sql.DataSource;
 @EnableMethodSecurity
 @RequiredArgsConstructor
 @Slf4j
-@Order(Ordered.HIGHEST_PRECEDENCE)
 public class UserSecurityConfig extends ConfigForExtend{
 
     private final CustomMemberSecurityService customMemberSecurityService;
     private final DataSource dataSource; // yml DB 접속 정보 설정
 
-    @Bean
-    public DaoAuthenticationProvider userAuthenticationProvider(){
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(customMemberSecurityService);
-        provider.setPasswordEncoder(passwordEncoder());
-        return provider;
-    }
+//    @Bean
+//    public DaoAuthenticationProvider userAuthenticationProvider(){
+//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+//        provider.setUserDetailsService(customMemberSecurityService);
+//        provider.setPasswordEncoder(passwordEncoder());
+//        return provider;
+//    }
+
+
 
     // 시큐리티 통과 조건
     @Bean
     public SecurityFilterChain userFilterChain(HttpSecurity http) throws Exception{
 
-        http.authenticationProvider(userAuthenticationProvider());
+//        http.authenticationProvider(userAuthenticationProvider());
+
+        http.csrf(csrf -> csrf.disable()); // csrf 토큰을 달고 넘어가는데 disable해둠
 
         http.authorizeHttpRequests(request -> // anyRequest(): 어떤 요청이든 permitAll(): 다 허용
                                 request.requestMatchers("/", "/signup", "/login", "/logout").permitAll()
@@ -51,10 +54,9 @@ public class UserSecurityConfig extends ConfigForExtend{
 
 
         http.formLogin(login -> login.loginPage("/login") // 로그인 페이지는 이 페이지야~
-                .loginProcessingUrl("/login")
-                .usernameParameter("userID")
+                .usernameParameter("userId")
                 .passwordParameter("userPassword")
-                .defaultSuccessUrl("/")) // 로그인 처리 성공했으면
+                .defaultSuccessUrl("/", true)) // 로그인 처리 성공했으면
                 .rememberMe(remember -> remember.userDetailsService(customMemberSecurityService)
                         .tokenRepository(memberTokenRepository())
                         .tokenValiditySeconds(3600))
@@ -62,7 +64,7 @@ public class UserSecurityConfig extends ConfigForExtend{
                         .logoutSuccessUrl("/") // 홈 : /으로 돌아가라
                         .invalidateHttpSession(true)); // 세션도 지워라
 
-        http.csrf(csrf -> csrf.disable()); // csrf 토큰을 달고 넘어가는데 disable해둠
+
         return http.build();
     }
 
@@ -75,5 +77,11 @@ public class UserSecurityConfig extends ConfigForExtend{
         return jdbcTokenRepository;
     }
 
+    // 시큐리티 인증 담당해주는 매니저 빈
+    @Bean
+    public AuthenticationManager storeAuthenticationManager(
+            AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
 
 }
