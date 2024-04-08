@@ -28,15 +28,6 @@ public class UserSecurityConfig extends ConfigForExtend{
     private final CustomMemberSecurityService customMemberSecurityService;
     private final DataSource dataSource; // yml DB 접속 정보 설정
 
-//    @Bean
-//    public DaoAuthenticationProvider userAuthenticationProvider(){
-//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-//        provider.setUserDetailsService(customMemberSecurityService);
-//        provider.setPasswordEncoder(passwordEncoder());
-//        return provider;
-//    }
-
-
 
     // 시큐리티 통과 조건
     @Bean
