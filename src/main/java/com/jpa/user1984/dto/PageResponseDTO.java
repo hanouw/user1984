@@ -18,7 +18,7 @@ public class PageResponseDTO { // 구 PageDTO
     private boolean prev, next; // 이전 페이지, 다음페이지 여부
     private int totalPage;
     private boolean lastPage; // 마지막 페이지인지 여부
-    private List<PaymentResponseDTO> orderList;
+    private List<PaymentBookResponseDTO> orderList;
 
     public PageResponseDTO(PageRequestDTO pageRequestDTO, Long totalCount) {
         this.pageRequestDTO = pageRequestDTO;
@@ -39,7 +39,7 @@ public class PageResponseDTO { // 구 PageDTO
         this.lastPage = pageRequestDTO.getPage() == totalPage;
     }
 
-    public PageResponseDTO(PageRequestDTO pageRequestDTO, Long totalCount, List<PaymentResponseDTO> orderList) {
+    public PageResponseDTO(PageRequestDTO pageRequestDTO, Long totalCount, List<PaymentBookResponseDTO> orderList) {
         super();
         this.pageRequestDTO = pageRequestDTO;
         this.totalCount = totalCount;

@@ -56,29 +56,29 @@ public class CmsService {
 //    }
 
     // 주문관리 - 주문 목록 조회 판매자 ver
-    public List<PaymentResponseDTO> findHistoryList(Long storeId, PageRequestDTO pageRequestDTO) {
+    public List<PaymentBookResponseDTO> findHistoryList(Long storeId, PageRequestDTO pageRequestDTO) {
         List<PaymentBookHistory> historyEntityList = paymentBookHistoryCustomRepository.findListByStoreId(storeId, pageRequestDTO);
 //        List<PaymentBookHistoryDTO> list = new ArrayList<>();
 //        for (PaymentBookHistory p : historyEntityList) {
 //            list.add(new PaymentBookHistoryDTO(p));
 //        }
-        List<PaymentResponseDTO> list = new ArrayList<>();
+        List<PaymentBookResponseDTO> list = new ArrayList<>();
         for (PaymentBookHistory orderList : historyEntityList) {
-            PaymentResponseDTO paymentResponseDTO = new PaymentResponseDTO();
-            paymentResponseDTO.setOrderBookNo(orderList.getPaymentBook().getOrderBookNo());
-            paymentResponseDTO.setOrderBookId(orderList.getPaymentBook().getOrderBookId());
-            paymentResponseDTO.setUserId(orderList.getPaymentBook().getMember().getUserId());
-            paymentResponseDTO.setUserName(orderList.getPaymentBook().getMember().getUserName());
-            paymentResponseDTO.setIsbn(orderList.getBook().getBookId());
-            paymentResponseDTO.setBookTitle(orderList.getBook().getBookTitle());
+            PaymentBookResponseDTO paymentBookResponseDTO = new PaymentBookResponseDTO();
+            paymentBookResponseDTO.setOrderBookNo(orderList.getPaymentBook().getOrderBookNo());
+            paymentBookResponseDTO.setOrderBookId(orderList.getPaymentBook().getOrderBookId());
+            paymentBookResponseDTO.setUserId(orderList.getPaymentBook().getMember().getUserId());
+            paymentBookResponseDTO.setUserName(orderList.getPaymentBook().getMember().getUserName());
+            paymentBookResponseDTO.setIsbn(orderList.getBook().getBookId());
+            paymentBookResponseDTO.setBookTitle(orderList.getBook().getBookTitle());
             //paymentResponseDTO.setStoreTitle(orderList.getBook().getS);
-            paymentResponseDTO.setPaymentBookStatus(orderList.getPaymentBook().getPaymentBookStatus());
-            paymentResponseDTO.setOrderBookMethod(orderList.getPaymentBook().getOrderBookMethod());
-            paymentResponseDTO.setCreateDate(orderList.getPaymentBook().getCreateDate());
-            paymentResponseDTO.setBookPub(orderList.getBook().getBookPub());
-            paymentResponseDTO.setBookEbookPrice(orderList.getBook().getBookEbookPrice());
-            paymentResponseDTO.setCreateDate(orderList.getCreateDate());
-            list.add(paymentResponseDTO);
+            paymentBookResponseDTO.setPaymentBookStatus(orderList.getPaymentBook().getPaymentBookStatus());
+            paymentBookResponseDTO.setOrderBookMethod(orderList.getPaymentBook().getOrderBookMethod());
+            paymentBookResponseDTO.setCreateDate(orderList.getPaymentBook().getCreateDate());
+            paymentBookResponseDTO.setBookPub(orderList.getBook().getBookPub());
+            paymentBookResponseDTO.setBookEbookPrice(orderList.getBook().getBookEbookPrice());
+            paymentBookResponseDTO.setCreateDate(orderList.getCreateDate());
+            list.add(paymentBookResponseDTO);
         }
         return list;
     }

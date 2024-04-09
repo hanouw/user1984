@@ -1,6 +1,6 @@
 package com.jpa.user1984.service;
 
-import com.jpa.user1984.dto.PaymentBookDTO;
+import com.jpa.user1984.dto.PaymentBookForm;
 import com.jpa.user1984.domain.PaymentBook;
 import com.jpa.user1984.domain.PaymentBookHistory;
 import com.jpa.user1984.domain.PaymentBookStatus;
@@ -29,21 +29,22 @@ public class PaymentBookService {
     private final PaymentBookHistoryRepository paymentBookHistoryRepository;
 
     // 책 주문 등록
-    public void saveOrder(Long userNo, PaymentBookDTO paymentBookDTO) {
+    public void saveOrder(Long userNo, PaymentBookForm paymentBookForm) {
 
         PaymentBook order = new PaymentBook();
-        order.setOrderBookId(paymentBookDTO.getOrderBookId());
+        order.setOrderBookId(paymentBookForm.getOrderBookId());
         order.setMember(memberRepository.findByUserId("")); // 추후 수정 필요
-        order.setOrderBookMethod(paymentBookDTO.getOrderBookMethod());
+        order.setOrderBookMethod(paymentBookForm.getOrderBookMethod());
         order.setPaymentBookStatus(PaymentBookStatus.COMPLETE);
         paymentBookRepository.save(order);
 
         // 책 주문 내역 등록
         List<PaymentBookHistory> histories = new ArrayList<>();
-        for (String bookList : paymentBookDTO.getSelectedBooks()) {
+        for (String bookList : paymentBookForm.getSelectedBooks()) {
             PaymentBookHistory history = new PaymentBookHistory();
             long bookId = Long.parseLong(bookList);
-            history.setPaymentBook(paymentBookRepository.findById(bookId).orElse(null));
+            // history.setPaymentBook(paymentBookRepository.findById(bookId).orElse(null));
+            history.setPaymentBook(paymentBookRepository.findById(paymentBookForm.getOrderBookId()).orElse(null));
             history.setBook(bookRepository.findById(bookId).orElse(null));
             histories.add(history);
             paymentBookHistoryRepository.save(history);

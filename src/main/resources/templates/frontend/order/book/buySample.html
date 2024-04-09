@@ -67,14 +67,15 @@
                   $.ajax({
                     type: 'POST',
                     url: '/book/validation/' + rsp.imp_uid
-                  }).done(function (data) { // PaymentController 에서 IamportResponse<Payment> 넘겨줌
-                    if (rsp.paid_amount === data.response.amount) {
+                  }).done(function (result) { // PaymentController 에서 IamportResponse<Payment> 넘겨줌
+                    if (rsp.paid_amount === result.response.amount) {
                       $.ajax({
                         type: 'POST',
                         url: '/order/book',
                         data: JSON.stringify(data),
                         contentType: "application/json;charset=UTF-8",
                         success: function (response) {
+                          console.log(response);
                           // 장바구니에서 결제된 상품 지우기
 
                           // 결제완료 창 띄우기

@@ -19,12 +19,6 @@ public class MyPageController {
 
     // 나의 서점 조회
 
-    // 장바구니
-    @GetMapping("/cart")
-    public String cart() {
-        return null;
-    }
-
     // 문의하기
 
 }

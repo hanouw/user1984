@@ -12,9 +12,10 @@ import java.util.List;
 public class Cart {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartId;
+
     @OneToOne
     private Member member;
-    @OneToMany
-    @JoinColumn(name = "book_id")
-    private List<Book> book;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cart_book_id")
+    private List<CartBook> books;
 }

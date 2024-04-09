@@ -1,6 +1,5 @@
 package com.jpa.user1984.dto;
 
-import com.jpa.user1984.domain.BookStatus;
 import com.jpa.user1984.domain.PaymentBookStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaymentResponseDTO {
+public class PaymentBookResponseDTO {
     private Long orderBookNo; // auto_increment
     private Long orderBookId; // 2024040300000
     private String userId;

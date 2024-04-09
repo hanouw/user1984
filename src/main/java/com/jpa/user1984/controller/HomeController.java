@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @Slf4j
@@ -24,7 +23,7 @@ public class HomeController {
 
     @GetMapping("/order/book")
     public String bookOrder() { // 임시
-        return "frontend/order/book/buy";
+        return "buy(가라로만든것)";
     }
 
     @GetMapping("/cms/home")
