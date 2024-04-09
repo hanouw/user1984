@@ -27,12 +27,12 @@ public class MemberController {
     }
 
     // 회원가입 처리 요청
-    @PostMapping("/signup")
-    public String signupPro(MemberForm memberForm){
-        log.info("******* MemberController signupPro");
-        MemberDTO memberDTO = new MemberDTO(memberService.save(memberForm));
-        return "redirect:/";
-    }
+//    @PostMapping("/signup")
+//    public String signupPro(MemberForm memberForm){
+//        log.info("******* MemberController signupPro");
+//        MemberDTO memberDTO = new MemberDTO(memberService.save(memberForm));
+//        return "redirect:/";
+//    }
 
     // 로그인 폼 요청
     @GetMapping("/login")
