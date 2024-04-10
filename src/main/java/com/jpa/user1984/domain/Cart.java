@@ -16,6 +16,6 @@ public class Cart {
     @OneToOne
     private Member member;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cart_book_id")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cart")
     private List<CartBook> books;
 }

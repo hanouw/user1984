@@ -10,6 +10,7 @@ import lombok.Setter;
 public class CartBook {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "cart_book_id")
     private Long cartBookId;
 
     @ManyToOne
