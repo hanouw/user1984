@@ -1,8 +1,4 @@
-/*BODY*/
-body{
-    width:100%;
-    height:100%;
-}
+
 /* section */
 .page_wrap{
     width: 100%;
@@ -25,7 +21,9 @@ body{
     width: 440px;
     height: 100vh;
     background-color: var(--mainblack);
+    color: var(--mainwhite);
     overflow-y: scroll;
+    color: var(--mainwhite);
 }
 .login_form_wrap > p{
     font-size: 28px;
@@ -33,12 +31,12 @@ body{
     line-height: 34px;
     color: var(--mainwhite);
 }
-.login_form_wrap > p > span{
-    font-size: 28px;
-    line-height: 34px;
+.login_form_wrap > a{
+    /*font-size: 28px;*/
+    /*padding: 20px 40px;*/
+    /*line-height: 34px;*/
     color: var(--mainwhite);
 }
-
 .login_form_wrap > hr{
     width: calc(100% - 80px);
     margin-bottom: 40px;
@@ -65,7 +63,7 @@ body{
     padding-left: 10px;
     height: 48px;
     border-radius: 4px;
-    color: var(--mainblack);
+    border: 1px solid #dcdcdc;
 }
 .check_box{
     width: calc(100% - 40px);
@@ -97,7 +95,6 @@ body{
     display: block;
     transition: 0.3s;
     cursor: pointer;
-    color: var(--mainwhite);
 }
 .btn_login:hover{
     background-color: var(--pointcolor);
@@ -111,7 +108,6 @@ a.link_signup, a.link_login{
     font-size: 14px;
     text-align: center;
     text-decoration: underline;
-    color: var(--mainwhite);
 }
 span.login_copyright, span.signup_copyright{
     display: block;
@@ -120,8 +116,6 @@ span.login_copyright, span.signup_copyright{
     padding-bottom:80px;
     width: 100%;
     text-align: center;
-    color: var(--mainwhite);
-    opacity:0.8;
 }
 /* login_page_img */
 .login_img{
@@ -131,7 +125,7 @@ span.login_copyright, span.signup_copyright{
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    background-color: var(--maingr00);
+    background-color: #dcdcdc;
 }
 
 
@@ -149,9 +143,6 @@ div.side_menu{
     height: 100vh;
     background-color: var(--mainblack);
     color: var(--mainwhite);
-    position:fixed;
-    top:0;
-    left:0;
 }
 .menu_wrap{
     width:calc(100% - 40px);
@@ -177,11 +168,7 @@ div.side_menu{
 }
 div.content{
     width: calc(100% - 320px);
-    margin-left:320px;
-    height: 100vh;
-    background-color: #fcfcfc;
-    overflow-y: scroll;
-    color: var(--mainblack);
+    background-color: #fff;
 }
 li.menu_list > a span{
     font-size: 24px;
@@ -200,8 +187,7 @@ div.top_st_bar{
     margin: 20px;
     height:80px;
     border-radius: 4px;
-    border: 0.5px solid var(--maingr00);
-    background-color:#fff;
+    border: 1px solid #dcdcdc;
     text-align: right;
 }
 div.top_st_bar > p{
@@ -223,7 +209,7 @@ div.top_st_bar > span{
     margin-bottom: 28px;
 }
 .search_bar_wrap > hr{
-    border: 1px solid var(--maingr00);
+    border: 1px solid #dcdcdc;
 }
 .search_date_wrap, .search_text_wrap{
     display: flex;
@@ -235,19 +221,34 @@ div.top_st_bar > span{
     height:44px;
     line-height: 44px;
 }
+.search_date_wrap > .item > button{
+    padding: 14px 22px;
+    background-color: var(--maingrey);
+    border: 1px solid var(--maingrey);
+    border-radius: 4px;
+    color: var(--mainwhite);
+}
 .search_date_wrap > .item > input{
     padding: 12px;
-    border: 1px solid var(--maingr01);
+    border: 1px solid var(--maingrey);
     border-radius: 4px;
 }
 
+.search_text_wrap > .item > button{
+    padding: 14px 22px;
+    background-color: var(--mainblack);
+    border: 1px solid var(--mainblack);
+    border-radius: 4px;
+    color: var(--mainwhite);
+}
 .search_text_wrap > .item > input{
     padding: 13px;
+    border: 1px solid var(--maingrey);
     border-radius: 4px;
 }
 .search_text_wrap > .item > select{
     padding: 12px 22px 12px 20px;
-    border: 1px solid var(--maingr01);
+    border: 1px solid var(--maingrey);
     border-radius: 4px;
 }
 
@@ -263,46 +264,6 @@ div.top_st_bar > span{
 .list_table tr{
     border-bottom: 1px solid #dcdcdc;
     line-height: 52px;
-}
-/*add_from*/
-.add_form_wrap{
-    border: 0.5px solid var(--maingr00);
-    border-radius:4px;
-    margin-top:20px;
-    padding-bottom:60px;
-    background-color:#fff;
-}
-.add_input_wrap,
-.add_checkbox_wrap{
-    margin:40px;
-}
-.add_input_wrap > p,
-.add_checkbox_wrap > p{
-    font-size:24px;
-    margin-bottom:14px;
-}
-.add_input_wrap > input,
-.add_input_wrap > textarea{
-    min-width:calc(50% - 40px);
-    padding: 13px 20px;
-    border-radius: 4px;
-}
-.add_input_wrap > select{
-    min-width:50%;
-    padding: 13px 20px;
-    border-radius: 4px;
-}
-.drag_img_form{
-    max-width:780px;
-    width:50%;
-    height:260px;
-    border:1px dashed var(--maingr00);
-    border-radius:4px;
-    background-color:#fafafa;
-    background-image:url("../img/img_drag.png");
-    background-position:center;
-    background-repeat:no-repeat;
-    margin-bottom:14px;
 }
 
 /*BUTTON*/
@@ -329,22 +290,4 @@ button.black_btn:hover{
     background-color: var(--black);
     border: 1px solid var(--black);
     color: var(--pointcolor);
-}
-
-/* 관리자 회원가입 */
-.avail {
-    position: relative;
-    margin-bottom: 0;
-    margin-top: 1px;
-}
-
-.input_form > .avail { /* 관리자 아이디 사용가능여부 */
-    border: 0;
-    width: 100%;
-    height: 16px;
-    background: transparent;
-    font-family: inherit;
-    font-size: 12px;
-    outline: none;
-    color: rgb(255 255 255 / 96%);
 }

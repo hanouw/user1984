@@ -19,7 +19,7 @@ public class CartDTO {
 
     // Entity -> DTO
     public CartDTO(CartBook cartBook) {
-        this.bookImg = cartBook.getBook().getBookImg();
+        this.bookImg = cartBook.getBook().getBookImgStored();
         this.bookTitle = cartBook.getBook().getBookTitle();
         this.bookWriter = cartBook.getBook().getBookWriter();
         this.bookPub = cartBook.getBook().getBookPub();

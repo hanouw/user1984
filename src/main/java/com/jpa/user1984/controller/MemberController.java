@@ -4,6 +4,7 @@ import com.jpa.user1984.dto.MemberDTO;
 import com.jpa.user1984.dto.MemberLoginDTO;
 import com.jpa.user1984.dto.MemberForm;
 import com.jpa.user1984.domain.Member;
+import com.jpa.user1984.service.CartService;
 import com.jpa.user1984.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class MemberController {
 
     private final MemberService memberService;
+    private final CartService cartService;
 
     // 회원가입 폼 요청
     @GetMapping("/signup")
@@ -31,6 +33,9 @@ public class MemberController {
     public String signupPro(MemberForm memberForm){
         log.info("******* MemberController signupPro");
         MemberDTO memberDTO = new MemberDTO(memberService.save(memberForm));
+        // 회원가입시에 장바구니 자동 생성
+        Long newCartId = cartService.createNewCart(memberDTO.getUserNo());
+        log.info("*********** 회원가입 성공 userNo:{} cartId:{}", memberDTO.getUserNo(), newCartId);
         return "redirect:/";
     }
 

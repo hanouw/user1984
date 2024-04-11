@@ -29,17 +29,18 @@ public class CartService {
     private final BookRepository bookRepository;
 
     // 회원가입시에 장바구니 자동생성되도록
-    public void createNewCart(String userId) {
+    public Long createNewCart(Long userNo) {
         Cart cart = new Cart();
-        cart.setMember(memberRepository.findByUserId(userId));
-        cartRepository.save(cart);
+        cart.setMember(memberRepository.findById(userNo).orElse(null));
+        Cart savedCart = cartRepository.save(cart);
+        return savedCart.getCartId();
     }
 
     // 장바구니에 책 추가
-    public CartBook addBook(Long userId, Long bookId) {
+    public CartBook addBook(Long userNo, Long bookId) {
         CartBook cartBook = new CartBook();
         cartBook.setBook(bookRepository.findById(bookId).orElse(null));
-        cartBook.setCart(cartRepository.findById(userId).orElse(null)); // cartId와 userId가 동일하다면 사용가능, 가입하자마자 cartId가 생성되므로 가능?
+        cartBook.setCart(cartRepository.findById(userNo).orElse(null)); // cartId와 userId가 동일하다면 사용가능, 가입하자마자 cartId가 생성되므로 가능?
         CartBook saved = cartBookRepository.save(cartBook);
         return saved;
     }

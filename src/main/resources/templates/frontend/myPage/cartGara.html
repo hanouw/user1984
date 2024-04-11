@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+    <!-- iamport.paymentBook.js -->
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.paymentBook-1.2.0.js"></script>
+    <meta charset="UTF-8">
+    <title>Sample Payment</title>
+</head>
+<body>
+
+<h2>장바구니</h2>
+
+<table class="list_table">
+    <tr>
+        <th>전체 n개</th>
+        <th><input type="checkbox"/></th>
+        <th>책표지</th>
+        <th>제목</th>
+        <th>작가</th>
+        <th>출판사</th>
+        <th>서점명</th>
+        <th>가격</th>
+    </tr>
+    <tr th:each="list, i : ${cartList}">
+        <td th:text="${i.index + 1}"></td>
+        <td><input type="checkbox"/>/td>
+        <td th:text="*{list.bookImg}"></td>
+        <td th:text="*{list.bookTitle}"></td>
+        <td th:text="*{list.bookWriter}"></td>
+        <td th:text="*{list.bookPub}"></td>
+        <td th:text="*{list.storeTitle}"></td>
+        <td th:text="*{list.bookEbookPrice}"></td>
+    </tr>
+</table>
+<!--<div th:each="list : ${cartList}">-->
+<!--    <input type="checkbox" class="selectedBookCheckbox" name="selectedBook" th:value="*{list.isbn}">-->
+<!--    <input type="hidden" name="isbn" th:value="${book.isbn}">-->
+<!--    <label th:text="${book.bookTitle}"></label>-->
+<!--    <label th:text="${book.bookEbookPrice}"></label>-->
+<!--    <br>-->
+<!--</div>-->
+<button type="button" id="orderButton">주문하기</button>
+
+<script th:inline="javascript">
+    $(document).ready(function () {
+
+        let IMP = window.IMP;
+        IMP.init("imp20085076");
+
+        $('#orderButton').click(function () {
+
+            let merchantUid = createMerchantUid();
+            let selectedBooks = [];
+            $('.selectedBookCheckbox:checked').each(function () {
+                selectedBooks.push($(this).val());
+            });
+
+            let data = {
+                orderBookId: merchantUid,
+                selectedBooks: selectedBooks,
+                orderBookMethod: "card"
+            };
+
+            if (selectedBooks.length === 0) {
+                alert('상품을 선택해주세요.');
+                return;
+            }
+
+            IMP.request_pay(
+                {
+                    pg: "kakaopay",
+                    pay_method: "card",
+                    merchant_uid: merchantUid,
+                    name: "카카오페이 테스트결제",
+                    amount: 10,
+                    buyer_email: 'test@naver.com',
+                    buyer_name: '효진쓰',
+                    buyer_tel: '010-1234-5678',
+                    buyer_addr: '서울특별시',
+                    buyer_postcode: '123-456',
+                },
+                function (rsp) {
+                    console.log(rsp);
+                    if (rsp.success) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '/book/validation/' + rsp.imp_uid
+                        }).done(function (result) { // PaymentController 에서 IamportResponse<Payment> 넘겨줌
+                            if (rsp.paid_amount === result.response.amount) {
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '/order/book',
+                                    data: JSON.stringify(data),
+                                    contentType: "application/json;charset=UTF-8",
+                                    success: function (response) {
+                                        console.log(response);
+                                        // 장바구니에서 결제된 상품 지우기
+
+                                        // 결제완료 창 띄우기
+                                        let msg = '결제가 완료되었습니다.';
+                                        msg += '고유ID : ' + rsp.imp_uid;
+                                        msg += '상점 거래ID : ' + rsp.merchant_uid;
+                                        msg += '결제 금액 : ' + rsp.paid_amount;
+                                        msg += '카드 승인번호 : ' + rsp.apply_num;
+                                        alert(msg);
+
+                                        // location.href 로 결제 완료 후 완료 페이지 이동
+                                    },
+                                    error: function () {
+                                        let msg = '결제에 실패하였습니다.';
+                                        msg += '에러내용 : ' + rsp.error_msg;
+                                        alert(msg);
+                                    }
+                                });
+                            } else {
+                                alert("결제 실패");
+                            }
+                        });
+
+                    }
+                });
+
+
+
+
+        });
+
+        // 주문번호 생성 함수
+        function createMerchantUid() {
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            const day = String(date.getDate()).padStart(2, "0");
+
+            let merchantUid = year + month + day;
+            for (let i = 0; i < 5; i++) {
+                merchantUid += Math.floor(Math.random() * 8);
+            }
+            return parseInt(merchantUid);
+        }
+
+    });
+
+</script>
+</body>
+</html>

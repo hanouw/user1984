@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="baseSidemenu(content)">
+    <!--Header-->
+    <th:block th:replace="~{frontend/layouts/header :: headerFrg}"></th:block>
+    <body>
+        <!-- 상단 메뉴 -->
+        <th:block th:replace="~{frontend/layouts/menu :: menuFrag}"></th:block>
+
+
+        <!-- PAGE -->
+        <section class="mypage_section_wrap flex_between">
+
+            <!-- 사이드 메뉴 + 상태바 -->
+            <th:block th:replace="~{frontend/layouts/sidemenu :: sidemenu}"></th:block>
+
+            <!-- 컨텐츠 -->
+            <th:block th:replace="${content}"></th:block>
+
+
+        </section>
+
+        <!-- footer -->
+        <th:block th:replace="~{frontend/layouts/footer :: footerFrag}"></th:block>
+    </body>
+</th:block>
+</html>

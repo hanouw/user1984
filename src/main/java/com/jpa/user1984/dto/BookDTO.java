@@ -37,8 +37,8 @@ public class BookDTO {
     public BookDTO(Book book){
         this.bookId = book.getBookId();
         this.isbn = book.getIsbn();
-        this.bookImg = book.getBookImg();
-        this.bookFile = book.getBookFile();
+        this.bookImg = book.getBookImgOrg();
+        this.bookFile = book.getBookFileOrg();
         this.bookTitle = book.getBookTitle();
         this.bookWriter = book.getBookWriter();
 

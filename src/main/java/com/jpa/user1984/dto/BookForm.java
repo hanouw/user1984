@@ -44,8 +44,8 @@ public class BookForm {
         Book book = new Book();
         book.setBookId(bookId);
         book.setIsbn(isbn);
-        book.setBookImg(bookImg);
-        book.setBookFile(bookFile.getName());
+        book.setBookImgOrg(bookImg);
+        book.setBookFileOrg(bookFile.getName());
         book.setBookTitle(bookTitle);
         book.setBookWriter(bookWriter);
         book.setStore(store);
