@@ -1,10 +1,161 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{frontend/layouts/baseSidemenu :: baseSidemenu(~{this::content})}">
+  <th:block th:fragment="content">
 
-</body>
+    <!-- 내용 -->
+    <div class="my_page_h_wrap">
+      <span><a th:href="@{/myPage/bookOrderList}">도서주문</a><a th:href="@{/myPage/membershipOrderList}">구독주문</a></span>
+    </div>
+    <div class="mycart_table_wrap">
+    </div>
+
+    <!-- 추천 도서 리스트 -->
+    <div class="mypage_re_bookList last-section">
+      <div class="mypage_re_bookList_h2">
+        <h2>1984에서 추천하는 인기도서를 둘러보세요!</h2>
+      </div>
+      <div class="mypage_re_List">
+        <ul class="flex_start">
+          <!-- 아이템 -->
+          <li>
+            <div class="mpre_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014616/XL')"></div>
+            <p>호랑나비</p>
+            <span>
+                                        <span>이제하</span>
+                                        지음 /
+                                        <span>샘터사</span>
+                                    </span>
+          </li>
+          <!-- 아이템 -->
+          <li>
+            <div class="mpre_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014610/XL')"></div>
+            <p>호랑나비</p>
+            <span>
+                                        <span>이제하</span>
+                                        지음 /
+                                        <span>샘터사</span>
+                                    </span>
+          </li>
+          <!-- 아이템 -->
+          <li>
+            <div class="mpre_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014620/XL')"></div>
+            <p>호랑나비</p>
+            <span>
+                                        <span>이제하</span>
+                                        지음 /
+                                        <span>샘터사</span>
+                                    </span>
+          </li>
+          <!-- 아이템 -->
+          <li>
+            <div class="mpre_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014622/XL')"></div>
+            <p>호랑나비</p>
+            <span>
+                                        <span>이제하</span>
+                                        지음 /
+                                        <span>샘터사</span>
+                                    </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    </div>
+
+  </th:block>
+</th:block>
+
+<script th:inline="javascript">
+$(document).ready(function () {
+  let content = $(".mycart_table_wrap");
+  function printList(response) {
+    let html = '';
+    html += '<table class="mycart_table">';
+    html += '<tr class="myTable_th_body"><th>도서명(저자/출판사)</th><th>구매일자</th><th>주문번호</th><th>서점명</th><th>주문금액</th><th>리뷰</th> </tr>';
+    $.each(response.orderList, function(index, order) {
+      html += '<td class="flex_start"><div class="cart_img_body"><img src="/images/' + order.bookImgStored + '" alt="" /></div>';
+      html += '<div class="cart_img_table"><p>' + order.bookTitle + '</p><span><span>'+order.bookWriter+'</span> / <span>'+order.bookPub+'</span></span></div></td>';
+      html += '<td>' + displayTime(order.createDate) + '</td>';
+      html += '<td>' + order.orderBookId + '</td>';
+      html += '<td>' + order.bookPub + '</td>';
+      html += '<td>' + order.bookEbookPrice + '</td>';
+      html += '<td><button class="greyLine_btn deleteButton" data-bookId="' + order.bookId + '">리뷰작성</button></td></tr>';
+    });
+    html += '</table>';
+    content.html(html);
+  };
+  $.ajax({
+    type: "GET",
+    url: "/myPage/bookOrderList/ajax",
+    success: function (response) {
+      console.log("ajax 성공");
+      console.log(response);
+      printList(response);
+    },
+    error: function (e) {
+    }
+  });
+
+  let keyword = $("#keyword").val();
+  let searchType = $("#searchType").val();
+  let dateOrderSelected = $("#dateOrder").val();
+
+
+  $("#dateOrder").change(function () {
+    dateOrderSelected = $(this).val();
+    console.log(dateOrderSelected);
+    $.ajax({
+      type: "GET",
+      url: "/cms/order/bookList/ajax",
+      data: {
+        dateOrder: dateOrderSelected,
+        keyword: keyword,
+        searchType: searchType
+      },
+      success: function(response){
+        console.log("요청 성공");
+        console.log(response.orderList);
+        printList(response);
+      },
+      error: function(e){
+        console.error("요청 실패");
+        console.log(e);
+      }
+    });
+  });
+
+  $(".dateBtn").on("click", function (e) {
+    let datePeriodSelected = $(this).val();
+    console.log(datePeriodSelected);
+    $.ajax({
+      type: "GET",
+      url: "/cms/order/bookList/ajax",
+      data: {
+        dateOrder: dateOrderSelected,
+        keyword: keyword,
+        searchType: searchType,
+        datePeriod: datePeriodSelected
+      },
+      success: function(response){
+        console.log("요청 성공");
+        console.log(response.orderList);
+
+        printList(response);
+      },
+      error: function(e){
+        console.error("요청 실패");
+        console.log(e);
+      }
+    });
+  });
+
+  function displayTime(timeVal) {
+    let time = timeVal;
+    return time.split('T')[0];
+  }
+
+
+});
+
+</script>
 </html>

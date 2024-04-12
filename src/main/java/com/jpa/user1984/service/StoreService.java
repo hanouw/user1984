@@ -38,15 +38,16 @@ public class StoreService {
     }
 
     // 서점 상세 조회 (한개 조회)
-    public Store getOneStore(Long storeId) {
+    public StoreDTO getOneStore(Long storeId) {
 
         Store store = storeRepository.findById(storeId).orElse(null);
+        StoreDTO storeDTO = new StoreDTO(store);
 
         /* Optional<Store> byId = storeRepository.findById(storeId);
         if (byId.isPresent()) { // null =false or true
             return new StoreDTO(byId);
         }*/
-        return store;
+        return storeDTO;
     }
     
     // 서점 상세 수정

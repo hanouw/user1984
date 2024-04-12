@@ -11,14 +11,13 @@ import java.util.stream.IntStream;
 // 직접 모두 계산하는 버전
 @Getter @ToString
 public class PageResponseDTO { // 구 PageDTO
-    private PageRequestDTO pageRequestDTO; // 페이지 요청 정보 (page, size)
-    private Long totalCount; // 전체 글의 개수
-    private int startPage, endPage; // 화면상 페이지 시작 번호, 페이지 끝 번호
-    private List<Integer> pageNumList; // 화면에 뿌려줄 페이지 번호들
-    private boolean prev, next; // 이전 페이지, 다음페이지 여부
-    private int totalPage;
-    private boolean lastPage; // 마지막 페이지인지 여부
-    private List<PaymentBookResponseDTO> orderList;
+    protected PageRequestDTO pageRequestDTO; // 페이지 요청 정보 (page, size)
+    protected Long totalCount; // 전체 글의 개수
+    protected int startPage, endPage; // 화면상 페이지 시작 번호, 페이지 끝 번호
+    protected List<Integer> pageNumList; // 화면에 뿌려줄 페이지 번호들
+    protected boolean prev, next; // 이전 페이지, 다음페이지 여부
+    protected int totalPage;
+    protected boolean lastPage; // 마지막 페이지인지 여부
 
     public PageResponseDTO(PageRequestDTO pageRequestDTO, Long totalCount) {
         this.pageRequestDTO = pageRequestDTO;
@@ -37,12 +36,5 @@ public class PageResponseDTO { // 구 PageDTO
         this.pageNumList = IntStream.rangeClosed(startPage, endPage).boxed().collect(Collectors.toList());
 
         this.lastPage = pageRequestDTO.getPage() == totalPage;
-    }
-
-    public PageResponseDTO(PageRequestDTO pageRequestDTO, Long totalCount, List<PaymentBookResponseDTO> orderList) {
-        super();
-        this.pageRequestDTO = pageRequestDTO;
-        this.totalCount = totalCount;
-        this.orderList = orderList;
     }
 }

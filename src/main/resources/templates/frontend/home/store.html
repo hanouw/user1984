@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{frontend/layouts/baseAd :: baseAd(~{this::content})}">
+    <th:block th:fragment="content">
+        <section class="section_wrap sec_ad_01">
+            <div class="section_wrap_pagebody flex_between">
+                <div class="bo_sec_01_img">
+<!--                    <img th:src="|/images/${store.storeImageStored}|" alt="" />-->
+                </div>
+                <div class="bo_sec_01_text">
+                    <div class="book_title_wrap">
+                        <p class="book_title" th:text="${store.storeTitle}">코뿔소서점</p>
+                        <a href="" class="book_ca_btn" th:text="${store.storeAddress}">서울</a>
+                    </div>
+                    <div class="book_iftext_wrap">
+<!--                        <span th:text="${store.bookWriter}">세이노 <span>지음</span></span>-->
+<!--                        <span> / </span>-->
+<!--                        <span th:text="${store.bookPub}">샘터사</span>-->
+                    </div>
+                    <div class="book_iftext_wrap line_bt_gr">
+<!--                        <span>ISBN : </span>-->
+<!--                        <span th:text="${store.isbn}">111122223333</span>-->
+                    </div>
+                    <div class="book_store_wrap line_bt_gr">
+                        <div class="store_img">
+<!--                            <img src="" alt="" />-->
+                        </div>
+                        <div class="book_storetext_wrap">
+<!--                            <p th:text="${store.store.storeTitle}">[판매서점]환상문학</p>-->
+<!--                            <span th:text="${store.store.storeAddress}">서울시 마포구 성지1길 30 지하1층</span>-->
+<!--                        </div>-->
+<!--                        <div class="book_storetext_btnwrap">-->
+<!--                            <button class="greyLine_btn">서점보러가기</button>-->
+                        </div>
+                    </div>
+                    <div class="book_storetext02_wrap line_bt_gr">
+                        <div>
+                            <p>구독권 이용안내</p>
+                        </div>
+                        <div>
+                            <p>
+                                • 배송 없이 구매 후 바로 읽기 <br />
+                                • 이용기간 제한없음 <br />
+                                • 저작권 보호를 위한 인쇄 기능 제공 안함
+                            </p>
+                        </div>
+                    </div>
+                    <div class="book_storetext03_wrap line_bt_gr">
+                        <div class="book_storetext03">
+                            <span>구독권 판매가</span>
+                            <div>
+                                <span>10,000</span>
+                                <span>원</span>
+                            </div>
+                        </div>
+                        <div>
+<!--                            <span>전자도서 판매가</span>-->
+<!--                            <div>-->
+<!--                                <span class="book_pay_text" th:text="${store.bookEbookPrice}"> 12,000 </span>-->
+<!--                                <span>원</span>-->
+<!--                            </div>-->
+                        </div>
+                    </div>
+                    <div class="book_button_wrap">
+                        <!--                        <button class="blackLine_btn" th:onclick="|location.href='@{/cart/{bookId}/addBook(bookId=${book.bookId})}'|">장바구니에 담기</button>-->
+                        <button class="blackLine_btn" id="inquiryButton" th:data-storeId="${store.storeId}">문의하기</button>
+                        <button class="point_btn" id="subscribeButton" th:data-storeId="${store.storeId}">구독하기</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section_wrap">
+            <div class="section_wrap_pagebody flex_between page_line">
+                <div class="sec_h_wrap">
+                    <h2>매장안내</h2>
+                    <hr />
+                    <div class="sec_text_wrap wrap_bottom_line">
+                        <h3>목차</h3>
+                        <p>내용</p>
+                    </div>
+                    <div class="sec_text_wrap wrap_bottom_line">
+                        <h3>소개</h3>
+                        <p>내용</p>
+                    </div>
+                    <div class="sec_text_wrap wrap_bottom_line">
+                        <h3>저자소개</h3>
+                        <p>내용</p>
+                    </div>
+                    <div class="sec_text_wrap">
+                        <h3><span>환상문학</span>의 리뷰</h3>
+                        <p>내용</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section_wrap">
+            <div class="section_wrap_pagebody flex_between page_line">
+                <div class="sec03_img_wrap">
+                    <img src="" alt="" />
+                </div>
+                <div class="sec03_text_wrap">
+                    <p><span class="point_text">"환상문학"</span>이 생각하는 독립서점이란 단순히 출판물을 판매하는 것이 아닌 사람들 간의 삶과 생각을 남기는 가치 있는 문화라고 생각합니다.</p>
+                    <button class="point_btn"><span>환상문학</span> 방문하기</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="section_wrap">
+            <div class="section_wrap_pagebody page_line">
+                <div class="sec_h_wrap">
+                    <h2><span>환상문학</span>의 다른 도서들</h2>
+                </div>
+                <div class="item_list_wrap">
+                    <ul class="flex_start">
+                        <li>
+                            <div class="item_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014614/XL')"></div>
+                            <p>위험을 향해 달리다</p>
+                            <span>
+                                <span>이제하</span>
+                                지음 /
+                                <span>샘터사</span>
+                            </span>
+                        </li>
+                        <li>
+                            <div class="item_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014616/XL')"></div>
+                            <p>위험을 향해 달리다</p>
+                            <span>
+                                <span>이제하</span>
+                                지음 /
+                                <span>샘터사</span>
+                            </span>
+                        </li>
+                        <li>
+                            <div class="item_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014615/XL')"></div>
+                            <p>위험을 향해 달리다</p>
+                            <span>
+                                <span>이제하</span>
+                                지음 /
+                                <span>샘터사</span>
+                            </span>
+                        </li>
+                        <li>
+                            <div class="item_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014613/XL')"></div>
+                            <p>위험을 향해 달리다</p>
+                            <span>
+                                <span>이제하</span>
+                                지음 /
+                                <span>샘터사</span>
+                            </span>
+                        </li>
+                        <li>
+                            <div class="item_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014611/XL')"></div>
+                            <p>위험을 향해 달리다</p>
+                            <span>
+                                <span>이제하</span>
+                                지음 /
+                                <span>샘터사</span>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section class="section_wrap">
+            <div class="section_wrap_pagebody">
+                <!-- 리뷰헤더 -->
+                <div class="sec_h_wrap flex_between">
+                    <h2>한줄리뷰</h2>
+                    <select name="" id="">
+                        <option value="">최신순</option>
+                        <option value="">이전순</option>
+                    </select>
+                </div>
+
+                <!-- 리뷰 -->
+                <div class="review_wrap flex_between">
+                    <div class="review_text_wrap">
+                        <h4>아이디</h4>
+                        <p>내요오오오옹내요오오오옹내요오오오옹 내요오오오옹내요오오오옹내요오오오옹 내요오오오옹내요오오오옹내요오오오옹</p>
+                        <span>2024-4-10</span>
+                    </div>
+                    <div class="review_btn_wrap">
+                        <button class="greyLine_btn">댓글쓰기</button>
+                    </div>
+                </div>
+
+                <!-- 리뷰 -->
+                <div class="review_wrap flex_between">
+                    <div class="review_text_wrap">
+                        <h4>아이디</h4>
+                        <p>내요오오오옹내요오오오옹내요오오오옹 내요오오오옹내요오오오옹내요오오오옹 내요오오오옹내요오오오옹내요오오오옹</p>
+                        <span>2024-4-10</span>
+                    </div>
+                    <div class="review_btn_wrap">
+                        <button class="greyLine_btn">댓글쓰기</button>
+                    </div>
+                </div>
+
+                <!-- 리뷰 나눔선 -->
+                <div class="review_wrap flex_between">
+                    <div class="review_text_wrap"></div>
+                </div>
+
+                <!-- 페이징 -->
+                <div class="paging_wrap">
+                    <div class="paging_bar">
+                        <ul class="flex_between">
+                            <li>Prev</li>
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                            <li>Next</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- 리뷰작성 -->
+                <div class="sec_h_wrap">
+                    <h2>리뷰작성</h2>
+                    <div class="review_input_form">
+                        <form action="post">
+                            <input class="review_input" type="text" />
+                            <button type="submit" class="review_input_btn point_btn">댓글작성</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div id="user" th:data-email="${user.userEmail}" th:data-name="${user.userName}" th:data-tel="${user.userPhoneNum}"></div>
+    </th:block>
+</th:block>
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<script th:inline="javascript">
+    $(document).ready(function (){
+        // *********************************** 결제
+        let IMP = window.IMP;
+        IMP.init("imp20085076");
+        let userEmail = $("#user").attr("data-email");
+        let userName = $("#user").attr("data-name");
+        let userTel = $("#user").attr("data-tel");
+        let storeId = $("#subscribeButton").attr("data-storeId");
+        let storeTitle = $(".book_title").text();
+        let name = storeTitle + " 구독";
+        $("#subscribeButton").on("click", function () {
+            console.log("IMP 실행");
+            let merchantUid = createMerchantUid();
+            let data = {
+                orderMembershipId: merchantUid,
+                orderMembershipMethod: "card",
+                storeId: storeId
+            };
+            console.log("data: ", data);
+            IMP.request_pay(
+                {
+                    pg: "html5_inicis",
+                    pay_method: "card",
+                    merchant_uid: merchantUid,
+                    name: name,
+                    amount: 10000,
+                    buyer_email: userEmail,
+                    buyer_name: userName,
+                    buyer_tel: userTel,
+                },
+                function (rsp) {
+                    console.log(rsp);
+                    if (rsp.success) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '/order/validation/' + rsp.imp_uid
+                        }).done(function (result) { // PaymentController 에서 IamportResponse<Payment> 넘겨줌
+                            if (rsp.paid_amount === result.response.amount) {
+                                console.log("rsp.paid_amount : ", rsp.paid_amount);
+                                console.log("result.response.amount : ", result.response.amount);
+                                console.log(result);
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '/order/membership',
+                                    data: JSON.stringify(data),
+                                    contentType: "application/json;charset=UTF-8",
+                                    success: function (response) {
+                                        console.log("결제 POST 요청 성공", response);
+                                        // 결제완료 창 띄우기
+                                        let msg = '결제가 완료되었습니다.';
+                                        msg += '고유ID : ' + rsp.imp_uid;
+                                        msg += '상점 거래ID : ' + rsp.merchant_uid;
+                                        msg += '결제 금액 : ' + rsp.paid_amount;
+                                        msg += '카드 승인번호 : ' + rsp.apply_num;
+                                        alert(msg);
+                                        // 결제완료 페이지로 리다이렉트
+                                        window.location.href = '/cart/orderSuccess';
+                                    },
+                                    error: function (e) {
+                                        let msg = '결제에 실패하였습니다. ';
+                                        msg += '에러내용 : ' + rsp.error_msg;
+                                        alert(msg);
+                                        console.log(e);
+                                    }
+                                });
+                            } else {
+                                alert("결제 실패");
+                            }
+                        });
+                    }
+                });
+    });
+    // 주문번호 생성 함수
+    function createMerchantUid() {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+
+        let merchantUid = year + month + day;
+        for (let i = 0; i < 5; i++) {
+            merchantUid += Math.floor(Math.random() * 8);
+        }
+        return parseInt(merchantUid);
+    };
+});
+</script>
+</html>

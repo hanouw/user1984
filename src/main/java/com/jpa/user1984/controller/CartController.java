@@ -31,9 +31,10 @@ public class CartController {
     @GetMapping("/{bookId}/addBook")
     public ResponseEntity<String> addBook(@AuthenticationPrincipal CustomMember customMember, @PathVariable Long bookId) {
         List<CartBook> findBook = cartService.findByBookId(bookId);
+        Long garaId = 1L;
         log.info("***********CartController findBook:{}", findBook);
         if (findBook.isEmpty()) {
-            cartService.addBook(customMember.getMember().getUserNo(), bookId);
+            cartService.addBook(garaId, bookId);
             log.info("***********CartController 장바구니 추가 완료");
             return new ResponseEntity<>("success", HttpStatus.OK);
         } else {
@@ -45,13 +46,14 @@ public class CartController {
     // 장바구니 페이지 조회
     @GetMapping("/list")
     public String cartList(@AuthenticationPrincipal CustomMember customMember, Model model) {
-        Long userNo = customMember.getMember().getUserNo();
-        log.info("***********CartController cartList 실행 userNo:{}", userNo);
-        List<CartDTO> cartList = cartService.getCartList(userNo);
+//        Long userNo = customMember.getMember().getUserNo();
+        Long garaId = 1L;
+        log.info("***********CartController cartList 실행 userNo:{}", garaId);
+        List<CartDTO> cartList = cartService.getCartList(garaId);
         model.addAttribute("cartList", cartList);
-        MemberDTO memberDTO = memberService.findMemberById(customMember.getMember().getUserNo());
+        MemberDTO memberDTO = memberService.findMemberById(garaId);
         model.addAttribute("user", memberDTO);
-        log.info("***********CartController cartList 실행 userNo:{}, cartList:{}", userNo, cartList);
+        log.info("***********CartController cartList 실행 userNo:{}, cartList:{}", garaId, cartList);
         return "frontend/myPage/cart";
     }
 

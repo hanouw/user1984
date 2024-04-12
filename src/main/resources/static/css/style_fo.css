@@ -545,6 +545,10 @@ div.mypage_status_bar > div > a:active{
 }
 
 /*CART - 장바구니*/
+.mycart_table_wrap {
+    width: 100%;
+    margin-top: 20px;
+}
 .mycart_table{
     width: 100%;
     text-align: center;
@@ -557,7 +561,7 @@ div.mypage_status_bar > div > a:active{
     line-height: 82px;
 }
 .myTable_td_body > td{
-    max-height: 140px;    
+    max-height: 140px;
     padding:20px 0px;
     border-bottom: 1px solid #dcdcdc;
     line-height: 140px;

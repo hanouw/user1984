@@ -23,8 +23,6 @@ public class CmsService {
     private final CmsCustomRepositoryImpl cmsCustomRepository;
     private final PaymentBookHistoryRepository paymentBookHistoryRepository;
     private final PasswordEncoder storePasswordEncoder;
-    private final PaymentCustomRepository paymentCustomRepository;
-    private final PaymentBookHistoryCustomRepositoryImpl paymentBookHistoryCustomRepository;
 
     // 서점관리 - 서점 정보 등록
     public String save(StoreForm storeForm){
@@ -56,36 +54,19 @@ public class CmsService {
 //    }
 
     // 주문관리 - 주문 목록 조회 판매자 ver
-    public List<PaymentBookResponseDTO> findHistoryList(Long storeId, PageRequestDTO pageRequestDTO) {
-        List<PaymentBookHistory> historyEntityList = paymentBookHistoryCustomRepository.findListByStoreId(storeId, pageRequestDTO);
+//    public List<PaymentBookHistoryDTO> findHistoryList(Long storeId, PageRequestDTO pageRequestDTO) {
+//        List<PaymentBookHistory> historyEntityList = paymentBookHistoryRepository.findListByStoreId(storeId, pageRequestDTO);
 //        List<PaymentBookHistoryDTO> list = new ArrayList<>();
-//        for (PaymentBookHistory p : historyEntityList) {
-//            list.add(new PaymentBookHistoryDTO(p));
+//        for (PaymentBookHistory orderList : historyEntityList) {
+//            PaymentBookHistoryDTO paymentBookHistoryDTO = new PaymentBookHistoryDTO(orderList);
+//            list.add(paymentBookHistoryDTO);
 //        }
-        List<PaymentBookResponseDTO> list = new ArrayList<>();
-        for (PaymentBookHistory orderList : historyEntityList) {
-            PaymentBookResponseDTO paymentBookResponseDTO = new PaymentBookResponseDTO();
-            paymentBookResponseDTO.setOrderBookNo(orderList.getPaymentBook().getOrderBookNo());
-            paymentBookResponseDTO.setOrderBookId(orderList.getPaymentBook().getOrderBookId());
-            paymentBookResponseDTO.setUserId(orderList.getPaymentBook().getMember().getUserId());
-            paymentBookResponseDTO.setUserName(orderList.getPaymentBook().getMember().getUserName());
-            paymentBookResponseDTO.setIsbn(orderList.getBook().getBookId());
-            paymentBookResponseDTO.setBookTitle(orderList.getBook().getBookTitle());
-            //paymentResponseDTO.setStoreTitle(orderList.getBook().getS);
-            paymentBookResponseDTO.setPaymentBookStatus(orderList.getPaymentBook().getPaymentBookStatus());
-            paymentBookResponseDTO.setOrderBookMethod(orderList.getPaymentBook().getOrderBookMethod());
-            paymentBookResponseDTO.setCreateDate(orderList.getPaymentBook().getCreateDate());
-            paymentBookResponseDTO.setBookPub(orderList.getBook().getBookPub());
-            paymentBookResponseDTO.setBookEbookPrice(orderList.getBook().getBookEbookPrice());
-            paymentBookResponseDTO.setCreateDate(orderList.getCreateDate());
-            list.add(paymentBookResponseDTO);
-        }
-        return list;
-    }
+//        return list;
+//    }
 
     // 주문관리 - 검색된 주문 개수 조회 판매자 ver
-    public Long countHistoryList(Long storeId, PageRequestDTO pageRequestDTO) {
-        return paymentBookHistoryCustomRepository.countHistoryListByStoreId(storeId, pageRequestDTO);
-    }
+//    public Long countHistoryList(Long storeId, PageRequestDTO pageRequestDTO) {
+//        return paymentBookHistoryRepository.countHistoryListByStoreId(storeId, pageRequestDTO);
+//    }
 
 }

@@ -179,9 +179,9 @@ $(document).ready(function () {
     // *********************************** 결제
     let IMP = window.IMP;
     IMP.init("imp20085076");
-    let email = $("#user").attr("data-email");
-    let name = $("#user").attr("data-name");
-    let tel = $("#user").attr("data-tel");
+    let userEmail = $("#user").attr("data-email");
+    let userName = $("#user").attr("data-name");
+    let userTel = $("#user").attr("data-tel");
     $("#orderButton").on("click", function () {
         console.log("IMP 실행");
         let merchantUid = createMerchantUid();
@@ -190,7 +190,8 @@ $(document).ready(function () {
             let bookId = $(this).siblings('input[type=hidden]').val();
             selectedBooks.push(bookId);
         });
-        console.log("selectedBooks: ", selectedBooks);
+        let name = selectedBooks[0] + ' 외 ' + (selectedBooks.length - 1);
+        console.log(name);
         let data = {
             orderBookId: merchantUid,
             selectedBooks: selectedBooks,
@@ -201,23 +202,24 @@ $(document).ready(function () {
             alert('상품을 선택해주세요.');
             return;
         }
+
         IMP.request_pay(
             {
-                pg: "kakaopay",
+                pg: "html5_inicis",
                 pay_method: "card",
                 merchant_uid: merchantUid,
-                name: "카카오페이 테스트결제",
+                name: name,
                 amount: totalAmount,
-                buyer_email: email,
-                buyer_name: name,
-                buyer_tel: tel,
+                buyer_email: userEmail,
+                buyer_name: userName,
+                buyer_tel: userTel,
             },
             function (rsp) {
                 console.log(rsp);
                 if (rsp.success) {
                     $.ajax({
                         type: 'POST',
-                        url: '/order/book/validation/' + rsp.imp_uid
+                        url: '/order/validation/' + rsp.imp_uid
                     }).done(function (result) { // PaymentController 에서 IamportResponse<Payment> 넘겨줌
                         if (rsp.paid_amount === result.response.amount) {
                             console.log("rsp.paid_amount : ", rsp.paid_amount);

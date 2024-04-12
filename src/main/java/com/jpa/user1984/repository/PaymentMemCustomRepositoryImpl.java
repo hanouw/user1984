@@ -1,6 +1,6 @@
 package com.jpa.user1984.repository;
 
-import com.jpa.user1984.domain.PaymentBookHistory;
+import com.jpa.user1984.domain.PaymentMem;
 import com.jpa.user1984.dto.PageRequestDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -16,14 +16,14 @@ import java.util.List;
 @Repository
 @Slf4j
 @RequiredArgsConstructor
-public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistoryCustomRepository{
+public class PaymentMemCustomRepositoryImpl implements PaymentMemCustomRepository{
 
     @PersistenceContext
     private EntityManager em;
 
     // UserNo로 주문 목록 조회
     @Override
-    public List<PaymentBookHistory> findListByUserNo(Long userNo, PageRequestDTO pageRequestDTO) {
+    public List<PaymentMem> findMembershipListByUserNo(Long userNo, PageRequestDTO pageRequestDTO) {
         int offset = (pageRequestDTO.getPage() - 1) * pageRequestDTO.getSize();
         String order = pageRequestDTO.getDateOrder();
         String keyword = null;
@@ -36,9 +36,9 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
 
         if (pageRequestDTO.getDatePeriod() != null) {
             if (pageRequestDTO.getDatePeriod().equals("today")) {
-    //            LocalDateTime today = LocalDateTime.now();
-    //            startDate = today;
-    //            endDate = today;
+                //            LocalDateTime today = LocalDateTime.now();
+                //            startDate = today;
+                //            endDate = today;
                 startDate = LocalDateTime.parse("2024-04-07T00:00:00");
                 endDate = LocalDateTime.parse("2024-04-07T00:00:00");
             } else if (pageRequestDTO.getDatePeriod().equals("oneWeek")) {
@@ -61,9 +61,9 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
 
         if (startDate == null && endDate == null && period == null && pageRequestDTO.getKeyword() == null ) { // 키워드 없음 + 기간 없음
             log.info("**************************키워드 없음 + 기간 없음");
-            List<PaymentBookHistory> historyList = em.createQuery("select p from PaymentBookHistory p " +
-                            "where p.paymentBook.member.userNo = :userNo " +
-                            "order by p.createDate "+ order +" ", PaymentBookHistory.class)
+            List<PaymentMem> historyList = em.createQuery("select p from PaymentMem p " +
+                            "where p.member.userNo = :userNo " +
+                            "order by p.membershipStartDate "+ order +" ", PaymentMem.class)
                     .setParameter("userNo", userNo)
                     .setFirstResult(offset)
                     .setMaxResults(pageRequestDTO.getSize())
@@ -72,9 +72,9 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
         }
         else if (pageRequestDTO.getKeyword() == null && startDate != null) { // 키워드 없음 + 기간 있음
             log.info("**************************키워드 없음 + 기간 있음");
-            List<PaymentBookHistory> historyList = em.createQuery("select p from PaymentBookHistory p " +
-                            "where p.paymentBook.member.userNo = :userNo and p.createDate between :startDate And :endDate " +
-                            "order by p.createDate "+ order +" ", PaymentBookHistory.class)
+            List<PaymentMem> historyList = em.createQuery("select p from PaymentMem p " +
+                            "where p.member.userNo = :userNo and p.membershipStartDate between :startDate And :endDate " +
+                            "order by p.membershipStartDate "+ order +" ", PaymentMem.class)
                     .setParameter("userNo", userNo)
                     .setParameter("startDate", startDate)
                     .setParameter("endDate", endDate)
@@ -87,9 +87,9 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
             log.info("**************************키워드 있음 + 기간 없음");
             String s = method(pageRequestDTO);
             keyword = pageRequestDTO.getKeyword();
-            List<PaymentBookHistory> historyList = em.createQuery("select p from PaymentBookHistory p " +
-                            "where p.paymentBook.member.userNo = :userNo and " + s + " like concat('%', :keyword, '%') " +
-                            "order by p.createDate "+ order +" ", PaymentBookHistory.class)
+            List<PaymentMem> historyList = em.createQuery("select p from PaymentMem p " +
+                            "where p.member.userNo = :userNo and " + s + " like concat('%', :keyword, '%') " +
+                            "order by p.membershipStartDate "+ order +" ", PaymentMem.class)
                     .setParameter("userNo", userNo)
                     .setParameter("keyword", keyword)
                     .setFirstResult(offset)
@@ -101,10 +101,10 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
             log.info("**************************키워드 있음 + 기간 있음");
             String s = method(pageRequestDTO);
             keyword = pageRequestDTO.getKeyword();
-            List<PaymentBookHistory> historySerachList = em.createQuery("select p from PaymentBookHistory p " +
-                            "where p.paymentBook.member.userNo = :userNo and " + s + " like concat('%', :keyword, '%') " +
-                            "and p.createDate between :startDate And :endDate  " +
-                            "order by p.createDate " + order + " ", PaymentBookHistory.class)
+            List<PaymentMem> historySerachList = em.createQuery("select p from PaymentMem p " +
+                            "where p.member.userNo = :userNo and " + s + " like concat('%', :keyword, '%') " +
+                            "and p.membershipStartDate between :startDate And :endDate  " +
+                            "order by p.membershipStartDate " + order + " ", PaymentMem.class)
                     .setParameter("userNo", userNo)
                     .setParameter("keyword", keyword)
                     .setParameter("startDate", startDate)
@@ -118,7 +118,7 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
     }
 
     @Override
-    public Long countHistoryListByUserNo(Long userNo, PageRequestDTO pageRequestDTO) {
+    public Long countMembershipListByUserNo(Long userNo, PageRequestDTO pageRequestDTO) {
         int offset = (pageRequestDTO.getPage() - 1) * pageRequestDTO.getSize();
         String order = pageRequestDTO.getDateOrder();
 //        LocalDateTime period = pageRequestDTO.getDatePeriod();
@@ -136,9 +136,9 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
 //        }
 
         if (pageRequestDTO.getKeyword() == null) {
-            Long result = (Long) em.createQuery("select count(p) from PaymentBookHistory p " +
-                            "where p.paymentBook.member.userNo = :userNo " +
-                            "order by p.createDate "+ order +" ")
+            Long result = (Long) em.createQuery("select count(p) from PaymentMem p " +
+                            "where p.member.userNo = :userNo " +
+                            "order by p.membershipStartDate "+ order +" ")
                     .setParameter("userNo", userNo)
                     .setFirstResult(offset)
                     .setMaxResults(pageRequestDTO.getSize())
@@ -149,8 +149,8 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
         else {
             String s = method(pageRequestDTO);
             String keyword = pageRequestDTO.getKeyword();
-            Long searchResult = (Long) em.createQuery("select count(p) from PaymentBookHistory p " +
-                            "where p.paymentBook.member.userNo = :userNo and " + s + " like concat('%', :keyword, '%')" +
+            Long searchResult = (Long) em.createQuery("select count(p) from PaymentMem p " +
+                            "where p.member.userNo = :userNo and " + s + " like concat('%', :keyword, '%')" +
                             "order by p.createDate "+ order +" ")
                     .setParameter("userNo", userNo)
                     .setParameter("keyword", keyword)
@@ -195,4 +195,5 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
         }
         return s;
     }
+
 }
