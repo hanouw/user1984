@@ -45,13 +45,27 @@ public class CartService {
         return saved;
     }
 
+    // 장바구니 목록조회
     public List<CartDTO> getCartList(Long userNo) {
-        List<CartBook> cartList = cartBookRepository.findAllById(Collections.singleton(userNo));
+        List<CartBook> cartList = cartBookRepository.findCartBookByCartCartId(userNo);
         List<CartDTO> result = new ArrayList<>();
         for (CartBook list : cartList) {
             CartDTO cart = new CartDTO(list);
             result.add(cart);
         }
+        log.info("******CartService result:{}", result);
         return result;
     }
+
+    // 장바구니에서 책 삭제
+    public void deleteByBookId(Long bookId) {
+        log.info("***********cartBookService deleteByBookId 실행 bookID :{}", bookId);
+        cartBookRepository.deleteByBookId(bookId);
+    }
+
+    // bookId로 장바구니 책 중복 조회
+    public List<CartBook> findByBookId(Long bookID) {
+        return cartBookRepository.findCartBookByBookId(bookID);
+    }
+
 }

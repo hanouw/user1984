@@ -563,7 +563,16 @@ div.mypage_status_bar > div > a:active{
     line-height: 140px;
     vertical-align: top;
 }
-.cart_img_body{
+/*.cart_img_body{*/
+/*    width: 100px;*/
+/*    height:140px;*/
+/*    background-color: #dcdcdc;*/
+/*    margin-left: 80px;*/
+/*    background-repeat: no-repeat;*/
+/*    background-size: cover;*/
+/*    background-position: center;*/
+/*}*/
+.cart_img_body > img{
     width: 100px;
     height:140px;
     background-color: #dcdcdc;

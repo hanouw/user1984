@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -31,5 +32,5 @@ public class PaymentBook extends TimeEntity{
 //    private List<PaymentBookHistory> orderBookHistories;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "orderBookHistoryId")
-    private List<PaymentBookHistory> orderBookHistories;
+    private List<PaymentBookHistory> orderBookHistories = new ArrayList<>();
 }

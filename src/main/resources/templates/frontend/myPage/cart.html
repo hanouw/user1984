@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:replace="~{frontend/layouts/baseSidemenu :: baseSidemenu(~{this::content})}">
     <th:block th:fragment="content">
 
@@ -9,7 +9,7 @@
         </div>
         <table class="mycart_table">
             <tr class="myTable_th_body">
-                <th>전체 <span>4</span>개</th>
+                <th>전체 <span th:text="${#lists.size(cartList)}">4</span>개</th>
                 <th><input type="checkbox" /></th>
                 <th>도서명(저자/출판사)</th>
                 <th>서점명</th>
@@ -18,36 +18,26 @@
             </tr>
 
             <!-- 반복되는 구간 -->
-            <tr class="myTable_td_body">
-                <td>1</td>
-                <td><input type="checkbox" /></td>
+            <tr class="myTable_td_body" th:each="list, index : ${cartList}">
+                <td th:text="${index.index + 1}">No</td>
+                <td>
+                    <input type="checkbox" class="selectedBookCheckbox" name="selectedBook">
+                    <input type="hidden" th:value="${list.bookId}">
+                </td>
                 <td class="flex_start">
-                    <div class="cart_img_body" style="background-image: url('https://image.yes24.com/goods/117014613/XL')"></div>
+<!--                    <div class="cart_img_body" style="background-image: url('https://image.yes24.com/goods/117014613/XL')"></div>-->
+                    <div class="cart_img_body">
+                        <img th:src="|/images/${list.bookImg}|" alt="" />
+                    </div>
                     <div class="cart_img_table">
-                        <p>호랑나비</p>
-                        <span><span>김흥국</span> / <span>호랑수월출판사</span></span>
+                        <p th:text="*{list.bookTitle}">호랑나비</p>
+                        <span><span th:text="*{list.bookWriter}">김흥국</span> / <span th:text="*{list.bookPub}">호랑수월출판사</span></span>
                     </div>
                 </td>
-                <td>아트몰링</td>
-                <td><span>15,000</span>원</td>
-                <td><button class="greyLine_btn">삭제</button></td>
+                <td th:text="*{list.storeTitle}">아트몰링</td>
+                <td><span th:text="*{list.bookEbookPrice}">15,000</span>원</td>
+                <td><button class="greyLine_btn deleteButton" th:data-bookId="${list.bookId}">삭제</button></td>
             </tr>
-            <!-- 반복되는 구간 -->
-            <tr class="myTable_td_body">
-                <td>2</td>
-                <td><input type="checkbox" /></td>
-                <td class="flex_start">
-                    <div class="cart_img_body" style="background-image: url('https://image.yes24.com/goods/117014614/XL')"></div>
-                    <div class="cart_img_table">
-                        <p>호랑나비</p>
-                        <span><span>김흥국</span> / <span>호랑수월출판사</span></span>
-                    </div>
-                </td>
-                <td>아트몰링</td>
-                <td><span>15,000</span>원</td>
-                <td><button class="greyLine_btn">삭제</button></td>
-            </tr>
-            <!-- 반복되는 구간 종료 -->
         </table>
 
         <!-- 금액 & 구매버튼 -->
@@ -55,17 +45,17 @@
             <div class="cart_priceText_wrap">
                             <span class="cart_priceText">
                                 <span>총</span>
-                                <span class="priceText_big">3</span>
+                                <span class="priceText_big" id="selectedRowCount">3</span>
                                 <span>건</span>
                             </span>
                 <span class="cart_priceText">
                                 <span>주문금액</span>
-                                <span class="priceText_big">45,000</span>
+                                <span class="priceText_big" id="amount">45,000</span>
                                 <span>원</span>
                             </span>
             </div>
             <div class="cart_priceBtn_wrap">
-                <button class="point_btn">구매하기</button>
+                <button class="point_btn" id="orderButton">구매하기</button>
             </div>
         </div>
 
@@ -121,8 +111,179 @@
         </div>
         </div>
 
-
+        <div id="user" th:data-email="${user.userEmail}" th:data-name="${user.userName}" th:data-tel="${user.userPhoneNum}"></div>
+        <input type="hidden" id="cartListSize" th:value="${#lists.size(cartList)}" />
     </th:block>
 </th:block>
-<script></script>
+
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<script th:inline="javascript">
+$(document).ready(function () {
+    // ******************* 총 결제건수 + 총 결제금액
+    let totalAmount = 0;
+    // 페이지가 로드될 때
+    updateCheckBoxes();
+    updateTotalAmount();
+    // 전체 선택 체크박스를 클릭했을 때
+    $("th input[type='checkbox']").change(function () {
+        let isChecked = $(this).prop("checked");
+        $(".myTable_td_body input[type='checkbox']").prop("checked", isChecked);
+        updateTotalAmount();
+    });
+    // 각 행의 체크박스를 클릭했을 때
+    $(".myTable_td_body input[type='checkbox']").change(function () {
+        updateTotalAmount();
+        // 체크된 체크박스 개수를 확인하여 th의 체크박스 업데이트
+        let totalCheckedCount = $(".myTable_td_body input[type='checkbox']:checked").length;
+        let totalCheckbox = $("th input[type='checkbox']");
+        if (totalCheckedCount !== $(".myTable_td_body input[type='checkbox']").length) {
+            totalCheckbox.prop("checked", false);
+        } else if (totalCheckedCount === $(".myTable_td_body input[type='checkbox']").length) {
+            totalCheckbox.prop("checked", true);
+        }
+    });
+    function updateCheckBoxes() {
+        let cartListSize = $("#cartListSize").val();
+        $(".myTable_td_body input[type='checkbox'], th input[type='checkbox']").prop("checked", true);
+        if (cartListSize === "0") {
+            $("th input[type='checkbox']").prop("checked", false);
+        };
+    }
+    function updateTotalAmount() {
+        totalAmount = 0;
+        let checkedRowCount = $(".myTable_td_body input[type='checkbox']:checked").length;
+        $("#selectedRowCount").text(checkedRowCount);
+        $(".myTable_td_body input[type='checkbox']:checked").each(function () {
+            let bookPriceText = $(this).closest("tr").find("td:eq(4) span").text();
+            let bookPrice = parseInt(bookPriceText.replace(",", "").replace("원", ""), 10);
+            totalAmount += bookPrice;
+        });
+        $("#amount").text(totalAmount);
+    }
+    // ********************* 장바구니 삭제
+    let bookId = $(this).attr("data-bookId");
+    $(".deleteButton").on("click", function () {
+        $.ajax({
+            type: "delete",
+            url: "/cart/delete/" + bookId,
+            success: function (result) {
+                console.log("delete result : " + result);
+                window.location.href = '/cart/list';
+            },
+            error: function (e) {
+                console.log("에러났다");
+                console.log(e);
+            }
+        });
+    });
+    // *********************************** 결제
+    let IMP = window.IMP;
+    IMP.init("imp20085076");
+    let email = $("#user").attr("data-email");
+    let name = $("#user").attr("data-name");
+    let tel = $("#user").attr("data-tel");
+    $("#orderButton").on("click", function () {
+        console.log("IMP 실행");
+        let merchantUid = createMerchantUid();
+        let selectedBooks = [];
+        $('.selectedBookCheckbox:checked').each(function () {
+            let bookId = $(this).siblings('input[type=hidden]').val();
+            selectedBooks.push(bookId);
+        });
+        console.log("selectedBooks: ", selectedBooks);
+        let data = {
+            orderBookId: merchantUid,
+            selectedBooks: selectedBooks,
+            orderBookMethod: "card"
+        };
+        console.log("data: ", data);
+        if (selectedBooks.length === 0) {
+            alert('상품을 선택해주세요.');
+            return;
+        }
+        IMP.request_pay(
+            {
+                pg: "kakaopay",
+                pay_method: "card",
+                merchant_uid: merchantUid,
+                name: "카카오페이 테스트결제",
+                amount: totalAmount,
+                buyer_email: email,
+                buyer_name: name,
+                buyer_tel: tel,
+            },
+            function (rsp) {
+                console.log(rsp);
+                if (rsp.success) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/order/book/validation/' + rsp.imp_uid
+                    }).done(function (result) { // PaymentController 에서 IamportResponse<Payment> 넘겨줌
+                        if (rsp.paid_amount === result.response.amount) {
+                            console.log("rsp.paid_amount : ", rsp.paid_amount);
+                            console.log("result.response.amount : ", result.response.amount);
+                            console.log(result);
+                            $.ajax({
+                                type: 'POST',
+                                url: '/order/book',
+                                data: JSON.stringify(data),
+                                contentType: "application/json;charset=UTF-8",
+                                success: function (response) {
+                                    console.log("결제 POST 요청 성공", response);
+                                    // 결제완료 창 띄우기
+                                    let msg = '결제가 완료되었습니다.';
+                                    msg += '고유ID : ' + rsp.imp_uid;
+                                    msg += '상점 거래ID : ' + rsp.merchant_uid;
+                                    msg += '결제 금액 : ' + rsp.paid_amount;
+                                    msg += '카드 승인번호 : ' + rsp.apply_num;
+                                    alert(msg);
+                                    // 장바구니에서 결제된 상품 지우기
+                                    $.ajax({
+                                        type: "delete",
+                                        url: "/cart/delete",
+                                        data: JSON.stringify(data),
+                                        contentType: "application/json;charset=UTF-8",
+                                        success: function (result) {
+                                            console.log("delete result : " + result);
+                                            // 완료 페이지 이동
+                                            window.location.href = '/cart/orderSuccess';
+                                        },
+                                        error: function (e) {
+                                            console.log("에러났다");
+                                            console.log(e);
+                                        }
+                                    });
+                                },
+                                error: function () {
+                                    let msg = '결제에 실패하였습니다. ';
+                                    msg += '에러내용 : ' + rsp.error_msg;
+                                    alert(msg);
+                                }
+                            });
+                        } else {
+                            alert("결제 실패");
+                        }
+                    });
+
+                }
+            });
+    });
+
+    // 주문번호 생성 함수
+    function createMerchantUid() {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+
+        let merchantUid = year + month + day;
+        for (let i = 0; i < 5; i++) {
+            merchantUid += Math.floor(Math.random() * 8);
+        }
+        return parseInt(merchantUid);
+    }
+
+});
+
+</script>
 </html>

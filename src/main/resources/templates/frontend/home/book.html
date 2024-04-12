@@ -5,29 +5,30 @@
         <section class="section_wrap sec_ad_01">
             <div class="section_wrap_pagebody flex_between">
                 <div class="bo_sec_01_img">
-                    <img src="https://image.yes24.com/goods/117014613/XL" alt="" />
+<!--                    <img src="https://image.yes24.com/goods/117014613/XL" alt="" />-->
+                    <img th:src="|/images/${book.bookImgStored}|" alt="" />
                 </div>
                 <div class="bo_sec_01_text">
                     <div class="book_title_wrap">
-                        <p class="book_title">세이노의 가르침</p>
-                        <a href="" class="book_ca_btn">인문</a>
+                        <p class="book_title" th:text="${book.bookTitle}">세이노의 가르침</p>
+                        <a href="" class="book_ca_btn" th:text="${book.bookCategory.bookCategoryName}">인문</a>
                     </div>
                     <div class="book_iftext_wrap">
-                        <span>세이노 <span>지음</span></span>
+                        <span th:text="${book.bookWriter}">세이노 <span>지음</span></span>
                         <span> / </span>
-                        <span>샘터사</span>
+                        <span th:text="${book.bookPub}">샘터사</span>
                     </div>
                     <div class="book_iftext_wrap line_bt_gr">
                         <span>ISBN : </span>
-                        <span>111122223333</span>
+                        <span th:text="${book.isbn}">111122223333</span>
                     </div>
                     <div class="book_store_wrap line_bt_gr">
                         <div class="store_img">
                             <img src="" alt="" />
                         </div>
                         <div class="book_storetext_wrap">
-                            <p>[판매서점]환상문학</p>
-                            <span>서울시 마포구 성지1길 30 지하1층</span>
+                            <p th:text="${book.store.storeTitle}">[판매서점]환상문학</p>
+                            <span th:text="${book.store.storeAddress}">서울시 마포구 성지1길 30 지하1층</span>
                         </div>
                         <div class="book_storetext_btnwrap">
                             <button class="greyLine_btn">서점보러가기</button>
@@ -49,20 +50,22 @@
                         <div class="book_storetext03">
                             <span>일반도서 판매가</span>
                             <div>
-                                <span>15,000</span>
+                                <span th:text="${book.bookPaperPrice}">15,000</span>
                                 <span>원</span>
                             </div>
                         </div>
                         <div>
                             <span>전자도서 판매가</span>
                             <div>
-                                <span class="book_pay_text"> 12,000 </span>
+                                <span class="book_pay_text" th:text="${book.bookEbookPrice}"> 12,000 </span>
                                 <span>원</span>
                             </div>
                         </div>
                     </div>
                     <div class="book_button_wrap">
-                        <button class="blackLine_btn">장바구니에 담기</button>
+<!--                        <button class="blackLine_btn" th:onclick="|location.href='@{/cart/{bookId}/addBook(bookId=${book.bookId})}'|">장바구니에 담기</button>-->
+                        <button class="blackLine_btn" id="cartButton" th:data-bookId="${book.bookId}">
+                            장바구니에 담기</button>
                         <button class="point_btn">구매하기</button>
                     </div>
                 </div>
@@ -229,5 +232,25 @@
         </section>
     </th:block>
 </th:block>
-<script></script>
+<script th:inline="javascript">
+$(document).ready(function (){
+    $("#cartButton").on("click", function () {
+        let bookId = $(this).attr("data-bookId");
+        $.ajax({
+            url: '/cart/' + bookId + '/addBook',
+            type: 'GET',
+            success: function(response) {
+                if (response === 'success') {
+                    alert('장바구니에 도서가 추가되었습니다.');
+                } else if(response === 'fail') {
+                    alert('이미 장바구니에 담겨있는 도서입니다.');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+});
+</script>
 </html>

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CartDTO {
+    private Long bookId;
     private String bookImg;
     private String bookTitle;
     private String bookWriter;
@@ -19,6 +20,7 @@ public class CartDTO {
 
     // Entity -> DTO
     public CartDTO(CartBook cartBook) {
+        this.bookId = cartBook.getBook().getBookId();
         this.bookImg = cartBook.getBook().getBookImgStored();
         this.bookTitle = cartBook.getBook().getBookTitle();
         this.bookWriter = cartBook.getBook().getBookWriter();
