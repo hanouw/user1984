@@ -32,7 +32,7 @@ public class PaymentMemCustomRepositoryImpl implements PaymentMemCustomRepositor
         LocalDateTime startDate = null;
         LocalDateTime endDate = null;
 
-        log.info("----PaymentBookHistoryRepo period:{}", pageRequestDTO.getDatePeriod());
+        log.info("----PaymentMemRepo period:{}", pageRequestDTO.getDatePeriod());
 
         if (pageRequestDTO.getDatePeriod() != null) {
             if (pageRequestDTO.getDatePeriod().equals("today")) {
@@ -49,8 +49,8 @@ public class PaymentMemCustomRepositoryImpl implements PaymentMemCustomRepositor
                 endDate = LocalDateTime.parse("2024-04-07T00:00:00");
             }
         }
-        log.info("***************PaymentBookHistoryRepo startDate:{} endDate:{}", startDate, endDate);
-        log.info("--------PaymentBookHistoryRepo getStartDateSelected:{} getEndDateSelected:{}", pageRequestDTO.getStartDateSelected(), pageRequestDTO.getEndDateSelected());
+        log.info("***************PaymentMemRepo startDate:{} endDate:{}", startDate, endDate);
+        log.info("--------PaymentMemRepo getStartDateSelected:{} getEndDateSelected:{}", pageRequestDTO.getStartDateSelected(), pageRequestDTO.getEndDateSelected());
 
         if (pageRequestDTO.getStartDateSelected() != null && pageRequestDTO.getEndDateSelected() != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -121,20 +121,6 @@ public class PaymentMemCustomRepositoryImpl implements PaymentMemCustomRepositor
     public Long countMembershipListByUserNo(Long userNo, PageRequestDTO pageRequestDTO) {
         int offset = (pageRequestDTO.getPage() - 1) * pageRequestDTO.getSize();
         String order = pageRequestDTO.getDateOrder();
-//        LocalDateTime period = pageRequestDTO.getDatePeriod();
-//        LocalDateTime startDate = null;
-//        LocalDateTime endDate = null;
-//        if (startDate == null && endDate == null && period == null ) {
-//            List<PaymentBookHistory> historyList = em.createQuery("select p from PaymentBookHistory p " +
-//                            "where p.book.store.storeId = :storeId " +
-//                            "order by p.createDate "+ order +" ", PaymentBookHistory.class)
-//                    .setParameter("storeId", storeId)
-//                    .setFirstResult(offset)
-//                    .setMaxResults(pageRequestDTO.getSize())
-//                    .getResultList();
-//            return historyList;
-//        }
-
         if (pageRequestDTO.getKeyword() == null) {
             Long result = (Long) em.createQuery("select count(p) from PaymentMem p " +
                             "where p.member.userNo = :userNo " +
