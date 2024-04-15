@@ -33,7 +33,7 @@ public class FileUploadService {
     }
     // 파일경로 만들기 메서드
     public String getPath(String fileName) {
-        return fileDir + fileName;
+        return fileDir + '/' +fileName;
     }
     // 저장할 파일명 생성
     private String makeFileName(String orgFileName) {
