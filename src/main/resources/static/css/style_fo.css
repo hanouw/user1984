@@ -1038,3 +1038,51 @@ button.black_btn:hover{
     border: 1px solid var(--black);
     color: var(--pointcolor);
 }
+
+
+/* myPage info */
+div.my_page_title > p{
+    font-size:28px;
+    font-weight: bold;
+    margin-bottom:14px;
+    margin-top: 28px;
+}
+
+div.my_page_wrap{
+    border: 0.5px;
+    /*solid var(--maingr00)*/
+    border-radius:4px;
+    margin-top:20px;
+    padding-bottom:60px;
+    background-color:#fff;
+}
+div.my_page_wrap_one {
+    margin:40px 40px 40px 0;
+}
+div.my_page_wrap_one > p {
+    font-size:24px;
+    margin-bottom:14px;
+    margin-left:0;
+}
+div.my_page_wrap_one > input,
+div.my_page_wrap_one > textarea{
+    min-width:calc(50% - 40px);
+    padding: 13px 20px;
+    border-radius: 4px;
+
+}
+div.my_page_wrap_one > select{
+    min-width:50%;
+    padding: 13px 20px;
+    border-radius: 4px;
+}
+
+/*search_bar*/
+.search_bar_wrap{
+    width: calc(100% - 40px);
+    margin-left: 20px;
+    margin-bottom: 28px;
+}
+.my_page_title > hr{
+    border: 1px solid var(--black);
+}

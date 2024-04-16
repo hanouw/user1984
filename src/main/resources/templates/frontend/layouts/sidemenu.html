@@ -4,13 +4,12 @@
     <!--MYPAGE_SIDEMENU-->
     <div class="mypage_side_wrap">
         <h2>
-            <span>유호선</span>
+            <span sec:authentication="principal.username"></span>
             <span>님</span>
         </h2>
-        <h3>hohosun2</h3>
         <hr />
         <ul>
-            <li><a th:href="@{/}">회원정보</a></li>
+            <li><a th:href="@{/myPage/info}">회원정보</a></li>
             <li><a th:href="@{/}">나의책장</a></li>
             <li><a th:href="@{/cart/list}">장바구니</a></li>
             <li><a th:href="@{/myPage/bookOrderList}">구매내역</a></li>

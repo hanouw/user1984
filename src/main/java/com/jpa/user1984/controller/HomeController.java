@@ -38,9 +38,6 @@ public class HomeController {
     @GetMapping("/")
     public String homeController(@AuthenticationPrincipal CustomMember customMember){
         log.info("************* / - customMember : {}", customMember);
-        if(customMember == null){
-            return "home";
-        }
         return "frontend/home/index";
     }
 
