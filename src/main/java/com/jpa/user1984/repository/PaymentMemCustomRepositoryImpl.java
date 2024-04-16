@@ -21,7 +21,7 @@ public class PaymentMemCustomRepositoryImpl implements PaymentMemCustomRepositor
     @PersistenceContext
     private EntityManager em;
 
-    // UserNo로 주문 목록 조회
+    // UserNo로 주문 목록 조회 TODO 한번 엎어야함
     @Override
     public List<PaymentMem> findMembershipListByUserNo(Long userNo, PageRequestDTO pageRequestDTO) {
         int offset = (pageRequestDTO.getPage() - 1) * pageRequestDTO.getSize();

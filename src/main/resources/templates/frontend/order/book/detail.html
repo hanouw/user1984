@@ -44,18 +44,20 @@
     <div class="my_page_h_wrap">
       <h2>최종 결제 정보</h2>
     </div>
-    <div class="my_page_book_wrap">
-      <div class="my_page_book_input_wrap">
+    <div class="my_page_wrap" th:object="${fistDTO}">
+      <div class="my_page_wrap_one">
         <p>결제방법</p>
-        <input type="text" th:value="${fistDTO.orderBookMethod}"/>
+        <input type="text" th:field="*{orderBookMethod}" disabled>
       </div>
-      <div class="my_page_book_input_wrap">
+      <div class="my_page_wrap_one">
         <p>최종 결제 금액</p>
-        <input type="text"/>
-<!--        TODO 결제금액 추가-->
+        <input type="text" th:field="*{totalAmount}" disabled>
       </div>
     </div>
-
+    <div class="my_page_wrap_button">
+      <button class="grey_btn" type="button" >삭제</button>
+      <button class="black_btn" type="button" th:onclick="|history.go(-1)|">확인</button>
+    </div>
 
   </th:block>
 </th:block>

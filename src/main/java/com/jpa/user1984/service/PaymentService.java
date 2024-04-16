@@ -38,6 +38,7 @@ public class PaymentService {
         order.setMember(memberRepository.findById(userNo).orElse(null));
         order.setOrderBookMethod(paymentBookForm.getOrderBookMethod());
         order.setPaymentBookStatus(PaymentBookStatus.COMPLETE);
+        order.setTotalAmount(paymentBookForm.getTotalAmount());
         PaymentBook saved = paymentBookRepository.save(order);
         entityManager.flush();
 

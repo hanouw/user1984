@@ -27,6 +27,9 @@ public class PaymentBook extends TimeEntity{
     @Column(nullable = false)
     private PaymentBookStatus paymentBookStatus;
 
+    @Column(nullable = false)
+    private String totalAmount;
+
 //    @OneToMany(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "order_book_history_id")
 //    private List<PaymentBookHistory> orderBookHistories;

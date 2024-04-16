@@ -185,6 +185,7 @@ $(document).ready(function () {
         console.log("IMP 실행");
         let merchantUid = createMerchantUid();
         let selectedBooks = [];
+        totalAmount = $("#amount").val();
         $('.selectedBookCheckbox:checked').each(function () {
             let bookId = $(this).siblings('input[type=hidden]').val();
             selectedBooks.push(bookId);
@@ -194,7 +195,8 @@ $(document).ready(function () {
         let data = {
             orderBookId: merchantUid,
             selectedBooks: selectedBooks,
-            orderBookMethod: "card"
+            orderBookMethod: "card",
+            totalAmount: totalAmount
         };
         console.log("data: ", data);
         if (selectedBooks.length === 0) {

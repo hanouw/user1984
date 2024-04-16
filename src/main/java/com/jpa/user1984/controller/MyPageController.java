@@ -1,7 +1,9 @@
 package com.jpa.user1984.controller;
 
+import com.jpa.user1984.domain.MemberStatus;
 import com.jpa.user1984.dto.*;
 import com.jpa.user1984.security.domain.CustomMember;
+import com.jpa.user1984.service.MemberService;
 import com.jpa.user1984.service.MyPageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,10 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -133,6 +132,21 @@ public class MyPageController {
         BookPageResponseDTO bookPageResponseDTO = new BookPageResponseDTO(pageRequestDTO, count, orderList);
         log.info("----myPageService orderListAjax bookPageResponseDTO : {}", bookPageResponseDTO);
         return new ResponseEntity<>(bookPageResponseDTO, HttpStatus.OK);
+    }
+    // 도서 구매내역 상세페이지 조회
+    @GetMapping("/bookOrderDetail/{orderBookId}")
+    public String bookOrderDetail(@PathVariable Long orderBookId, Model model) {
+        List<PaymentBookHistoryDTO> booksByOrderBookId = myPageService.findBooksByOrderBookId(orderBookId);
+        model.addAttribute("orderList", booksByOrderBookId);
+        PaymentBookHistoryDTO firstDTO = booksByOrderBookId.get(0);
+        model.addAttribute("fistDTO", firstDTO);
+        return "frontend/order/book/detail";
+    }
+
+    // 서점 구독내역 상세페이지 조회
+    @GetMapping("/membershipOrderDetail/{orderMembershipId}")
+    public String membershipOrderDetail(@PathVariable Long orderMembershipId, Model model) {
+        return "frontend/order/membership/detail";
     }
 
     // 서점 구독내역 조회

@@ -19,6 +19,7 @@ public class PaymentBookHistoryDTO {
     private PaymentBookStatus paymentBookStatus;
     private String orderBookMethod;
     private String createDate;
+    private String totalAmount;
 
     private String userId;
     private String userName;
@@ -41,6 +42,7 @@ public class PaymentBookHistoryDTO {
         this.paymentBookStatus = paymentBookHistory.getPaymentBook().getPaymentBookStatus();
         this.orderBookMethod = paymentBookHistory.getPaymentBook().getOrderBookMethod();
         this.createDate = displayTime(paymentBookHistory.getPaymentBook().getCreateDate());
+        this.totalAmount = paymentBookHistory.getPaymentBook().getTotalAmount();
 
         this.userName = paymentBookHistory.getPaymentBook().getMember().getUserName();
         this.userId = paymentBookHistory.getPaymentBook().getMember().getUserId();

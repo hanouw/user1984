@@ -19,6 +19,7 @@ public class PaymentBookForm {
     private PaymentBookStatus paymentBookStatus;
     // private LocalDateTime createDate;
     private List<String> selectedBooks;
+    private String totalAmount;
 
 
 
