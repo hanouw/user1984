@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{frontend/layouts/baseSidemenu :: baseSidemenu(~{this::content})}">
+    <th:block th:fragment="content">
+        <div class="search_bar_wrap">
+            <div class="my_page_title">
+                <p>회원정보</p>
+                <hr />
+            </div>
+            <div class="my_page_wrap" th:object="${memberInfo}">
+                <div class="my_page_wrap_one">
+                    <p>아이디</p>
+                    <input type="text" id="userId" th:field="*{userId}" disabled>
+                </div>
+                <div class="my_page_wrap_one">
+                    <p>이름</p>
+                    <input type="text" th:field="*{userName}" disabled>
+                </div>
+                <div class="my_page_wrap_one">
+                    <p>연락처</p>
+                    <input type="text" th:field="*{userPhoneNum}" disabled>
+                </div>
+                <div class="my_page_wrap_one">
+                    <p>이메일</p>
+                    <input type="text" th:field="*{userEmail}" disabled>
+                </div>
+                <div class="my_page_wrap_one">
+                    <p>회원가입일</p>
+                    <input type="text" th:field="*{createDate}" disabled>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</th:block>
+</html>

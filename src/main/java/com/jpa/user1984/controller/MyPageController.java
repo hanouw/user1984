@@ -24,6 +24,14 @@ public class MyPageController {
     private final MyPageService myPageService;
 
     // 회원정보 조회
+    @GetMapping("/info")
+    public String myPageInfoForm(@AuthenticationPrincipal CustomMember customMember, Model model){
+        if(customMember == null){
+            return "redirect:/login";
+        }
+        model.addAttribute("memberInfo", customMember.getMember());
+        return "/frontend/myPage/myPageInfo";
+    }
 
     // 나의 책장 조회
 
