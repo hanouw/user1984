@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{frontend/layouts/baseSidemenu :: baseSidemenu(~{this::content})}">
+    <th:block th:fragment="content">
+        <div class="search_bar_wrap">
+            <div class="my_page_title">
+                <p>회원정보 수정</p>
+                <hr />
+            </div>
+            <form action="/myPage/modify" th:action method="post" class="form" th:object="${memberInfo}">
+                <div class="my_page_wrap">
+                    <div class="my_page_wrap_one">
+                        <p>아이디</p>
+                        <input type="text" id="userId" th:field="*{userId}" disabled>
+                    </div>
+                    <div class="my_page_wrap_one">
+                        <p>이름</p>
+                        <input type="text" th:field="*{userName}">
+                    </div>
+                    <div class="my_page_wrap_one">
+                        <p>연락처</p>
+                        <input type="text" th:field="*{userPhoneNum}">
+                    </div>
+                    <div class="my_page_wrap_one">
+                        <p>이메일</p>
+                        <input type="text" th:field="*{userEmail}">
+                    </div>
+                    <div class="my_page_wrap_one">
+                        <p>회원가입일</p>
+                        <input type="text" th:field="*{createDate}" disabled>
+                    </div>
+                </div>
+                <div class="my_page_wrap_button">
+                    <button class="grey_btn" type="button" th:onclick="|location.href='@{/myPage/info}'|">취소</button>
+                    <button class="black_btn" type="submit">저장</button>
+                </div>
+            </form>
+        </div>
+    </th:block>
+</th:block>
+</html>

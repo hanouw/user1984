@@ -56,6 +56,7 @@ public class MemberService {
     // 회원 정보 수정
     public void modifyMember(MemberDTO memberDTO){
         Member member = memberRepository.findById(memberDTO.getUserNo()).orElse(null);
+        assert member!= null;
         member.setUserId(memberDTO.getUserId());
         member.setUserName(memberDTO.getUserName());
         member.setUserPhoneNum(memberDTO.getUserPhoneNum());

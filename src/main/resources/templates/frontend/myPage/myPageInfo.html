@@ -29,6 +29,10 @@
                     <input type="text" th:field="*{createDate}" disabled>
                 </div>
             </div>
+            <div class="my_page_wrap_button">
+                <button class="grey_btn" type="button" th:onclick="|location.href='@{/myPage/withdrawal}'|">탈퇴</button>
+                <button class="black_btn" type="button" th:onclick="|location.href='@{/myPage/modifyCheck}'|">수정</button>
+            </div>
         </div>
     </th:block>
 </th:block>
