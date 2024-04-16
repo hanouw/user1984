@@ -25,9 +25,9 @@
                     <input type="hidden" th:value="${list.bookId}">
                 </td>
                 <td class="flex_start">
-<!--                    <div class="cart_img_body" style="background-image: url('https://image.yes24.com/goods/117014613/XL')"></div>-->
                     <div class="cart_img_body">
                         <img th:src="|/images/${list.bookImg}|" alt="" />
+<!--                        TODO 이미지 사이즈 조절 css-->
                     </div>
                     <div class="cart_img_table">
                         <p th:text="*{list.bookTitle}">호랑나비</p>
@@ -35,7 +35,7 @@
                     </div>
                 </td>
                 <td th:text="*{list.storeTitle}">아트몰링</td>
-                <td><span th:text="*{list.bookEbookPrice}">15,000</span>원</td>
+                <td><span th:text="*{list.bookEbookPrice}" id="price">15,000</span>원</td>
                 <td><button class="greyLine_btn deleteButton" th:data-bookId="${list.bookId}">삭제</button></td>
             </tr>
         </table>
@@ -190,12 +190,14 @@ $(document).ready(function () {
             let bookId = $(this).siblings('input[type=hidden]').val();
             selectedBooks.push(bookId);
         });
+        let totalAmount = $("#amount").text();
         let name = selectedBooks[0] + ' 외 ' + (selectedBooks.length - 1);
         console.log(name);
         let data = {
             orderBookId: merchantUid,
             selectedBooks: selectedBooks,
-            orderBookMethod: "card"
+            orderBookMethod: "card",
+            totalAmount: totalAmount
         };
         console.log("data: ", data);
         if (selectedBooks.length === 0) {

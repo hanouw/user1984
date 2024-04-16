@@ -17,6 +17,7 @@ public class PaymentMemDTO {
     private String orderMembershipMethod;
     private LocalDateTime membershipStartDate;
     private LocalDateTime membershipEndDate;
+    private String price;
 
     private String userId;
     private String userName;
@@ -35,6 +36,7 @@ public class PaymentMemDTO {
         this.orderMembershipMethod = paymentMem.getOrderMembershipMethod();
         this.membershipStartDate = paymentMem.getMembershipStartDate();
         this.membershipEndDate = paymentMem.getMembershipEndDate();
+        this.price = paymentMem.getPrice();
 
         this.userId = paymentMem.getMember().getUserId();
         this.userName = paymentMem.getMember().getUserName();

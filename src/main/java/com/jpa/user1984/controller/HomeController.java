@@ -71,10 +71,10 @@ public class HomeController {
 
     // 서점 상세페이지 요청
     @GetMapping("/store/{storeId}")
-    public String storeDetail(@PathVariable("storeId") Long storeId, Model model) {
+    public String storeDetail(@PathVariable("storeId") Long storeId, Model model, @AuthenticationPrincipal CustomMember customMember) {
         StoreDTO findStore = storeService.getOneStore(storeId);
         model.addAttribute("store", findStore);
-        MemberDTO findMember = memberService.findMemberById(1L);
+        MemberDTO findMember = memberService.findMemberById(customMember.getMember().getUserNo());
         model.addAttribute("user", findMember);
         return "frontend/home/store";
     }

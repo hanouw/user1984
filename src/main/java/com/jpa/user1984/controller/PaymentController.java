@@ -50,9 +50,8 @@ public class PaymentController {
     public ResponseEntity<String> orderBook(@RequestBody PaymentBookForm paymentBookForm,
                                                   @AuthenticationPrincipal CustomMember customMember) throws IOException {
         log.info("*******PaymentController orderBook 실행");
-        Long garaId = 1L;
-        Long saved = paymentService.saveBookOrder(garaId, paymentBookForm);
-        log.info("결제 성공 : 주문 번호 {}", saved);
+        Long saved = paymentService.saveBookOrder(customMember.getMember().getUserNo(), paymentBookForm);
+        log.info("결제 성공주문 번호 : {}", saved);
         return ResponseEntity.ok().build();
     }
 
@@ -61,9 +60,8 @@ public class PaymentController {
     public ResponseEntity<String> membershipOrder(@RequestBody PaymentMemForm paymentMemForm,
                                                   @AuthenticationPrincipal CustomMember customMember) throws IOException {
         log.info("*******PaymentController membershipOrder 실행");
-        Long garaId = 1L;
-        Long saved = paymentService.saveMembershipOrder(garaId, paymentMemForm);
-        log.info("결제 성공 : 주문 번호 {}", saved);
+        Long saved = paymentService.saveMembershipOrder(customMember.getMember().getUserNo(), paymentMemForm);
+        log.info("결제 성공주문 번호 : {}", saved);
         return ResponseEntity.ok().build();
     }
 
