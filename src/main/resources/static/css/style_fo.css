@@ -1,4 +1,8 @@
-
+/*Body*/
+html,body{
+    width:100%;
+    min-width:1480px;
+}
 /*header*/
 header{
     width:100%;
