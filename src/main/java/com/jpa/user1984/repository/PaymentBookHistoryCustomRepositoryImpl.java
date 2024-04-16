@@ -21,7 +21,16 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
     @PersistenceContext
     private EntityManager em;
 
-    // UserNo로 주문 목록 조회
+    @Override
+    public List<PaymentBookHistory> findByOrderBookId(Long orderBookId) {
+        List orderList = em.createQuery("select p from PaymentBookHistory p " +
+                        "where p.paymentBook.orderBookId = :orderBookId")
+                .setParameter("orderBookId", orderBookId)
+                .getResultList();
+        return orderList;
+    }
+
+    // UserNo로 주문 목록 조회 TODO 한번 엎어야함
     @Override
     public List<PaymentBookHistory> findListByUserNo(Long userNo, PageRequestDTO pageRequestDTO) {
         int offset = (pageRequestDTO.getPage() - 1) * pageRequestDTO.getSize();
@@ -162,7 +171,6 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
         }
     }
 
-
     @Override
     public String method(PageRequestDTO pageRequestDTO) {
         String searchType = pageRequestDTO.getSearchType();
@@ -195,4 +203,6 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
         }
         return s;
     }
+
+
 }

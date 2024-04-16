@@ -12,4 +12,6 @@ public interface PaymentBookHistoryCustomRepository {
     Long countHistoryListByUserNo(Long userNo, PageRequestDTO pageRequestDTO);
 
     String method(PageRequestDTO pageRequestDTO);
+
+    List<PaymentBookHistory> findByOrderBookId(Long orderBookId);
 }

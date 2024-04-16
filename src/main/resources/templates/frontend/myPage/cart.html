@@ -25,12 +25,11 @@
                     <input type="hidden" th:value="${list.bookId}">
                 </td>
                 <td class="flex_start">
-<!--                    <div class="cart_img_body" style="background-image: url('https://image.yes24.com/goods/117014613/XL')"></div>-->
-                    <div class="cart_img_body">
+                    <div class="cart_img_body" th:onclick="|location.href='@{/book/{bookId}(bookId=${list.bookId})}'|">
                         <img th:src="|/images/${list.bookImg}|" alt="" />
                     </div>
                     <div class="cart_img_table">
-                        <p th:text="*{list.bookTitle}">호랑나비</p>
+                        <a th:text="*{list.bookTitle}" th:href="@{/book/{bookId}(bookId=${list.bookId})}">호랑나비</a><br>
                         <span><span th:text="*{list.bookWriter}">김흥국</span> / <span th:text="*{list.bookPub}">호랑수월출판사</span></span>
                     </div>
                 </td>
@@ -111,7 +110,7 @@
         </div>
         </div>
 
-        <div id="user" th:data-email="${user.userEmail}" th:data-name="${user.userName}" th:data-tel="${user.userPhoneNum}"></div>
+        <input type="hidden" id="user" th:data-email="${user.userEmail}" th:data-name="${user.userName}" th:data-tel="${user.userPhoneNum}"/>
         <input type="hidden" id="cartListSize" th:value="${#lists.size(cartList)}" />
     </th:block>
 </th:block>
@@ -161,8 +160,8 @@ $(document).ready(function () {
         $("#amount").text(totalAmount);
     }
     // ********************* 장바구니 삭제
-    let bookId = $(this).attr("data-bookId");
     $(".deleteButton").on("click", function () {
+    let bookId = $(this).attr("data-bookId");
         $.ajax({
             type: "delete",
             url: "/cart/delete/" + bookId,
