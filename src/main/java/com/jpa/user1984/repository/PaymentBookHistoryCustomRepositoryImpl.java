@@ -6,60 +6,112 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Repository
 @Slf4j
 @RequiredArgsConstructor
+@Primary
 public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistoryCustomRepository{
 
     @PersistenceContext
     private EntityManager em;
 
-    // UserNo로 주문 목록 조회
     @Override
-    public List<PaymentBookHistory> findListByUserNo(Long userNo, PageRequestDTO pageRequestDTO) {
-        int offset = (pageRequestDTO.getPage() - 1) * pageRequestDTO.getSize();
-        String order = pageRequestDTO.getDateOrder();
-        String keyword = null;
-        String searchType = null;
-        String period = null;
+    public PageRequestDTO bindingMethod(PageRequestDTO pageRequestDTO) {
+
+        PageRequestDTO newDTO = new PageRequestDTO();
+
+        log.info("************bindingMethod pageRequestDTO:{}", pageRequestDTO);
+
+        if (pageRequestDTO.getDateOrder() == null || pageRequestDTO.getDateOrder().equals("desc")) {
+            newDTO.setDateOrder("desc");
+            pageRequestDTO.setDateOrder("desc");
+        } else if (pageRequestDTO.getDateOrder() != null || !pageRequestDTO.getDateOrder().equals("")) {
+            newDTO.setDateOrder(pageRequestDTO.getDateOrder());
+        }
+        if (pageRequestDTO.getKeyword() == null || pageRequestDTO.getKeyword().equals("")) {
+            newDTO.setKeyword(null);
+        } else {
+            newDTO.setKeyword(pageRequestDTO.getKeyword());
+        }
         LocalDateTime startDate = null;
         LocalDateTime endDate = null;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        log.info("----PaymentBookHistoryRepo period:{}", pageRequestDTO.getDatePeriod());
-
-        if (pageRequestDTO.getDatePeriod() != null) {
+        if (pageRequestDTO.getDatePeriod() == null || pageRequestDTO.getDatePeriod().equals("")) {
+            newDTO.setStartDate(null);
+            newDTO.setEndDate(null);
+        } else {
             if (pageRequestDTO.getDatePeriod().equals("today")) {
-    //            LocalDateTime today = LocalDateTime.now();
-    //            startDate = today;
-    //            endDate = today;
-                startDate = LocalDateTime.parse("2024-04-07T00:00:00");
-                endDate = LocalDateTime.parse("2024-04-07T00:00:00");
+                startDate = LocalDate.now().atStartOfDay();
+                endDate = LocalDate.now().atTime(LocalTime.MAX);
+                newDTO.setStartDate(startDate.format(formatter));
+                newDTO.setEndDate(endDate.format(formatter));
+                pageRequestDTO.setStartDate(startDate.format(formatter));
+                pageRequestDTO.setEndDate(endDate.format(formatter));
             } else if (pageRequestDTO.getDatePeriod().equals("oneWeek")) {
-                startDate = LocalDateTime.parse("2024-04-06T00:00:00");
-                endDate = LocalDateTime.parse("2024-04-07T00:00:00");
+                startDate = LocalDate.now().minusDays(7).atStartOfDay();
+                endDate = LocalDateTime.now();
+                pageRequestDTO.setStartDate(startDate.format(formatter));
+                pageRequestDTO.setEndDate(endDate.format(formatter));
+                newDTO.setStartDate(startDate.format(formatter));
+                newDTO.setEndDate(endDate.format(formatter));
             } else if (pageRequestDTO.getDatePeriod().equals("oneMonth")) {
-                startDate = LocalDateTime.parse("2024-04-05T00:00:00");
-                endDate = LocalDateTime.parse("2024-04-07T00:00:00");
+                startDate = LocalDate.now().minusDays(30).atStartOfDay();
+                endDate = LocalDateTime.now();
+                pageRequestDTO.setStartDate(startDate.format(formatter));
+                pageRequestDTO.setEndDate(endDate.format(formatter));
+                newDTO.setStartDate(startDate.format(formatter));
+                newDTO.setEndDate(endDate.format(formatter));
             }
         }
-        log.info("***************PaymentBookHistoryRepo startDate:{} endDate:{}", startDate, endDate);
-        log.info("--------PaymentBookHistoryRepo getStartDateSelected:{} getEndDateSelected:{}", pageRequestDTO.getStartDateSelected(), pageRequestDTO.getEndDateSelected());
+        if (pageRequestDTO.getStartDate() == null || pageRequestDTO.getStartDate().equals("")) {
+            newDTO.setStartDate(null);
+            newDTO.setEndDate(null);
+        }
+        if (pageRequestDTO.getStartDate() != null && !pageRequestDTO.getStartDate().equals("")) {
+            startDate = LocalDate.parse(pageRequestDTO.getStartDate(), formatter).atStartOfDay();
+            endDate = LocalDate.parse(pageRequestDTO.getEndDate(), formatter).atTime(LocalTime.MAX);
+            newDTO.setStartDate(startDate.format(formatter));
+            newDTO.setEndDate(endDate.format(formatter));
+        }
+        return newDTO;
+    }
 
-        if (pageRequestDTO.getStartDateSelected() != null && pageRequestDTO.getEndDateSelected() != null) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            startDate = LocalDate.parse(pageRequestDTO.getStartDateSelected(), formatter).atStartOfDay();
-            endDate = LocalDate.parse(pageRequestDTO.getEndDateSelected(), formatter).atStartOfDay();
+    @Override
+    public List<PaymentBookHistory> findByOrderBookId(Long orderBookId) {
+        List resultList = em.createQuery("select p from PaymentBookHistory p where p.paymentBook.orderBookId = :orderBookId")
+                .setParameter("orderBookId", orderBookId)
+                .getResultList();
+        return resultList;
+    }
+
+    @Override
+    public List<PaymentBookHistory> findBookListByUserNo(Long userNo, PageRequestDTO pageRequestDTO) {
+        int offset = (pageRequestDTO.getPage() - 1) * pageRequestDTO.getSize();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        PageRequestDTO dto = bindingMethod(pageRequestDTO);
+        String order = dto.getDateOrder();
+        String keyword = dto.getKeyword();
+        LocalDateTime startDate = null;
+        LocalDateTime endDate = null;
+        if (dto.getStartDate() != null) {
+            startDate = LocalDate.parse(dto.getStartDate(), formatter).atStartOfDay();
+            endDate = LocalDate.parse(dto.getEndDate(), formatter).atTime(LocalTime.MAX);
         }
 
+        log.info("-------------PaymentBookHistoryRepo order:{}, keyword:{}, startDate:{}, endDate:{}", order, keyword, startDate, endDate);
 
-        if (startDate == null && endDate == null && period == null && pageRequestDTO.getKeyword() == null ) { // 키워드 없음 + 기간 없음
+        if (startDate == null && keyword == null ) { // 키워드 없음 + 기간 없음
             log.info("**************************키워드 없음 + 기간 없음");
             List<PaymentBookHistory> historyList = em.createQuery("select p from PaymentBookHistory p " +
                             "where p.paymentBook.member.userNo = :userNo " +
@@ -70,7 +122,7 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
                     .getResultList();
             return historyList;
         }
-        else if (pageRequestDTO.getKeyword() == null && startDate != null) { // 키워드 없음 + 기간 있음
+        else if (keyword == null && startDate != null) { // 키워드 없음 + 기간 있음
             log.info("**************************키워드 없음 + 기간 있음");
             List<PaymentBookHistory> historyList = em.createQuery("select p from PaymentBookHistory p " +
                             "where p.paymentBook.member.userNo = :userNo and p.createDate between :startDate And :endDate " +
@@ -83,9 +135,9 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
                     .getResultList();
             return historyList;
         }
-        else if (startDate == null && pageRequestDTO.getKeyword() != null) { // 키워드 있음 + 기간 없음
+        else if (startDate == null && keyword != null) { // 키워드 있음 + 기간 없음
             log.info("**************************키워드 있음 + 기간 없음");
-            String s = method(pageRequestDTO);
+            String s = searchTypeMethod(pageRequestDTO);
             keyword = pageRequestDTO.getKeyword();
             List<PaymentBookHistory> historyList = em.createQuery("select p from PaymentBookHistory p " +
                             "where p.paymentBook.member.userNo = :userNo and " + s + " like concat('%', :keyword, '%') " +
@@ -99,7 +151,7 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
         }
         else { // 키워드 있음+ 기간 있음
             log.info("**************************키워드 있음 + 기간 있음");
-            String s = method(pageRequestDTO);
+            String s = searchTypeMethod(pageRequestDTO);
             keyword = pageRequestDTO.getKeyword();
             List<PaymentBookHistory> historySerachList = em.createQuery("select p from PaymentBookHistory p " +
                             "where p.paymentBook.member.userNo = :userNo and " + s + " like concat('%', :keyword, '%') " +
@@ -118,53 +170,71 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
     }
 
     @Override
-    public Long countHistoryListByUserNo(Long userNo, PageRequestDTO pageRequestDTO) {
-        int offset = (pageRequestDTO.getPage() - 1) * pageRequestDTO.getSize();
-        String order = pageRequestDTO.getDateOrder();
-//        LocalDateTime period = pageRequestDTO.getDatePeriod();
-//        LocalDateTime startDate = null;
-//        LocalDateTime endDate = null;
-//        if (startDate == null && endDate == null && period == null ) {
-//            List<PaymentBookHistory> historyList = em.createQuery("select p from PaymentBookHistory p " +
-//                            "where p.book.store.storeId = :storeId " +
-//                            "order by p.createDate "+ order +" ", PaymentBookHistory.class)
-//                    .setParameter("storeId", storeId)
-//                    .setFirstResult(offset)
-//                    .setMaxResults(pageRequestDTO.getSize())
-//                    .getResultList();
-//            return historyList;
-//        }
+    public Long countBookListByUserNo(Long userNo, PageRequestDTO pageRequestDTO) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        if (pageRequestDTO.getKeyword() == null) {
-            Long result = (Long) em.createQuery("select count(p) from PaymentBookHistory p " +
+        PageRequestDTO dto = bindingMethod(pageRequestDTO);
+        String order = dto.getDateOrder();
+        String keyword = dto.getKeyword();
+        LocalDateTime startDate = null;
+        LocalDateTime endDate = null;
+        if (dto.getStartDate() != null) {
+            startDate = LocalDate.parse(dto.getStartDate(), formatter).atStartOfDay();
+            endDate = LocalDate.parse(dto.getEndDate(), formatter).atTime(LocalTime.MAX);
+        }
+
+        log.info("************PaymentBookHistoryRepo count page:{},order:{},keyword:{},startDate:{},endDate:{}",pageRequestDTO.getPage(),order,keyword,startDate,endDate);
+
+        if (startDate == null && keyword == null) {
+            log.info("**************************키워드 없음 + 기간 없음");
+            Long searchResult = (Long) em.createQuery("select count(p) from PaymentBookHistory p " +
                             "where p.paymentBook.member.userNo = :userNo " +
                             "order by p.createDate "+ order +" ")
                     .setParameter("userNo", userNo)
-                    .setFirstResult(offset)
-                    .setMaxResults(pageRequestDTO.getSize())
                     .getSingleResult();
-            log.info("--PaymentRepo result : {}", result);
-            return result;
+            return searchResult;
         }
-        else {
-            String s = method(pageRequestDTO);
-            String keyword = pageRequestDTO.getKeyword();
+        else if (keyword == null && startDate != null) {
+            log.info("**************************키워드 없음 + 기간 있음");
+            Long searchResult = (Long) em.createQuery("select count(p) from PaymentBookHistory p " +
+                            "where p.paymentBook.member.userNo = :userNo and p.createDate between :startDate And :endDate " +
+                            "order by p.createDate "+ order +" ")
+                    .setParameter("userNo", userNo)
+                    .setParameter("startDate", startDate)
+                    .setParameter("endDate", endDate)
+                    .getSingleResult();
+            return searchResult;
+        }
+        else if (startDate == null && keyword != null) {
+        log.info("**************************키워드 없음 + 기간 있음");
+            String s = searchTypeMethod(pageRequestDTO);
             Long searchResult = (Long) em.createQuery("select count(p) from PaymentBookHistory p " +
                             "where p.paymentBook.member.userNo = :userNo and " + s + " like concat('%', :keyword, '%')" +
                             "order by p.createDate "+ order +" ")
                     .setParameter("userNo", userNo)
-                    .setParameter("keyword", keyword)
-                    .setFirstResult(offset)
-                    .setMaxResults(pageRequestDTO.getSize())
                     .getSingleResult();
             log.info("--PaymentRepo result : {}", searchResult);
+            return searchResult;
+        }
+        else {
+            log.info("**************************키워드 있음 + 기간 있음");
+            String s = searchTypeMethod(pageRequestDTO);
+            Long searchResult = (Long) em.createQuery("select count(p) from PaymentBookHistory p " +
+                            "where p.paymentBook.member.userNo = :userNo and " + s + " like concat('%', :keyword, '%') " +
+                            "and p.createDate between :startDate And :endDate  " +
+                            "order by p.createDate " + order + " ")
+                    .setParameter("userNo", userNo)
+                    .setParameter("keyword", keyword)
+                    .setParameter("startDate", startDate)
+                    .setParameter("endDate", endDate)
+                    .getSingleResult();
             return searchResult;
         }
     }
 
 
     @Override
-    public String method(PageRequestDTO pageRequestDTO) {
+    public String searchTypeMethod(PageRequestDTO pageRequestDTO) {
         String searchType = pageRequestDTO.getSearchType();
         String s = "p";
         switch (searchType) {
@@ -195,4 +265,6 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
         }
         return s;
     }
+
+
 }

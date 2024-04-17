@@ -5,7 +5,7 @@
 
     <!-- 내용 -->
     <div class="my_page_h_wrap">
-      <span><a th:href="@{/myPage/bookOrderList}">도서주문</a><a th:href="@{/myPage/membershipOrderList}">구독주문</a></span>
+        <span><span><a th:href="@{/myPage/bookOrderList}">도서주문</a></span> <span><a class="smaller" th:href="@{/myPage/membershipOrderList}">구독주문</a></span></span>
     </div>
     <div class="mycart_table_wrap">
     </div>
@@ -73,10 +73,10 @@ $(document).ready(function () {
     html += '<table class="mycart_table">';
     html += '<tr class="myTable_th_body"><th>도서명(저자/출판사)</th><th>구매일자</th><th>주문번호</th><th>서점명</th><th>주문금액</th><th>리뷰</th> </tr>';
     $.each(response.orderList, function(index, order) {
-      html += '<td class="flex_start"><div class="cart_img_body"><img src="/images/' + order.bookImgStored + '" alt="" /></div>';
+      html += '<tr class="myTable_td_body"><td class="flex_start"><div class="cart_img_body_2"><img src="/images/' + order.bookImgStored + '" alt="" /></div>';
       html += '<div class="cart_img_table"><p>' + order.bookTitle + '</p><span><span>'+order.bookWriter+'</span> / <span>'+order.bookPub+'</span></span></div></td>';
-      html += '<td>' + displayTime(order.createDate) + '</td>';
-      html += '<td>' + order.orderBookId + '</td>';
+      html += '<td>' + order.createDate + '</td>';
+      html += '<td><a href="/myPage/bookOrderDetail/' + order.orderBookId + '">'+ order.orderBookId +'</a></td>';
       html += '<td>' + order.bookPub + '</td>';
       html += '<td>' + order.bookEbookPrice + '</td>';
       html += '<td><button class="greyLine_btn deleteButton" data-bookId="' + order.bookId + '">리뷰작성</button></td></tr>';
@@ -148,13 +148,6 @@ $(document).ready(function () {
       }
     });
   });
-
-  function displayTime(timeVal) {
-    let time = timeVal;
-    return time.split('T')[0];
-  }
-
-
 });
 
 </script>

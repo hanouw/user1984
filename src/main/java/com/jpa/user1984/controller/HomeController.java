@@ -35,11 +35,30 @@ public class HomeController {
     private final FileUploadService fileUploadService;
     private final MemberService memberService;
 
+    // 메뉴 리스트 //
+    //메인
     @GetMapping("/")
     public String homeController(@AuthenticationPrincipal CustomMember customMember){
-        log.info("************* / - customMember : {}", customMember);
         return "frontend/home/index";
     }
+
+    //1984소개
+    @GetMapping("/about")
+    public String aboutController(){
+        return "frontend/home/about";
+    }
+    //독립서점
+    @GetMapping("/storelist")
+    public String storeListController(){
+        return "frontend/home/storelist";
+    }
+    //도서목록
+    @GetMapping("/booklist")
+    public String bookListController(){
+        return "frontend/home/booklist";
+    }
+
+    // 메뉴 리스트 //
 
     // 책 상세페이지 요청
     @GetMapping("/book/{bookId}")
@@ -51,10 +70,10 @@ public class HomeController {
 
     // 서점 상세페이지 요청
     @GetMapping("/store/{storeId}")
-    public String storeDetail(@PathVariable("storeId") Long storeId, Model model) {
+    public String storeDetail(@PathVariable("storeId") Long storeId, Model model, @AuthenticationPrincipal CustomMember customMember) {
         StoreDTO findStore = storeService.getOneStore(storeId);
         model.addAttribute("store", findStore);
-        MemberDTO findMember = memberService.findMemberById(1L);
+        MemberDTO findMember = memberService.findMemberById(customMember.getMember().getUserNo());
         model.addAttribute("user", findMember);
         return "frontend/home/store";
     }

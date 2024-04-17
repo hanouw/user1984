@@ -1,4 +1,8 @@
-
+/*Body*/
+body{
+    width:100%;
+    min-width:1480px;
+}
 /* section */
 .page_wrap{
     width: 100%;

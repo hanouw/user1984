@@ -13,10 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -39,7 +36,7 @@ public class MyPageController {
         model.addAttribute("memberInfo", customMember.getMember());
         return "/frontend/myPage/myPageInfo";
     }
-    
+
     // 회원탈퇴
     @GetMapping("/withdrawal")
     public String withdrawalForm(@AuthenticationPrincipal CustomMember customMember, Model model){
@@ -60,7 +57,7 @@ public class MyPageController {
         model.addAttribute("wrongPassword", true);
         return "/frontend/myPage/withdrawal";
     }
-    
+
     // 회원정보 수정 전 비밀번호 재입력
     @GetMapping("/modifyCheck")
     public String modifyCheckingForm(Model model){
@@ -115,12 +112,10 @@ public class MyPageController {
         if (pageRequestDTO.getDateOrder() == null || pageRequestDTO.getDateOrder().equals("desc")) {
             pageRequestDTO.setDateOrder("desc");
         }
-        Long garaId = 1L;
-        List<PaymentBookHistoryDTO> orderList = myPageService.findHistoryList(garaId, pageRequestDTO);
+        Long userNo = customMember.getMember().getUserNo();
+        List<PaymentBookHistoryDTO> orderList = myPageService.findHistoryList(userNo, pageRequestDTO);
         model.addAttribute("orderList", orderList);
-        Long count = myPageService.countHistoryList(garaId, pageRequestDTO);
-//        List<PaymentBookResponseDTO> orderList = myPageService.findHistoryList(customMember.getMember().getUserNo(), pageRequestDTO);
-//        Long count = myPageService.countHistoryList(customMember.getMember().getUserNo(), pageRequestDTO);
+        Long count = myPageService.countHistoryList(userNo, pageRequestDTO);
         BookPageResponseDTO bookPageResponseDTO = new BookPageResponseDTO(pageRequestDTO, count, orderList);
         model.addAttribute("bookPageResponseDTO", bookPageResponseDTO);
         log.info("----myPageService orderListAjax bookPageResponseDTO : {}", bookPageResponseDTO);
@@ -142,29 +137,39 @@ public class MyPageController {
             pageRequestDTO.setSearchType(null);
             log.info("***************** CmsController orderListAjax bookPageResponseDTO : {}", pageRequestDTO);
         }
-        if (pageRequestDTO.getDateOrder() == null || pageRequestDTO.getDateOrder().equals("desc")) {
-            pageRequestDTO.setDateOrder("desc");
-        }
-        Long garaId = 1L;
-        List<PaymentBookHistoryDTO> orderList = myPageService.findHistoryList(garaId, pageRequestDTO);
-        Long count = myPageService.countHistoryList(garaId, pageRequestDTO);
-//        List<PaymentBookResponseDTO> orderList = myPageService.findHistoryList(customMember.getMember().getUserNo(), pageRequestDTO);
-//        Long count = myPageService.countHistoryList(customMember.getMember().getUserNo(), pageRequestDTO);
+        Long userNo = customMember.getMember().getUserNo();
+        List<PaymentBookHistoryDTO> orderList = myPageService.findHistoryList(userNo, pageRequestDTO);
+        Long count = myPageService.countHistoryList(userNo, pageRequestDTO);
         BookPageResponseDTO bookPageResponseDTO = new BookPageResponseDTO(pageRequestDTO, count, orderList);
         log.info("----myPageService orderListAjax bookPageResponseDTO : {}", bookPageResponseDTO);
         return new ResponseEntity<>(bookPageResponseDTO, HttpStatus.OK);
     }
+    // 도서 구매내역 상세페이지 조회
+    @GetMapping("/bookOrderDetail/{orderBookId}")
+    public String bookOrderDetail(@PathVariable Long orderBookId, Model model) {
+        List<PaymentBookHistoryDTO> booksByOrderBookId = myPageService.findBooksByOrderBookId(orderBookId);
+        model.addAttribute("orderList", booksByOrderBookId);
+        PaymentBookHistoryDTO firstDTO = booksByOrderBookId.get(0);
+        model.addAttribute("fistDTO", firstDTO);
+        return "frontend/order/book/detail";
+    }
+
+    // 서점 구독내역 상세페이지 조회
+    @GetMapping("/membershipOrderDetail/{orderMembershipId}")
+    public String membershipOrderDetail(@PathVariable Long orderMembershipId, Model model) {
+        return "frontend/order/membership/detail";
+    }
 
     // 서점 구독내역 조회
     @GetMapping("/membershipOrderList")
-    public String membershipOrderList(PageRequestDTO pageRequestDTO, Model model) {
+    public String membershipOrderList(@AuthenticationPrincipal CustomMember customMember,PageRequestDTO pageRequestDTO, Model model) {
         if (pageRequestDTO.getDateOrder() == null || pageRequestDTO.getDateOrder().equals("desc")) {
             pageRequestDTO.setDateOrder("desc");
         }
-        Long garaId = 1L;
-        List<PaymentMemDTO> membershipList = myPageService.findMembershipList(garaId, pageRequestDTO);
+        Long userNo = customMember.getMember().getUserNo();
+        List<PaymentMemDTO> membershipList = myPageService.findMembershipList(userNo, pageRequestDTO);
         model.addAttribute("membershipList", membershipList);
-        Long count = myPageService.countMembershipList(garaId, pageRequestDTO);
+        Long count = myPageService.countMembershipList(userNo, pageRequestDTO);
         MemPageResponseDTO memPageResponseDTO = new MemPageResponseDTO(pageRequestDTO, count, membershipList);
         model.addAttribute("memPageResponseDTO", memPageResponseDTO);
         return "frontend/order/membership/list";
@@ -172,7 +177,7 @@ public class MyPageController {
 
     // ajax 서점 구독내역 조회
     @GetMapping("/membershipOrderList/ajax")
-    public ResponseEntity<MemPageResponseDTO> membershipOrderListAjax(PageRequestDTO pageRequestDTO) {
+    public ResponseEntity<MemPageResponseDTO> membershipOrderListAjax(@AuthenticationPrincipal CustomMember customMember, PageRequestDTO pageRequestDTO) {
         if (pageRequestDTO.getDateOrder() == null || pageRequestDTO.getDateOrder().equals("desc")) {
             pageRequestDTO.setDateOrder("desc");
         }
@@ -185,9 +190,9 @@ public class MyPageController {
         if (pageRequestDTO.getDateOrder() == null || pageRequestDTO.getDateOrder().equals("desc")) {
             pageRequestDTO.setDateOrder("desc");
         }
-        Long garaId = 1L;
-        List<PaymentMemDTO> membershipList = myPageService.findMembershipList(garaId, pageRequestDTO);
-        Long count = myPageService.countMembershipList(garaId, pageRequestDTO);
+        Long userNo = customMember.getMember().getUserNo();
+        List<PaymentMemDTO> membershipList = myPageService.findMembershipList(userNo, pageRequestDTO);
+        Long count = myPageService.countMembershipList(userNo, pageRequestDTO);
         MemPageResponseDTO memPageResponseDTO = new MemPageResponseDTO(pageRequestDTO, count, membershipList);
         return new ResponseEntity<>(memPageResponseDTO, HttpStatus.OK);
     }

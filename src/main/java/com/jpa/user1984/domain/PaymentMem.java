@@ -22,6 +22,9 @@ public class PaymentMem {
     @Column(nullable = false)
     private String orderMembershipMethod;
 
+    @Column(nullable = false)
+    private String price;
+
     @ManyToOne
     @JoinColumn(name = "user_no")
     private Member member;

@@ -40,7 +40,7 @@ public class CartService {
     public CartBook addBook(Long userNo, Long bookId) {
         CartBook cartBook = new CartBook();
         cartBook.setBook(bookRepository.findById(bookId).orElse(null));
-        cartBook.setCart(cartRepository.findById(userNo).orElse(null)); // cartId와 userId가 동일하다면 사용가능, 가입하자마자 cartId가 생성되므로 가능?
+        cartBook.setCart(cartRepository.findById(userNo).orElse(null)); // cartId와 userId가 동일하다면 사용가능, 가입하자마자 cartId가 생성되므로 가능
         CartBook saved = cartBookRepository.save(cartBook);
         return saved;
     }

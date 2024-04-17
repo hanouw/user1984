@@ -13,4 +13,5 @@ public class PaymentMemForm {
     private Long userNo;
     private String orderMembershipMethod;
     private Long storeId;
+    private String price;
 }
