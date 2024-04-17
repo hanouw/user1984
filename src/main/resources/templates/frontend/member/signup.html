@@ -6,12 +6,14 @@
     <title>Signup</title>
     <link rel="stylesheet" href="/css/style_reset.css" />
     <link rel="stylesheet" href="/css/style.css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.paymentBook-1.1.5.js"></script>
 </head>
 <body>
 <section class="page_wrap">
     <div class="login_form item">
         <h1 class="main_logo"></h1>
-        <form action="" th:action th:object="${memberForm}" method="post">
+        <form action="" th:action class="form" th:object="${memberForm}" method="post">
             <div class="login_form_wrap">
                 <p>
                     책은 문화의 <br />
@@ -21,45 +23,146 @@
                 <h2>회원가입</h2>
                 <div class="input_form">
                     <span>아이디</span>
-                    <input type="text" placeholder="아이디를 입력해주세요." th:field="*{userId}"/>
+                    <input type="text" id="userId" name="userId" placeholder="아이디를 입력해주세요." th:field="*{userId}"/>
+<!--                    <label for="availResult">사용가능여부</label>-->
+                    <input class="avail" type="text" id="availResult" name="alreadyUsed" disabled />
                     <span></span>
                 </div>
                 <div class="input_form">
                     <span>비밀번호</span>
-                    <input type="password" placeholder="비밀번호를 입력해주세요." th:field="*{userPassword}"/>
+                    <input type="password" name="userPassword" placeholder="비밀번호를 입력해주세요." th:field="*{userPassword}"/>
                     <span></span>
                 </div>
                 <div class="input_form">
                     <span>비밀번호 확인</span>
-                    <input type="password" placeholder="비밀번호를 입력해주세요." />
+                    <input type="password" name="userPasswordCh" placeholder="비밀번호를 입력해주세요." />
                     <span></span>
                 </div>
                 <br />
                 <div class="input_form">
                     <span>이름</span>
-                    <input type="text" placeholder="이름을 입력해주세요." th:field="*{userName}"/>
+                    <input type="text" name="userName" placeholder="이름을 입력해주세요." th:field="*{userName}"/>
                     <span></span>
                 </div>
                 <div class="input_form">
                     <span>이메일</span>
-                    <input type="text" placeholder="이메일을 입력해주세요." th:field="*{userEmail}"/>
+                    <input type="text" name="userEmail" placeholder="이메일을 입력해주세요." th:field="*{userEmail}"/>
                     <span></span>
                 </div>
                 <div class="input_form">
                     <span>연락처</span>
-                    <input type="text" placeholder="연락처를 입력해주세요." th:field="*{userPhoneNum}"/>
+                    <input type="text" name="userPhoneNum" placeholder="연락처를 입력해주세요." th:field="*{userPhoneNum}"/>
                     <span></span>
                 </div>
                 <button class="btn_login" type="submit">회원가입</button>
-                <a href="" class="link_login">로그인 하러가기</a>
+                <a href="/login" class="link_login">로그인 하러가기</a>
                 <span class="signup_copyright">ⓒ 2024. 1984 All rights reserved.</span>
             </div>
         </form>
     </div>
     <div class="login_img item"></div>
 </section>
-<script>
+<script> // src="/js/storeSignup.js">
+document.querySelector(".form").addEventListener("submit", function (event) {
+    event.preventDefault(); // 기본 제출 동작 막기
 
+    // 필드 값 가져오기
+    let idInput = document.querySelector('input[name="userId"]');
+    let passwordInput = document.querySelector('input[name="userPassword"]');
+    let confirmPasswordInput = document.querySelector('input[name="userPasswordCh"]');
+    let emailInput = document.querySelector('input[name="userEmail"]');
+    let alreadyUsed = document.querySelector('input[name="alreadyUsed"]');
+    let phoneNumInput = document.querySelector('input[name="userPhoneNum"]');
+    let userNameInput = document.querySelector('input[name="userName"]');
+
+    // 이름 필드 유효성 검사
+    if (idInput.value.trim() === "") {
+        // errorMessage += "닉네임을 입력하세요.\n\n";
+        alert("닉네임을 입력하세요.");
+        return false;
+    }
+
+    // 이름 필드 유효성 검사 - 이미 사용중인가?
+    if(alreadyUsed.value.trim() === "이미 사용 중 입니다."){
+        alert("이미 사용중입니다!!!!");
+        return false;
+    }
+
+    // 이메일 필드 유효성 검사
+    let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(emailInput.value.trim())) {
+        // errorMessage += "유효한 이메일을 입력하세요.\n\n";
+        alert("유효한 이메일을 입력하세요.");
+        return false;
+    }
+
+    // 비밀번호 필드 유효성 검사 01
+    if (passwordInput.value.trim() === "") {
+        // errorMessage += "비밀번호를 입력하세요.\n\n";
+        alert("비밀번호를 입력하세요.");
+        return false;
+    }
+
+    // 비밀번호 필드 유효성 검사 02
+    if (passwordInput.value.length < 8) {
+        // errorMessage += "비밀번호는 8자 이상이여야 합니다.\n\n";
+        alert("비밀번호는 8자 이상이여야 합니다.");
+        return false;
+    }
+
+    // 비밀번호 확인 필드 유효성 검사
+    if (confirmPasswordInput.value.trim() === "") {
+        // errorMessage += "비밀번호 확인을 입력하세요.\n\n";
+        alert("비밀번호 확인을 입력하세요.");
+        return false;
+    }
+
+    // 비밀번호 일치 여부 확인
+    if (passwordInput.value.trim() !== confirmPasswordInput.value.trim()) {
+        // errorMessage += "비밀번호가 일치하지 않습니다.\n\n";
+        alert("비밀번호가 일치하지 않습니다.");
+        return false;
+    }
+
+    // 전화번호 유효성 검사
+    if (phoneNumInput.value.trim() === "") {
+        // errorMessage += "비밀번호 확인을 입력하세요.\n\n";
+        alert("전화번호를 입력하세요.");
+        return false;
+    }
+    // let ownerInput = document.querySelector('input[name="storeOwner"]')
+    if (userNameInput.value.trim() === "") {
+        alert("이름을 입력하세요.");
+        return false;
+    }
+
+    // 유효성 검사 통과 시 회원가입 폼 제출
+    event.target.submit();
+});
+
+$(document).ready(function(){
+    // id속성값이 userId인 input태그에 change이벤트 등록
+    $("#userId").change(function(){
+        // 사용자가 작성한 값(username)이 DB에 존재하는지 확인
+        let userId = $(this).val(); // 사용자가 작성한 값 꺼내기
+        console.log("userId : " + userId);
+        $.ajax({
+            type: "post",
+            url: "/ajaxUsernameAvail",
+            data: {userId: userId},
+            success: function(result){
+                console.log("성공!");
+                console.log(result);
+                // availResult input태그에 결과 메세지 띄우기
+                $("#availResult").val(result);
+            },
+            error: function(e) {
+                console.log("실패...");
+                console.log(e);
+            }
+        });
+    });
+});
 </script>
 </body>
 </html>

@@ -3,6 +3,8 @@ package com.jpa.user1984.service;
 import com.jpa.user1984.dto.MemberDTO;
 import com.jpa.user1984.dto.MemberForm;
 import com.jpa.user1984.domain.Member;
+import com.jpa.user1984.repository.MemberCustomRepository;
+import com.jpa.user1984.repository.MemberCustomRepositoryImpl;
 import com.jpa.user1984.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,7 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final MemberCustomRepositoryImpl memberCustomRepository;
     private final PasswordEncoder PasswordEncoder;
 
     // 회원 등록
@@ -51,6 +54,16 @@ public class MemberService {
 //            return new MemberDTO(member.get());
 //        }
 //        return null;
+    }
+
+    public MemberDTO findMemberByUserId(String userId){
+        try{
+            Member member = memberCustomRepository.findByUserId(userId);
+            log.info("******* MemberService findMemberByUserId member = {}", member);
+            return new MemberDTO(member);
+        }catch (Exception e){
+            return null;
+        }
     }
 
     // 회원 정보 수정

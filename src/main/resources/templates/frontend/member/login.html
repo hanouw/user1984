@@ -6,12 +6,14 @@
     <title>login</title>
     <link rel="stylesheet" href="/css/style_reset.css" />
     <link rel="stylesheet" href="/css/style.css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.paymentBook-1.1.5.js"></script>
 </head>
 <body>
 <section class="page_wrap">
     <div class="login_form item">
         <h1 class="main_logo"></h1>
-        <form action="" th:action="@{/login}" th:object="${memberLoginDTO}" method="post">
+        <form action="" th:action="@{/login}" id="loginForm" th:object="${memberLoginDTO}" method="post">
             <div class="login_form_wrap">
                 <p>
                     책은 문화의 <br />
@@ -21,12 +23,12 @@
                 <h2>로그인</h2>
                 <div class="input_form">
                     <span>아이디</span>
-                    <input type="text" placeholder="아이디를 입력해주세요." th:field="*{userId}"/>
+                    <input type="text" placeholder="아이디를 입력해주세요." id="userId" th:field="*{userId}"/>
                     <span></span>
                 </div>
                 <div class="input_form">
                     <span>비밀번호</span>
-                    <input type="password" placeholder="비밀번호를 입력해주세요." th:field="*{userPassword}"/>
+                    <input type="password" placeholder="비밀번호를 입력해주세요." id="userPassword" th:field="*{userPassword}"/>
                     <span></span>
                 </div>
                 <div class="check_box">
@@ -34,12 +36,42 @@
                     <span>자동 로그인</span>
                 </div>
                 <button class="btn_login" type="submit">로그인</button>
-                <a href="" class="link_signup">회원가입 하러가기</a>
+                <a href="/signup" class="link_signup">회원가입 하러가기</a>
                 <span class="login_copyright">ⓒ 2024. 1984 All rights reserved.</span>
             </div>
         </form>
     </div>
     <div class="login_img item"></div>
 </section>
+<script>
+    $(document).ready(function(){
+        document.querySelector("#loginForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // 기본 제출 동작 막기
+
+            let userId = $("#userId").val();
+            let userPassword = $("#userPassword").val();
+            let pass = "pass";
+
+            $.ajax({
+                type: "GET",
+                url: "/ajaxUserStatusAvail",
+                data: {
+                    userId: userId,
+                    userPassword: userPassword
+                },
+                success: function(result) {
+                    console.log("성공");
+                    // 유효성 검사 통과 시 회원가입 폼 제출
+                    event.target.submit();
+                },
+                error: function(e) {
+                    console.log("실패");
+                    alert("잘못된 입력입니다. 다시 시도해주세요.")
+                }
+            });
+        });
+    });
+
+</script>
 </body>
 </html>

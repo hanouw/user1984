@@ -42,8 +42,22 @@ public class MyPageController {
     
     // 회원탈퇴
     @GetMapping("/withdrawal")
-    public String withdrawal(@AuthenticationPrincipal CustomMember customMember, Model model){
+    public String withdrawalForm(@AuthenticationPrincipal CustomMember customMember, Model model){
         model.addAttribute("memberInfo", customMember.getMember());
+        return "/frontend/myPage/withdrawal";
+    }
+
+    // 회원탈퇴 처리
+    @PostMapping("/withdrawal")
+    public String withdrawalPro(@AuthenticationPrincipal CustomMember customMember, @RequestParam("password") String password, Model model){
+        MemberDTO memberDTO = customMember.getMember();
+        MemberDTO dbMemberDTO = memberService.findMemberById(memberDTO.getUserNo());
+        if(memberPasswordEncoder.matches(password, dbMemberDTO.getUserPassword())){
+            memberDTO.setUserStatus(MemberStatus.QUIT);
+            memberService.modifyMember(memberDTO);
+            return "redirect:/logout";
+        }
+        model.addAttribute("wrongPassword", true);
         return "/frontend/myPage/withdrawal";
     }
     
@@ -77,17 +91,21 @@ public class MyPageController {
     // 회원정보 수정처리
     @PostMapping("/modify")
     public String modifyPro(@AuthenticationPrincipal CustomMember customMember, MemberDTO memberDTO){
-        log.info("******* getUserName = {}", memberDTO.getUserName());
-        log.info("******* getUserName = {}", memberDTO.getUserId());
         memberDTO.setUserNo(customMember.getMember().getUserNo());
+        memberDTO.setUserId(customMember.getMember().getUserId());
         memberDTO.setUserStatus(MemberStatus.USER);
-        log.info("******* getUserName = {}", memberDTO.getUserNo());
-        log.info("******* getUserName = {}", memberDTO.getUserEmail());
+        log.info("******* MyPageController /myPage/modify UserName = {}", memberDTO.getUserName());
+        log.info("******* customMember No = {}", customMember.getMember().getUserNo());
         memberService.modifyMember(memberDTO);
         return "redirect:/myPage/info";
     }
 
     // 나의 책장 조회
+    @GetMapping("/bookshelf")
+    public String bookShelfForm(){
+
+        return "frontend/myPage/bookshelf";
+    }
 
     // 나의 서점 조회
 

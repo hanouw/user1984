@@ -1033,3 +1033,26 @@ div.my_page_wrap_one > select{
 .my_page_title > hr{
     border: 1px solid var(--black);
 }
+
+/* 로그아웃 버튼 */
+.btn_login{
+    width:calc(100% - 80px);
+    height: 52px;
+    margin-top: 40px;
+    margin-left: 40px;
+    background-color: var(--mainblack);
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    border: 3px solid #fff;
+    border-radius: 4px;
+    display: block;
+    transition: 0.3s;
+    cursor: pointer;
+    color: var(--mainwhite);
+}
+.btn_login:hover{
+    background-color: var(--pointcolor);
+    border: 3px solid var(--pointcolor);
+    color:var(--mainblack);
+}
