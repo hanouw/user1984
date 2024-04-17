@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.net.MalformedURLException;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -48,14 +49,19 @@ public class HomeController {
         return "frontend/home/about";
     }
     //독립서점
-    @GetMapping("/storelist")
-    public String storeListController(){
-        return "frontend/home/storelist";
+    @GetMapping("/storeList")
+    public String storeListController(Model model){
+        List<StoreDTO> storeList = storeService.findAll();
+        model.addAttribute("storeList", storeList);
+        System.out.println("storeList = " + storeList);
+
+        return "frontend/home/storeList";
     }
+
     //도서목록
-    @GetMapping("/booklist")
+    @GetMapping("/bookList")
     public String bookListController(){
-        return "frontend/home/booklist";
+        return "frontend/home/bookList";
     }
 
     // 메뉴 리스트 //

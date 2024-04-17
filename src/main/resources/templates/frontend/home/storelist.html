@@ -1,115 +1,49 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{frontend/layouts/base :: base(~{this::content})}">
-    <th:block th:fragment="content">
-        <!-- PAGE -->
-        <section class="section_wrap sec_01">
-            <div class="st_search_bar">
-                <div class="search_bar_body">
-                    <div>
-                        <button class="blackfl_btn">전체</button>
-                        <button class="blackLine_btn">서울</button>
-                        <button class="blackLine_btn">경기</button>
-                        <button class="blackLine_btn">인천</button>
-                    </div>
-                    <div class="top_search_area">
-                        <input type="text" placeholder="검색어를 입력해주세요." />
-                        <button class="blackfl_btn">검색</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="section_wrap">
-            <div class="section_wrap_pagebody list_body">
-                <div class="sec_h_wrap">
-                    <h2>1984와 함께하는 독립서점을 만나보세요.</h2>
-                </div>
-                <div class="store_list_wrap">
-                    <ul class="flex_start flex_wrap">
-                        <li>
-                            <div class="store_img_wrap" style="background-image: url('https://media.timeout.com/images/102189033/1372/772/image.webp')"></div>
-                            <p>코뿔소책방</p>
-                            <span>
-                                <span>서울시 마포구 성지1길 30 지하1층</span>
-                            </span>
-                        </li>
-                        <li>
-                            <div class="store_img_wrap" style="background-image: url('https://media.timeout.com/images/102189033/1372/772/image.webp')"></div>
-                            <p>코뿔소책방</p>
-                            <span>
-                                <span>서울시 마포구 성지1길 30 지하1층</span>
-                            </span>
-                        </li>
-                        <li>
-                            <div class="store_img_wrap" style="background-image: url('https://media.timeout.com/images/102189033/1372/772/image.webp')"></div>
-                            <p>코뿔소책방</p>
-                            <span>
-                                <span>서울시 마포구 성지1길 30 지하1층</span>
-                            </span>
-                        </li>
-                        <li>
-                            <div class="store_img_wrap" style="background-image: url('https://media.timeout.com/images/102189033/1372/772/image.webp')"></div>
-                            <p>코뿔소책방</p>
-                            <span>
-                                <span>서울시 마포구 성지1길 30 지하1층</span>
-                            </span>
-                        </li>
-                        <li>
-                            <div class="store_img_wrap" style="background-image: url('https://media.timeout.com/images/102189033/1372/772/image.webp')"></div>
-                            <p>코뿔소책방</p>
-                            <span>
-                                <span>서울시 마포구 성지1길 30 지하1층</span>
-                            </span>
-                        </li>
-                        <li>
-                            <div class="store_img_wrap" style="background-image: url('https://media.timeout.com/images/102189033/1372/772/image.webp')"></div>
-                            <p>코뿔소책방</p>
-                            <span>
-                                <span>서울시 마포구 성지1길 30 지하1층</span>
-                            </span>
-                        </li>
-                        <li>
-                            <div class="store_img_wrap" style="background-image: url('https://media.timeout.com/images/102189033/1372/772/image.webp')"></div>
-                            <p>코뿔소책방</p>
-                            <span>
-                                <span>서울시 마포구 성지1길 30 지하1층</span>
-                            </span>
-                        </li>
-                        <li>
-                            <div class="store_img_wrap" style="background-image: url('https://media.timeout.com/images/102189033/1372/772/image.webp')"></div>
-                            <p>코뿔소책방</p>
-                            <span>
-                                <span>서울시 마포구 성지1길 30 지하1층</span>
-                            </span>
-                        </li>
-                        <li>
-                            <div class="store_img_wrap" style="background-image: url('https://media.timeout.com/images/102189033/1372/772/image.webp')"></div>
-                            <p>코뿔소책방</p>
-                            <span>
-                                <span>서울시 마포구 성지1길 30 지하1층</span>
-                            </span>
-                        </li>
-                        <li>
-                            <div class="store_img_wrap" style="background-image: url('https://media.timeout.com/images/102189033/1372/772/image.webp')"></div>
-                            <p>코뿔소책방</p>
-                            <span>
-                                <span>서울시 마포구 성지1길 30 지하1층</span>
-                            </span>
-                        </li>
-                        <li>
-                            <div class="store_img_wrap" style="background-image: url('https://media.timeout.com/images/102189033/1372/772/image.webp')"></div>
-                            <p>코뿔소책방</p>
-                            <span>
-                                <span>서울시 마포구 성지1길 30 지하1층</span>
-                            </span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </section>
+  <th:block th:fragment="content">
+    <!-- PAGE -->
+    <section class="section_wrap sec_01">
+      <div class="st_search_bar">
+        <div class="search_bar_body">
+          <div>
+            <button class="blackfl_btn">전체</button>
+            <button class="blackLine_btn">서울</button>
+            <button class="blackLine_btn">경기</button>
+            <button class="blackLine_btn">인천</button>
+          </div>
+          <div class="top_search_area">
+            <input type="text" placeholder="검색어를 입력해주세요."/>
+            <button class="blackfl_btn">검색</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section_wrap">
+      <div class="section_wrap_pagebody list_body">
+        <div class="sec_h_wrap">
+          <h2>1984와 함께하는 독립서점을 만나보세요.</h2>
+        </div>
+        <div class="store_list_wrap">
+          <ul class="flex_start flex_wrap">
 
-        <!-- PAGE -->
-    </th:block>
+            <li th:each="store : ${storeList}">
+              <div th:onclick="|location.href='@{/store/{storeId}(storeId=${store.storeId})}'|">
+                <img th:src="|/images/${store.getStoreImageStored()}|" alt="" class="store_img_wrap">
+              </div>
+                <p th:text="${store.storeTitle}" ></p>
+              <span>
+                <span th:text="${store.storeAddress}"></span>
+              </span>
+
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE -->
+  </th:block>
 </th:block>
 <script></script>
 </html>
