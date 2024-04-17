@@ -54,11 +54,11 @@ public class HomeController {
         return "frontend/home/storelist";
     }
     //도서목록
-    @GetMapping("/booklist")
+    @GetMapping("/bookList")
     public String bookListController(Model model){
         List<BookDTO> allBookList = bookService.findAll();
         model.addAttribute("allBookList", allBookList);
-        return "frontend/home/booklist";
+        return "frontend/home/bookList";
     }
 
     // 메뉴 리스트 //

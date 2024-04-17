@@ -25,7 +25,7 @@
                 </div>
                 <div class="item_list_wrap">
                     <ul class="flex_start flex_wrap">
-                        <li th:each="book : ${allBookList}">
+                        <li th:each="book : ${allbookList}">
                             <div th:onclick="|location.href='@{/book/{bookId}(bookId=${book.bookId})}'|" class="item_img_wrap">
                                 <img th:src="|/images/${book.bookImgStored}|" alt="">
                             </div>
