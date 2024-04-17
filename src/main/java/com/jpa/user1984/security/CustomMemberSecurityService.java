@@ -25,7 +25,6 @@ public class CustomMemberSecurityService implements UserDetailsService {
             throw new UsernameNotFoundException("해당 유저가 없습니다.");
         }
         CustomMember customMember = new CustomMember(member);
-        log.info("******* customCms Authorities = {}",customMember.getAuthorities());
         return customMember;
     }
 

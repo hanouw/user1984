@@ -44,7 +44,6 @@ public class MemberService {
     // No로 회원 하나 데이터 찾기
     public MemberDTO findMemberById(Long userNo){
         Optional<Member> member = memberRepository.findById(userNo);
-        log.info("******* MemberService / findMemberById = {}", member.orElse(null).getUserStatus().getValue());
         return member.map(MemberDTO::new).orElse(null);
 //        위 방법이 더 쉽고 깔끔, 그걸 풀면 아래코드와 동일함
 //        if(member.isPresent()){

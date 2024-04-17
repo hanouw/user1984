@@ -20,7 +20,6 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository{
         Member member = em.createQuery("select m from Member m where m.userId = :userId", Member.class) // 마지막에 , 뒷부분 = 이름.타입) 형태로
                 .setParameter("userId", userId)
                 .getSingleResult();
-        log.info("******* MemberCustomRepository : member = {}", member);
         return member;
     }
 

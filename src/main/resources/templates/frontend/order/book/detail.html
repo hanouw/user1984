@@ -1,10 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{frontend/layouts/baseSidemenu :: baseSidemenu(~{this::content})}">
+  <th:block th:fragment="content">
 
-</body>
+    <!-- 내용 -->
+    <div class="my_page_h_wrap">
+      <h2>주문 상세 내역</h2>
+        <div class="my_page_h_text_wrap">
+          <span class="my_page_h_text">주문번호</span>
+          <span th:text="${fistDTO.orderBookId}">2024040300000</span>
+          <span>주문일자</span>
+          <span th:text="${fistDTO.createDate}">2024-04-03</span>
+        </div>
+    </div>
+    <table class="mycart_table">
+      <tr class="myTable_th_body">
+        <th>도서명(저자/출판사)</th>
+        <th>ISBN</th>
+        <th>서점명</th>
+        <th>주문금액</th>
+        <th>리뷰</th>
+      </tr>
+
+      <!-- 반복되는 구간 -->
+      <tr class="myTable_td_body" th:each="list : ${orderList}">
+        <td class="flex_start">
+          <div class="cart_img_body_2">
+            <img th:src="|/images/${list.bookImgStored}|" alt="" />
+          </div>
+          <div class="cart_img_table">
+            <a th:text="*{list.bookTitle}" th:href="@{/book/{bookId}(bookId=${list.bookId})}">호랑나비</a><br>
+            <span><span th:text="*{list.bookWriter}">김흥국</span> / <span th:text="*{list.bookPub}">호랑수월출판사</span></span>
+          </div>
+        </td>
+        <td th:text="*{list.isbn}"></td>
+        <td th:text="*{list.storeTitle}"> </td>
+        <td th:text="*{list.bookEbookPrice}"> </td>
+        <td>
+          <button class="greyLine_btn deleteButton" th:data-bookId="${list.bookId}">리뷰작성</button>
+        </td>
+      </tr>
+    </table>
+    <div class="my_page_h_wrap">
+      <h2>최종 결제 정보</h2>
+    </div>
+    <div class="my_page_wrap" th:object="${fistDTO}">
+      <div class="my_page_wrap_one">
+        <p>결제방법</p>
+        <input type="text" th:field="*{orderBookMethod}" disabled>
+      </div>
+      <div class="my_page_wrap_one">
+        <p>최종 결제 금액</p>
+        <input type="text" th:field="*{totalAmount}" disabled>
+      </div>
+    </div>
+    <div class="my_page_wrap_button">
+      <button class="grey_btn" type="button" >삭제</button>
+      <button class="black_btn" type="button" th:onclick="|history.go(-1)|">확인</button>
+    </div>
+
+  </th:block>
+</th:block>
+<script th:inline="javascript">
+
+</script>
 </html>

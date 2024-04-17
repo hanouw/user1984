@@ -40,6 +40,19 @@ public class MyPageService {
         return paymentBookHistoryRepository.countBookListByUserNo(userNo, pageRequestDTO);
     }
 
+    // 도서주문내역 상세페이지 조회
+    public List<PaymentBookHistoryDTO> findBooksByOrderBookId(Long orderBookId) {
+        List<PaymentBookHistory> historyEntityList = paymentBookHistoryRepository.findByOrderBookId(orderBookId);
+        List<PaymentBookHistoryDTO> list = new ArrayList<>();
+        for (PaymentBookHistory orderList : historyEntityList) {
+            PaymentBookHistoryDTO paymentBookHistoryDTO = new PaymentBookHistoryDTO(orderList);
+            list.add(paymentBookHistoryDTO);
+        }
+        return list;
+    }
+
+    // 구독내역 상세페이지 조회
+
     // 구독내역 조회
     public List<PaymentMemDTO> findMembershipList(Long userNo, PageRequestDTO pageRequestDTO) {
         List<PaymentMem> membershipEntityList = paymentMemRepository.findMembershipListByUserNo(userNo, pageRequestDTO);

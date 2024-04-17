@@ -25,12 +25,12 @@
                     <input type="hidden" th:value="${list.bookId}">
                 </td>
                 <td class="flex_start">
-                    <div class="cart_img_body">
+                    <div class="cart_img_body" th:onclick="|location.href='@{/book/{bookId}(bookId=${list.bookId})}'|">
                         <img th:src="|/images/${list.bookImg}|" alt="" />
-<!--                        TODO 이미지 사이즈 조절 css-->
+<!--                        TODO 이미지 사이즈 조절-->
                     </div>
                     <div class="cart_img_table">
-                        <p th:text="*{list.bookTitle}">호랑나비</p>
+                        <a th:text="*{list.bookTitle}" th:href="@{/book/{bookId}(bookId=${list.bookId})}">호랑나비</a><br>
                         <span><span th:text="*{list.bookWriter}">김흥국</span> / <span th:text="*{list.bookPub}">호랑수월출판사</span></span>
                     </div>
                 </td>
@@ -111,7 +111,7 @@
         </div>
         </div>
 
-        <div id="user" th:data-email="${user.userEmail}" th:data-name="${user.userName}" th:data-tel="${user.userPhoneNum}"></div>
+        <input type="hidden" id="user" th:data-email="${user.userEmail}" th:data-name="${user.userName}" th:data-tel="${user.userPhoneNum}"/>
         <input type="hidden" id="cartListSize" th:value="${#lists.size(cartList)}" />
     </th:block>
 </th:block>
@@ -161,8 +161,8 @@ $(document).ready(function () {
         $("#amount").text(totalAmount);
     }
     // ********************* 장바구니 삭제
-    let bookId = $(this).attr("data-bookId");
     $(".deleteButton").on("click", function () {
+    let bookId = $(this).attr("data-bookId");
         $.ajax({
             type: "delete",
             url: "/cart/delete/" + bookId,
@@ -186,11 +186,11 @@ $(document).ready(function () {
         console.log("IMP 실행");
         let merchantUid = createMerchantUid();
         let selectedBooks = [];
+        totalAmount = $("#amount").val();
         $('.selectedBookCheckbox:checked').each(function () {
             let bookId = $(this).siblings('input[type=hidden]').val();
             selectedBooks.push(bookId);
         });
-        let totalAmount = $("#amount").text();
         let name = selectedBooks[0] + ' 외 ' + (selectedBooks.length - 1);
         console.log(name);
         let data = {

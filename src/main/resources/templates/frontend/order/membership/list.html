@@ -5,7 +5,7 @@
 
     <!-- 내용 -->
     <div class="my_page_h_wrap">
-      <span><a th:href="@{/myPage/bookOrderList}">도서주문</a><a th:href="@{/myPage/membershipOrderList}">구독주문</a></span>
+        <span><span><a class="smaller" th:href="@{/myPage/bookOrderList}">도서주문</a></span> <span><a th:href="@{/myPage/membershipOrderList}">구독주문</a></span></span>
     </div>
     <div class="mycart_table_wrap">
 
@@ -101,11 +101,11 @@
       html += '<table class="mycart_table">';
       html += '<tr class="myTable_th_body"><th>서점명</th><th>구매일자</th><th>주문번호</th><th>주문금액</th><th>종료일</th> </tr>';
       $.each(response.paymentMemDTO, function(index, list) {
-        html += '<td class="flex_start"><div class="cart_img_body"><img src="/images/' + list.storeImgStored + '" alt="" /></div>';
+        html += '<tr class="myTable_td_body"><td class="flex_start"><div class="cart_img_body_2"><img src="/images/' + list.storeImgStored + '" alt="" /></div>';
         html += '<div class="cart_img_table"><p>' + list.storeTitle + '</p><span>'+list.storeAddress+'</span></div></td>';
-        html += '<td>' + displayTime(list.membershipStartDate) + '</td>';
-        html += '<td>' + list.orderMembershipId + '</td>';
-        html += '<td>10,000웜</td>';
+        html += '<td>' + list.membershipStartDate + '</td>';
+        html += '<td><a href="/myPage/membershipOrderDetail/' + list.orderMembershipId + '">'+ list.orderMembershipId +'</a></td>';
+        html += '<td>10,000원</td>';
         html += '<td>' + displayTime(list.membershipEndDate) + '</td></tr>';
       });
       html += '</table>';
@@ -175,13 +175,6 @@
         }
       });
     });
-
-    function displayTime(timeVal) {
-      let time = timeVal;
-      return time.split('T')[0];
-    }
-
-
   });
 
 </script>
