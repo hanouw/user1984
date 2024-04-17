@@ -94,12 +94,10 @@ public class MyPageController {
         if (pageRequestDTO.getDateOrder() == null || pageRequestDTO.getDateOrder().equals("desc")) {
             pageRequestDTO.setDateOrder("desc");
         }
-        Long garaId = 1L;
-        List<PaymentBookHistoryDTO> orderList = myPageService.findHistoryList(garaId, pageRequestDTO);
+        Long userNo = customMember.getMember().getUserNo();
+        List<PaymentBookHistoryDTO> orderList = myPageService.findHistoryList(userNo, pageRequestDTO);
         model.addAttribute("orderList", orderList);
-        Long count = myPageService.countHistoryList(garaId, pageRequestDTO);
-//        List<PaymentBookResponseDTO> orderList = myPageService.findHistoryList(customMember.getMember().getUserNo(), pageRequestDTO);
-//        Long count = myPageService.countHistoryList(customMember.getMember().getUserNo(), pageRequestDTO);
+        Long count = myPageService.countHistoryList(userNo, pageRequestDTO);
         BookPageResponseDTO bookPageResponseDTO = new BookPageResponseDTO(pageRequestDTO, count, orderList);
         model.addAttribute("bookPageResponseDTO", bookPageResponseDTO);
         log.info("----myPageService orderListAjax bookPageResponseDTO : {}", bookPageResponseDTO);
@@ -121,14 +119,9 @@ public class MyPageController {
             pageRequestDTO.setSearchType(null);
             log.info("***************** CmsController orderListAjax bookPageResponseDTO : {}", pageRequestDTO);
         }
-        if (pageRequestDTO.getDateOrder() == null || pageRequestDTO.getDateOrder().equals("desc")) {
-            pageRequestDTO.setDateOrder("desc");
-        }
-        Long garaId = 1L;
-        List<PaymentBookHistoryDTO> orderList = myPageService.findHistoryList(garaId, pageRequestDTO);
-        Long count = myPageService.countHistoryList(garaId, pageRequestDTO);
-//        List<PaymentBookResponseDTO> orderList = myPageService.findHistoryList(customMember.getMember().getUserNo(), pageRequestDTO);
-//        Long count = myPageService.countHistoryList(customMember.getMember().getUserNo(), pageRequestDTO);
+        Long userNo = customMember.getMember().getUserNo();
+        List<PaymentBookHistoryDTO> orderList = myPageService.findHistoryList(userNo, pageRequestDTO);
+        Long count = myPageService.countHistoryList(userNo, pageRequestDTO);
         BookPageResponseDTO bookPageResponseDTO = new BookPageResponseDTO(pageRequestDTO, count, orderList);
         log.info("----myPageService orderListAjax bookPageResponseDTO : {}", bookPageResponseDTO);
         return new ResponseEntity<>(bookPageResponseDTO, HttpStatus.OK);
@@ -151,14 +144,14 @@ public class MyPageController {
 
     // 서점 구독내역 조회
     @GetMapping("/membershipOrderList")
-    public String membershipOrderList(PageRequestDTO pageRequestDTO, Model model) {
+    public String membershipOrderList(@AuthenticationPrincipal CustomMember customMember,PageRequestDTO pageRequestDTO, Model model) {
         if (pageRequestDTO.getDateOrder() == null || pageRequestDTO.getDateOrder().equals("desc")) {
             pageRequestDTO.setDateOrder("desc");
         }
-        Long garaId = 1L;
-        List<PaymentMemDTO> membershipList = myPageService.findMembershipList(garaId, pageRequestDTO);
+        Long userNo = customMember.getMember().getUserNo();
+        List<PaymentMemDTO> membershipList = myPageService.findMembershipList(userNo, pageRequestDTO);
         model.addAttribute("membershipList", membershipList);
-        Long count = myPageService.countMembershipList(garaId, pageRequestDTO);
+        Long count = myPageService.countMembershipList(userNo, pageRequestDTO);
         MemPageResponseDTO memPageResponseDTO = new MemPageResponseDTO(pageRequestDTO, count, membershipList);
         model.addAttribute("memPageResponseDTO", memPageResponseDTO);
         return "frontend/order/membership/list";
@@ -166,7 +159,7 @@ public class MyPageController {
 
     // ajax 서점 구독내역 조회
     @GetMapping("/membershipOrderList/ajax")
-    public ResponseEntity<MemPageResponseDTO> membershipOrderListAjax(PageRequestDTO pageRequestDTO) {
+    public ResponseEntity<MemPageResponseDTO> membershipOrderListAjax(@AuthenticationPrincipal CustomMember customMember, PageRequestDTO pageRequestDTO) {
         if (pageRequestDTO.getDateOrder() == null || pageRequestDTO.getDateOrder().equals("desc")) {
             pageRequestDTO.setDateOrder("desc");
         }
@@ -179,9 +172,9 @@ public class MyPageController {
         if (pageRequestDTO.getDateOrder() == null || pageRequestDTO.getDateOrder().equals("desc")) {
             pageRequestDTO.setDateOrder("desc");
         }
-        Long garaId = 1L;
-        List<PaymentMemDTO> membershipList = myPageService.findMembershipList(garaId, pageRequestDTO);
-        Long count = myPageService.countMembershipList(garaId, pageRequestDTO);
+        Long userNo = customMember.getMember().getUserNo();
+        List<PaymentMemDTO> membershipList = myPageService.findMembershipList(userNo, pageRequestDTO);
+        Long count = myPageService.countMembershipList(userNo, pageRequestDTO);
         MemPageResponseDTO memPageResponseDTO = new MemPageResponseDTO(pageRequestDTO, count, membershipList);
         return new ResponseEntity<>(memPageResponseDTO, HttpStatus.OK);
     }

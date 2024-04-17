@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 // 주문 목록이나 주문 상세 정보 화면에 뿌려줄때 사용할 DTO
 @Data
@@ -16,8 +15,8 @@ public class PaymentMemDTO {
     private Long orderMembershipNo; // auto_increment
     private Long orderMembershipId; // 2024041200000
     private String orderMembershipMethod;
-    private String membershipStartDate;
-    private String membershipEndDate;
+    private LocalDateTime membershipStartDate;
+    private LocalDateTime membershipEndDate;
 
     private String userId;
     private String userName;
@@ -34,8 +33,9 @@ public class PaymentMemDTO {
         this.orderMembershipNo = paymentMem.getOrderMembershipNo();
         this.orderMembershipId = paymentMem.getOrderMembershipId();
         this.orderMembershipMethod = paymentMem.getOrderMembershipMethod();
-        this.membershipStartDate = displayTime(paymentMem.getMembershipStartDate());
-        this.membershipEndDate = displayTime(paymentMem.getMembershipEndDate());
+        this.membershipStartDate = paymentMem.getMembershipStartDate();
+        this.membershipEndDate = paymentMem.getMembershipEndDate();
+        this.price = paymentMem.getPrice();
 
         this.userId = paymentMem.getMember().getUserId();
         this.userName = paymentMem.getMember().getUserName();

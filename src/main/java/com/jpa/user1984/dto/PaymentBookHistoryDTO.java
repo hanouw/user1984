@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 // 주문 목록이나 주문 상세 정보 화면에 뿌려줄때 사용할 DTO
 @Data
@@ -18,14 +17,14 @@ public class PaymentBookHistoryDTO {
     private Long orderBookId; // 2024040300000
     private PaymentBookStatus paymentBookStatus;
     private String orderBookMethod;
-    private String createDate;
+    private LocalDateTime createDate;
+    private String price;
     private String totalAmount;
 
     private String userId;
     private String userName;
 
     private Long bookId;
-    private String isbn;
     private String bookTitle;
     private String storeTitle;
     private String bookPub;
@@ -41,25 +40,19 @@ public class PaymentBookHistoryDTO {
         this.orderBookId = paymentBookHistory.getPaymentBook().getOrderBookId();
         this.paymentBookStatus = paymentBookHistory.getPaymentBook().getPaymentBookStatus();
         this.orderBookMethod = paymentBookHistory.getPaymentBook().getOrderBookMethod();
-        this.createDate = displayTime(paymentBookHistory.getPaymentBook().getCreateDate());
+        this.createDate = paymentBookHistory.getPaymentBook().getCreateDate();
+        this.price = paymentBookHistory.getPrice();
         this.totalAmount = paymentBookHistory.getPaymentBook().getTotalAmount();
 
         this.userName = paymentBookHistory.getPaymentBook().getMember().getUserName();
         this.userId = paymentBookHistory.getPaymentBook().getMember().getUserId();
 
         this.bookId = paymentBookHistory.getBook().getBookId();
-        this.isbn = paymentBookHistory.getBook().getIsbn();
         this.bookTitle = paymentBookHistory.getBook().getBookTitle();
         this.storeTitle = paymentBookHistory.getBook().getStore().getStoreTitle();
         this.bookPub = paymentBookHistory.getBook().getBookPub();
         this.bookEbookPrice = paymentBookHistory.getBook().getBookEbookPrice();
         this.bookWriter = paymentBookHistory.getBook().getBookWriter();
         this.bookImgStored = paymentBookHistory.getBook().getBookImgStored();
-    }
-
-    public String displayTime(LocalDateTime createDate) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String formattedDate = createDate.format(formatter);
-        return formattedDate;
     }
 }

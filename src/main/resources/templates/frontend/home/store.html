@@ -11,7 +11,7 @@
                 </div>
                 <div class="st_sec_01_text">
                     <div class="st_title_wrap">
-                        <p class="st_title" th:text="${store.storeTitle}">코뿔소서점</p>
+                        <p class="st_title" th:text="${store.storeTitle}" id="storeTitle">코뿔소서점</p>
                         <a href="" class="st_ca_btn" th:text="${store.getStoreAddress()}">서울</a>
                     </div>
                     <div class="st_iftext_wrap line_bt_gr">
@@ -53,7 +53,7 @@
                         <div>
                             <span class="st_storetext03_span">구독권 판매가</span>
                             <div>
-                                <span class="st_pay_text"> 12,000 </span>
+                                <span class="st_pay_text" id="price"> 12,000 </span>
                                 <span>원</span>
                             </div>
                         </div>
@@ -224,15 +224,18 @@
         let userName = $("#user").attr("data-name");
         let userTel = $("#user").attr("data-tel");
         let storeId = $("#subscribeButton").attr("data-storeId");
-        let storeTitle = $(".book_title").text();
+        let storeTitle = $("#storeTitle").text();
         let name = storeTitle + " 구독";
+        let price = $("#price").text();
+        let amount = parseInt($("#price").text().replace(',', ''), 10);
         $("#subscribeButton").on("click", function () {
             console.log("IMP 실행");
             let merchantUid = createMerchantUid();
             let data = {
                 orderMembershipId: merchantUid,
                 orderMembershipMethod: "card",
-                storeId: storeId
+                storeId: storeId,
+                price: price
             };
             console.log("data: ", data);
             IMP.request_pay(
@@ -241,7 +244,7 @@
                     pay_method: "card",
                     merchant_uid: merchantUid,
                     name: name,
-                    amount: 10000,
+                    amount: amount,
                     buyer_email: userEmail,
                     buyer_name: userName,
                     buyer_tel: userTel,

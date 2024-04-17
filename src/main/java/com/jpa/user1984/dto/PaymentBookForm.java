@@ -20,15 +20,4 @@ public class PaymentBookForm {
     // private LocalDateTime createDate;
     private List<String> selectedBooks;
     private String totalAmount;
-
-
-
-
-//    // DTO -> Entity
-//    public Payment toEntity() {
-//        Payment payment = new Payment();
-//        payment.setOrderBookId(orderBookId);
-//        payment.setOrderBookMethod(orderBookMethod);
-//        return payment;
-//    }
 }

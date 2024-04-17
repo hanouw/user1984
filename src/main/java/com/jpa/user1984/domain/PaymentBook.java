@@ -30,6 +30,9 @@ public class PaymentBook extends TimeEntity{
     @Column(nullable = false)
     private String totalAmount;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "orderBookHistoryId")
+    private List<PaymentBookHistory> orderBookHistories = new ArrayList<>();
+
 //    @OneToMany(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "order_book_history_id")
 //    private List<PaymentBookHistory> orderBookHistories;
