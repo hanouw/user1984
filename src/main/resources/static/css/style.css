@@ -289,3 +289,20 @@ button.black_btn:hover{
     border: 1px solid var(--black);
     color: var(--pointcolor);
 }
+
+/* 회원가입 및 로그인 글자색*/
+a.link_signup, a.link_login, span.login_copyright, span.signup_copyright{
+    color: var(--mainwhite)
+}
+
+/* 회원가입 사용 가능 여부 */
+.input_form > input.avail { /* 관리자 아이디 사용가능여부 */
+    border: 0;
+    width: 100%;
+    height: 16px;
+    background: transparent;
+    font-family: inherit;
+    font-size: 12px;
+    outline: none;
+    color: var(--mainwhite);
+}

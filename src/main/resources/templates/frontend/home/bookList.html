@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{frontend/layouts/base :: base(~{this::content})}">
+    <th:block th:fragment="content">
+        <!-- PAGE -->
+        <section class="section_wrap sec_01">
+            <div class="st_search_bar">
+                <div class="search_bar_body">
+                    <div>
+                        <button class="blackfl_btn">전체</button>
+                        <button class="blackLine_btn">국내도서</button>
+                        <button class="blackLine_btn">인문</button>
+                    </div>
+                    <div class="top_search_area">
+                        <input type="text" placeholder="검색어를 입력해주세요." />
+                        <button class="blackfl_btn">검색</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section_wrap">
+            <div class="section_wrap_pagebody list_body">
+                <div class="sec_h_wrap">
+                    <h2>1984에서만 확인가능한 도서목록을 확인해보세요.</h2>
+                </div>
+                <div class="item_list_wrap">
+                    <ul class="flex_start flex_wrap">
+                        <li th:each="book : ${allbookList}">
+                            <div th:onclick="|location.href='@{/book/{bookId}(bookId=${book.bookId})}'|" class="item_img_wrap">
+                                <img th:src="|/images/${book.bookImgStored}|" alt="">
+                            </div>
+                            <p th:text="${book.bookTitle}"></p>
+                            <span>
+                                <span th:text="${book.bookWriter}"></span>
+                                <span th:text="${book.bookPub}"></span>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <!-- PAGE -->
+    </th:block>
+</th:block>
+<script></script>
+</html>

@@ -1,10 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>withdrawal</title>
-</head>
-<body>
-
-</body>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<th:block th:replace="~{frontend/layouts/baseSidemenu :: baseSidemenu(~{this::content})}">
+    <th:block th:fragment="content">
+        <div class="search_bar_wrap">
+            <div class="my_page_title">
+                <p>회원 탈퇴</p>
+                <hr />
+                <div th:if="not ${wrongPassword}">
+                    <h2>정말로 탈퇴하시겠습니까? 탈퇴하실 경우 동일한 아이디 혹은 이메일은 사용하실 수 없습니다.</h2>
+                </div>
+                <div th:if="${wrongPassword}">
+                    <h2>잘못된 비밀번호입니다. 다시 입력해주세요</h2>
+                </div>
+            </div>
+            <form method="post" action="/myPage/withdrawal">
+                <div class="my_page_wrap">
+                    <div class="my_page_wrap_one">
+                        <p>아이디</p>
+                        <span sec:authentication="principal.username"></span>
+                    </div>
+                    <div class="my_page_wrap_one">
+                        <p>비밀번호</p>
+                        <input type="password" name="password">
+                    </div>
+                </div>
+                <div class="my_page_wrap_button">
+                    <button class="grey_btn" type="button" th:onclick="|location.href='@{/myPage/info}'|">취소</button>
+                    <button class="black_btn" type="submit">확인</button>
+                </div>
+            </form>
+        </div>
+    </th:block>
+</th:block>
 </html>

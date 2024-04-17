@@ -39,8 +39,22 @@ public class MyPageController {
 
     // 회원탈퇴
     @GetMapping("/withdrawal")
-    public String withdrawal(@AuthenticationPrincipal CustomMember customMember, Model model){
+    public String withdrawalForm(@AuthenticationPrincipal CustomMember customMember, Model model){
         model.addAttribute("memberInfo", customMember.getMember());
+        return "/frontend/myPage/withdrawal";
+    }
+
+    // 회원탈퇴 처리
+    @PostMapping("/withdrawal")
+    public String withdrawalPro(@AuthenticationPrincipal CustomMember customMember, @RequestParam("password") String password, Model model){
+        MemberDTO memberDTO = customMember.getMember();
+        MemberDTO dbMemberDTO = memberService.findMemberById(memberDTO.getUserNo());
+        if(memberPasswordEncoder.matches(password, dbMemberDTO.getUserPassword())){
+            memberDTO.setUserStatus(MemberStatus.QUIT);
+            memberService.modifyMember(memberDTO);
+            return "redirect:/logout";
+        }
+        model.addAttribute("wrongPassword", true);
         return "/frontend/myPage/withdrawal";
     }
 
@@ -70,21 +84,25 @@ public class MyPageController {
         model.addAttribute("memberInfo", customMember.getMember());
         return "/frontend/myPage/modify";
     }
-
+    
     // 회원정보 수정처리
     @PostMapping("/modify")
     public String modifyPro(@AuthenticationPrincipal CustomMember customMember, MemberDTO memberDTO){
-        log.info("******* getUserName = {}", memberDTO.getUserName());
-        log.info("******* getUserName = {}", memberDTO.getUserId());
         memberDTO.setUserNo(customMember.getMember().getUserNo());
+        memberDTO.setUserId(customMember.getMember().getUserId());
         memberDTO.setUserStatus(MemberStatus.USER);
-        log.info("******* getUserName = {}", memberDTO.getUserNo());
-        log.info("******* getUserName = {}", memberDTO.getUserEmail());
+        log.info("******* MyPageController /myPage/modify UserName = {}", memberDTO.getUserName());
+        log.info("******* customMember No = {}", customMember.getMember().getUserNo());
         memberService.modifyMember(memberDTO);
         return "redirect:/myPage/info";
     }
 
     // 나의 책장 조회
+    @GetMapping("/bookshelf")
+    public String bookShelfForm(){
+
+        return "frontend/myPage/bookshelf";
+    }
 
     // 나의 서점 조회
 
@@ -126,6 +144,7 @@ public class MyPageController {
         log.info("----myPageService orderListAjax bookPageResponseDTO : {}", bookPageResponseDTO);
         return new ResponseEntity<>(bookPageResponseDTO, HttpStatus.OK);
     }
+
     // 도서 구매내역 상세페이지 조회
     @GetMapping("/bookOrderDetail/{orderBookId}")
     public String bookOrderDetail(@PathVariable Long orderBookId, Model model) {
@@ -136,9 +155,26 @@ public class MyPageController {
         return "frontend/order/book/detail";
     }
 
+    // 도서 구매내역 삭제
+    @DeleteMapping("/bookOrderDetail/{orderBookId}/delete")
+    public String bookOrderDelete(@PathVariable Long orderBookId) {
+        myPageService.deleteBookOrder(orderBookId);
+        return "redirect:/bookOrderList";
+    }
+
+    // 서점 구매내역 삭제
+    @DeleteMapping("/membershipOrderDetail/{orderMembershipId}/delete")
+    public String membershipOrderDelete(@PathVariable Long orderMembershipId) {
+        log.info("********* Controller membershipOrderDelete orderMembershipId : {}", orderMembershipId);
+        myPageService.deleteMembershipOrder(orderMembershipId);
+        return "redirect:/membershipOrderList";
+    }
+
     // 서점 구독내역 상세페이지 조회
     @GetMapping("/membershipOrderDetail/{orderMembershipId}")
     public String membershipOrderDetail(@PathVariable Long orderMembershipId, Model model) {
+        PaymentMemDTO findDTO = myPageService.findMembershipByOrderMembershipId(orderMembershipId);
+        model.addAttribute("detail", findDTO);
         return "frontend/order/membership/detail";
     }
 
