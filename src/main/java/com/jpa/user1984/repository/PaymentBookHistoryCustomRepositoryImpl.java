@@ -87,6 +87,14 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
     }
 
     @Override
+    public List<PaymentBookHistory> findByOrderBookId(Long orderBookId) {
+        List resultList = em.createQuery("select p from PaymentBookHistory p where p.paymentBook.orderBookId = :orderBookId")
+                .setParameter("orderBookId", orderBookId)
+                .getResultList();
+        return resultList;
+    }
+
+    @Override
     public List<PaymentBookHistory> findBookListByUserNo(Long userNo, PageRequestDTO pageRequestDTO) {
         int offset = (pageRequestDTO.getPage() - 1) * pageRequestDTO.getSize();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
