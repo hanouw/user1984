@@ -8,13 +8,45 @@
         <!-- 배너 -->
         <section class="section_wrap sec_01">
             <div class="section_wrap_body">
-                <div class="sec_01_textarea">
-                    <h3>독립서점 하이라이트</h3>
-                    <p>한눈에 보는 라이징 서점 나만 알고 싶은 독립서점을 구독해보세요.</p>
-                </div>
+<!--                <div class="sec_01_textarea">-->
+<!--                    <h3>독립서점 하이라이트</h3>-->
+<!--                    <p>한눈에 보는 라이징 서점 나만 알고 싶은 독립서점을 구독해보세요.</p>-->
+<!--                </div>-->
                 <div class="sec_01_bannerarea">
                     <ul>
-                        <li></li>
+                        <li class="active">
+                            <div class="banner_li_wrap">
+                                <div class="banner_textarea">
+                                    <h3>배너 테스트입니둥</h3>
+                                    <p>배너 테스트!설명글!</p>
+                                </div>
+                                <div class="banner_imgarea" style="background-image: url('https://img.animalplanet.co.kr/news/2019/08/26/700/114915182ls057ora0n5.jpg');">
+                                    <a href=""></a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="banner_li_wrap">
+                                <div class="banner_textarea">
+                                    <h3>배너 테스트입니다람쥐</h3>
+                                    <p>배너 테스트!설명글입니다람쥐</p>
+                                </div>
+                                    <div class="banner_imgarea" style="background-image: url('https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F216BC7505885D14B40');">
+                                        <a href=""></a>
+                                    </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="banner_li_wrap">
+                                <div class="banner_textarea">
+                                    <h3>배너 테스트입니다다다다다다다다다다다</h3>
+                                    <p>배너 테스트! 다람쥐 설명글입니 다람쥐</p>
+                                </div>
+                                    <div class="banner_imgarea" style="background-image: url('https://img.animalplanet.co.kr/news/2019/08/26/700/114915182ls057ora0n5.jpg');">
+                                        <a href=""></a>
+                                    </div>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -290,5 +322,18 @@
 
     </th:block>
 </th:block>
-<script></script>
+<script>
+    $(document).ready(function() {
+        let banners = $('.sec_01_bannerarea ul li');
+        let current = 0;
+
+        function slideShow() {
+            banners.eq(current).removeClass('active');
+            current = (current + 1) % banners.length;
+            banners.eq(current).addClass('active');
+        }
+
+        setInterval(slideShow, 3600); // Change slide every 3 seconds
+    });
+</script>
 </html>
