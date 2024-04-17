@@ -111,34 +111,58 @@ footer{
 .sec_ad_01{
     padding-top: 172px;
 }
-.sec_01_textarea{
-    width:calc(30% - 20px);
-    min-height:480px;
-}
-.sec_01_textarea > h3{
-    font-weight: 500;
-    margin-top: 160px;
-    font-size:32px;
-}
-.sec_01_textarea > p{
-    margin-top: 24px;
-    font-size:18px;
-    line-height: 24px;
-}
+
+/*메인배너*/
 .sec_01_bannerarea{
-    width:calc(70% - 20px);
+    width:100%;
     min-height:480px;
 }
 .sec_01_bannerarea > ul{
     width: 100%;
     height: 100%;
-
+    position: relative;
 }
 .sec_01_bannerarea > ul > li{
     width: 100%;
     height: 100%;
-    background-color: #dcdcdc;
+    position: absolute;
+    top:0;
+    left:0;
+    opacity:0;
+    transition:opacity 1.2s ease-in-out;
 }
+div.sec_01_bannerarea > ul > li.active{
+    opacity:1;
+}
+.banner_li_wrap{
+    width:100%;
+    display:flex;
+    justify-content: space-between;
+}
+.banner_textarea{width:calc(40% - 20px);}
+.banner_imgarea{
+    width:calc(60% - 20px);
+    background-color:#dcdcdc;
+    min-height:480px;
+    background-position:center;
+    background-repeat:no-repeat;
+    background-size:cover;
+}
+.banner_imgarea > a{
+    width:100%;
+    height:100%;
+}
+.banner_textarea > h3{
+    font-weight: 500;
+    margin-top: 160px;
+    font-size:32px;
+}
+.banner_textarea > p{
+    margin-top: 24px;
+    font-size:18px;
+    line-height: 24px;
+}
+
 .sec_back_grey{
     background-color: #fafafa;
 }
