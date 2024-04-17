@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.net.MalformedURLException;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -54,7 +55,9 @@ public class HomeController {
     }
     //도서목록
     @GetMapping("/booklist")
-    public String bookListController(){
+    public String bookListController(Model model){
+        List<BookDTO> allBookList = bookService.findAll();
+        model.addAttribute("allBookList", allBookList);
         return "frontend/home/booklist";
     }
 
@@ -74,6 +77,7 @@ public class HomeController {
         StoreDTO findStore = storeService.getOneStore(storeId);
         model.addAttribute("store", findStore);
         MemberDTO findMember = memberService.findMemberById(customMember.getMember().getUserNo());
+        log.info("**************************************************************************** customMember = {}", customMember.getMember().getUserNo());
         model.addAttribute("user", findMember);
         return "frontend/home/store";
     }
