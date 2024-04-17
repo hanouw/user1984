@@ -126,6 +126,7 @@ public class MyPageController {
         log.info("----myPageService orderListAjax bookPageResponseDTO : {}", bookPageResponseDTO);
         return new ResponseEntity<>(bookPageResponseDTO, HttpStatus.OK);
     }
+
     // 도서 구매내역 상세페이지 조회
     @GetMapping("/bookOrderDetail/{orderBookId}")
     public String bookOrderDetail(@PathVariable Long orderBookId, Model model) {
@@ -136,9 +137,26 @@ public class MyPageController {
         return "frontend/order/book/detail";
     }
 
+    // 도서 구매내역 삭제
+    @DeleteMapping("/bookOrderDetail/{orderBookId}/delete")
+    public String bookOrderDelete(@PathVariable Long orderBookId) {
+        myPageService.deleteBookOrder(orderBookId);
+        return "redirect:/bookOrderList";
+    }
+
+    // 서점 구매내역 삭제
+    @DeleteMapping("/membershipOrderDetail/{orderMembershipId}/delete")
+    public String membershipOrderDelete(@PathVariable Long orderMembershipId) {
+        log.info("********* Controller membershipOrderDelete orderMembershipId : {}", orderMembershipId);
+        myPageService.deleteMembershipOrder(orderMembershipId);
+        return "redirect:/membershipOrderList";
+    }
+
     // 서점 구독내역 상세페이지 조회
     @GetMapping("/membershipOrderDetail/{orderMembershipId}")
     public String membershipOrderDetail(@PathVariable Long orderMembershipId, Model model) {
+        PaymentMemDTO findDTO = myPageService.findMembershipByOrderMembershipId(orderMembershipId);
+        model.addAttribute("detail", findDTO);
         return "frontend/order/membership/detail";
     }
 

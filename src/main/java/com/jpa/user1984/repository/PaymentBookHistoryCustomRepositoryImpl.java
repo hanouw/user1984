@@ -88,7 +88,8 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
 
     @Override
     public List<PaymentBookHistory> findByOrderBookId(Long orderBookId) {
-        List resultList = em.createQuery("select p from PaymentBookHistory p where p.paymentBook.orderBookId = :orderBookId")
+        List<PaymentBookHistory> resultList = em.createQuery("select p from PaymentBookHistory p " +
+                        "where p.paymentBook.orderBookId = :orderBookId ",  PaymentBookHistory.class)
                 .setParameter("orderBookId", orderBookId)
                 .getResultList();
         return resultList;
@@ -114,7 +115,7 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
         if (startDate == null && keyword == null ) { // 키워드 없음 + 기간 없음
             log.info("**************************키워드 없음 + 기간 없음");
             List<PaymentBookHistory> historyList = em.createQuery("select p from PaymentBookHistory p " +
-                            "where p.paymentBook.member.userNo = :userNo " +
+                            "where p.paymentBook.member.userNo = :userNo  And p.paymentBook.paymentBookStatus = 'COMPLETE' " +
                             "order by p.createDate "+ order +" ", PaymentBookHistory.class)
                     .setParameter("userNo", userNo)
                     .setFirstResult(offset)
@@ -125,7 +126,8 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
         else if (keyword == null && startDate != null) { // 키워드 없음 + 기간 있음
             log.info("**************************키워드 없음 + 기간 있음");
             List<PaymentBookHistory> historyList = em.createQuery("select p from PaymentBookHistory p " +
-                            "where p.paymentBook.member.userNo = :userNo and p.createDate between :startDate And :endDate " +
+                            "where p.paymentBook.member.userNo = :userNo and p.createDate between :startDate And :endDate  " +
+                            "And p.paymentBook.paymentBookStatus = 'COMPLETE' " +
                             "order by p.createDate "+ order +" ", PaymentBookHistory.class)
                     .setParameter("userNo", userNo)
                     .setParameter("startDate", startDate)
@@ -141,6 +143,7 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
             keyword = pageRequestDTO.getKeyword();
             List<PaymentBookHistory> historyList = em.createQuery("select p from PaymentBookHistory p " +
                             "where p.paymentBook.member.userNo = :userNo and " + s + " like concat('%', :keyword, '%') " +
+                            "And p.paymentBook.paymentBookStatus = 'COMPLETE' " +
                             "order by p.createDate "+ order +" ", PaymentBookHistory.class)
                     .setParameter("userNo", userNo)
                     .setParameter("keyword", keyword)
@@ -155,6 +158,7 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
             keyword = pageRequestDTO.getKeyword();
             List<PaymentBookHistory> historySerachList = em.createQuery("select p from PaymentBookHistory p " +
                             "where p.paymentBook.member.userNo = :userNo and " + s + " like concat('%', :keyword, '%') " +
+                            "And p.paymentBook.paymentBookStatus = 'COMPLETE' " +
                             "and p.createDate between :startDate And :endDate  " +
                             "order by p.createDate " + order + " ", PaymentBookHistory.class)
                     .setParameter("userNo", userNo)
@@ -188,7 +192,7 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
         if (startDate == null && keyword == null) {
             log.info("**************************키워드 없음 + 기간 없음");
             Long searchResult = (Long) em.createQuery("select count(p) from PaymentBookHistory p " +
-                            "where p.paymentBook.member.userNo = :userNo " +
+                            "where p.paymentBook.member.userNo = :userNo And p.paymentBook.paymentBookStatus = 'COMPLETE' " +
                             "order by p.createDate "+ order +" ")
                     .setParameter("userNo", userNo)
                     .getSingleResult();
@@ -197,7 +201,8 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
         else if (keyword == null && startDate != null) {
             log.info("**************************키워드 없음 + 기간 있음");
             Long searchResult = (Long) em.createQuery("select count(p) from PaymentBookHistory p " +
-                            "where p.paymentBook.member.userNo = :userNo and p.createDate between :startDate And :endDate " +
+                            "where p.paymentBook.member.userNo = :userNo and p.createDate between :startDate " +
+                            "And :endDate And p.paymentBook.paymentBookStatus = 'COMPLETE' " +
                             "order by p.createDate "+ order +" ")
                     .setParameter("userNo", userNo)
                     .setParameter("startDate", startDate)
@@ -209,7 +214,8 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
         log.info("**************************키워드 없음 + 기간 있음");
             String s = searchTypeMethod(pageRequestDTO);
             Long searchResult = (Long) em.createQuery("select count(p) from PaymentBookHistory p " +
-                            "where p.paymentBook.member.userNo = :userNo and " + s + " like concat('%', :keyword, '%')" +
+                            "where p.paymentBook.member.userNo = :userNo and " + s + " like concat('%', :keyword, '%') " +
+                            "And p.paymentBook.paymentBookStatus = 'COMPLETE' " +
                             "order by p.createDate "+ order +" ")
                     .setParameter("userNo", userNo)
                     .getSingleResult();
@@ -221,6 +227,7 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
             String s = searchTypeMethod(pageRequestDTO);
             Long searchResult = (Long) em.createQuery("select count(p) from PaymentBookHistory p " +
                             "where p.paymentBook.member.userNo = :userNo and " + s + " like concat('%', :keyword, '%') " +
+                            "And p.paymentBook.paymentBookStatus = 'COMPLETE' " +
                             "and p.createDate between :startDate And :endDate  " +
                             "order by p.createDate " + order + " ")
                     .setParameter("userNo", userNo)

@@ -55,13 +55,31 @@
       </div>
     </div>
     <div class="my_page_wrap_button">
-      <button class="grey_btn" type="button" >삭제</button>
+      <button class="grey_btn" type="button" id="deleteBtn" th:data-orderBookId="${fistDTO.orderBookId}">삭제</button>
       <button class="black_btn" type="button" th:onclick="|history.go(-1)|">확인</button>
     </div>
 
   </th:block>
 </th:block>
 <script th:inline="javascript">
+  $(document).ready(function () {
+    document.getElementById("deleteBtn").addEventListener("click", function() {
+      let confirmation = confirm("주문 내역을 삭제하시면 복구할 수 없습니다. 정말 삭제하시겠습니까?");
+      let orderBookId = $(this).attr("data-orderBookId");
+      if (confirmation) {
+        $.ajax({
+          type: "DELETE",
+          url: "/myPage/bookOrderDetail/"+ orderBookId +"/delete",
+          success: function (response) {
+            console.log(response);
+          },
+          error: function (e) {
+            console.log(e);
+          }
+        });
 
+      }
+    });
+  });
 </script>
 </html>
