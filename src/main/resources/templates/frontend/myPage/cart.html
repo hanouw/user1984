@@ -27,6 +27,7 @@
                 <td class="flex_start">
                     <div class="cart_img_body" th:onclick="|location.href='@{/book/{bookId}(bookId=${list.bookId})}'|">
                         <img th:src="|/images/${list.bookImg}|" alt="" />
+<!--                        TODO 이미지 사이즈 조절-->
                     </div>
                     <div class="cart_img_table">
                         <a th:text="*{list.bookTitle}" th:href="@{/book/{bookId}(bookId=${list.bookId})}">호랑나비</a><br>
@@ -34,7 +35,7 @@
                     </div>
                 </td>
                 <td th:text="*{list.storeTitle}">아트몰링</td>
-                <td><span th:text="*{list.bookEbookPrice}">15,000</span>원</td>
+                <td><span th:text="*{list.bookEbookPrice}" id="price">15,000</span>원</td>
                 <td><button class="greyLine_btn deleteButton" th:data-bookId="${list.bookId}">삭제</button></td>
             </tr>
         </table>
