@@ -1,7 +1,9 @@
 package com.jpa.user1984.service;
 
 import com.jpa.user1984.domain.PaymentBookHistory;
+import com.jpa.user1984.domain.PaymentBookStatus;
 import com.jpa.user1984.domain.PaymentMem;
+import com.jpa.user1984.domain.PaymentMemStatus;
 import com.jpa.user1984.dto.PageRequestDTO;
 import com.jpa.user1984.dto.PaymentBookHistoryDTO;
 import com.jpa.user1984.dto.PaymentMemDTO;
@@ -51,7 +53,29 @@ public class MyPageService {
         return list;
     }
 
+    // 도서 구매내역 삭제
+    public void deleteBookOrder(Long orderBookId) {
+        List<PaymentBookHistory> findList = paymentBookHistoryRepository.findByOrderBookId(orderBookId);
+        for (PaymentBookHistory list : findList) {
+            list.getPaymentBook().setPaymentBookStatus(PaymentBookStatus.OFF);
+        }
+    }
+
+    // 서점 구매내역 삭제
+    public void deleteMembershipOrder(Long orderMembershipId) {
+        log.info("***************************** deleteMembershipOrder 실행");
+        PaymentMem paymentMem = paymentMemRepository.findMembershipByOrderMembershipId(orderMembershipId);
+        log.info("***************************** deleteMembershipOrder paymentMem:{}", paymentMem);
+        paymentMem.setPaymentMemStatus(PaymentMemStatus.OFF);
+    }
+
     // 구독내역 상세페이지 조회
+    public PaymentMemDTO findMembershipByOrderMembershipId(Long orderMembershipId) {
+        PaymentMem paymentMem = paymentMemRepository.findMembershipByOrderMembershipId(orderMembershipId);
+        log.info("***************************** findMembershipByOrderMembershipId paymentMem:{}", paymentMem);
+        PaymentMemDTO paymentMemDTO = new PaymentMemDTO(paymentMem);
+        return paymentMemDTO;
+    }
 
     // 구독내역 조회
     public List<PaymentMemDTO> findMembershipList(Long userNo, PageRequestDTO pageRequestDTO) {

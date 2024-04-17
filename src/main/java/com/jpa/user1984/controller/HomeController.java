@@ -60,7 +60,9 @@ public class HomeController {
 
     //도서목록
     @GetMapping("/bookList")
-    public String bookListController(){
+    public String bookListController(Model model){
+        List<BookDTO> allBookList = bookService.findAll();
+        model.addAttribute("allBookList", allBookList);
         return "frontend/home/bookList";
     }
 

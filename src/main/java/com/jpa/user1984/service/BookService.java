@@ -59,14 +59,4 @@ public class BookService {
         book.setBookTitle(bookForm.getBookTitle());
     }
 
-    //VIEW 목록 조회용
-    public List<BookDTO> findAllList() {
-        List<Book> all = bookRepository.findAll();
-        List<BookDTO> bookDTOList = new ArrayList<>();
-        for(Book list : all) {
-            bookDTOList.add(new BookDTO(list));
-        }
-        return bookDTOList;
-    }
-
 }
