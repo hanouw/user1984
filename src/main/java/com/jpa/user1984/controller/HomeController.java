@@ -5,7 +5,9 @@ package com.jpa.user1984.controller;
 import com.jpa.user1984.domain.Member;
 import com.jpa.user1984.domain.Store;
 import com.jpa.user1984.dto.BannerDTO;
+import com.jpa.user1984.domain.Book;
 import com.jpa.user1984.dto.BookDTO;
+import com.jpa.user1984.dto.BookListDTO;
 import com.jpa.user1984.dto.MemberDTO;
 import com.jpa.user1984.dto.StoreDTO;
 import com.jpa.user1984.security.domain.CustomMember;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -61,10 +64,31 @@ public class HomeController {
 
     //도서목록
     @GetMapping("/bookList")
-    public String bookListController(Model model){
-        List<BookDTO> allBookList = bookService.findAll();
-        model.addAttribute("allBookList", allBookList);
+    public String bookListController(){
         return "frontend/home/bookList";
+    }
+    @GetMapping("/booklist")
+    public String redirectBookList(){
+        return "redirect:/bookList";
+    }
+
+    // 도서 10권 찾아오기
+    @GetMapping("/tenBook/{bookId}")
+    @ResponseBody
+    public List<BookListDTO> gotBookById(@PathVariable Long bookId){
+        log.info("*******  HomeController gotBookById");
+        List<BookListDTO> tenBookList = new ArrayList<BookListDTO>();
+        for (Long bookPosition=bookId; bookPosition < bookId+10; bookPosition++ ){
+            try{
+                BookDTO oneBook = bookService.findOne(bookPosition);
+                tenBookList.add(new BookListDTO(oneBook));
+            }catch (NullPointerException e){
+                log.info("******* 마지막 호출됨");
+                break;
+            }
+        }
+        log.info("*******  HomeController gotBookById - tenBookList : {}", tenBookList);
+        return tenBookList;
     }
 
     // 메뉴 리스트 //
@@ -83,6 +107,7 @@ public class HomeController {
         StoreDTO findStore = storeService.getOneStore(storeId);
         model.addAttribute("store", findStore);
         MemberDTO findMember = memberService.findMemberById(customMember.getMember().getUserNo());
+        log.info("********************* customMember = {}", customMember.getMember().getUserNo());
         model.addAttribute("user", findMember);
         return "frontend/home/store";
     }
