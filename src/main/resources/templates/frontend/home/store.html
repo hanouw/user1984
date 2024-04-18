@@ -31,7 +31,7 @@
                             <p th:text="${store.getStoreAddress()}"></p>
                             <p th:text="${store.getStoreOperateTime()}"></p>
                             <p th:text="${store.getStorePhoneNum()}"></p>
-                            <p th:text="${store.getStoreEmail()}"></p>
+                            <p th:text="${store.storeEmail}"></p>
                         </div>
                     </div>
                     <div class="st_storetext02_wrap line_bt_gr">
@@ -72,9 +72,9 @@
                     <hr class="bold_hr" />
                     <div class="sec_text_wrap">
                         <h3 class="text_center st_text_h3" th:text="${store.getStoreOneReview()}">대표님의 개성있는 도서들이 가득한 서점</h3>
-                        <img th:if="${store.getStoreImageStored01() != null}" th:src="|/images/${store.getStoreImageStored01()}|" alt="" />
-                        <img th:if="${store.getStoreImageStored02() != null}" th:src="|/images/${store.getStoreImageStored02()}|" alt="" />
-                        <img th:if="${store.getStoreImageStored03() != null}" th:src="|/images/${store.getStoreImageStored03()}|" alt="" />
+                        <img th:if="${store.getStoreImageStored01() != null}" th:src="|/images/${store.getStoreImageStored01()}|" alt="" /> <br />
+                        <img th:if="${store.getStoreImageStored02() != null}" th:src="|/images/${store.getStoreImageStored02()}|" alt="" /> <br />
+                        <img th:if="${store.getStoreImageStored03() != null}" th:src="|/images/${store.getStoreImageStored03()}|" alt="" /> <br />
                         <p th:text="${store.getStoreReview()}">
 <!--                            전대표는 ‘콘텐츠란 단 하나의 의미와 행위에 국한되지 않는다’고 생각한다. 1984 역시 그런 운영방침을 갖고 있다. 카페, 편집숍, 갤러리, 세미나 공간이 각각 개별로 독립되지 않고-->
 <!--                            서로 융합하는 것이다. 예를 들어 래퍼 투팍에 관한 책을 출간하면서 뮤지션들의 헌정공연, 힙합문화에 대한 세미나는 물론 관련 소품의 판매까지 복합적으로 이뤄지도록 한다. “한-->

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:replace="~{frontend/layouts/baseAd :: baseAd(~{this::content})}">
     <th:block th:fragment="content">
         <section class="section_wrap sec_ad_01">
             <div class="section_wrap_pagebody flex_between">
                 <div class="bo_sec_01_img">
-<!--                    <img src="https://image.yes24.com/goods/117014613/XL" alt="" />-->
                     <img th:src="|/images/${book.bookImgStored}|" alt="" />
                 </div>
                 <div class="bo_sec_01_text">
@@ -24,7 +24,7 @@
                     </div>
                     <div class="book_store_wrap line_bt_gr">
                         <div class="store_img">
-                            <img src="" alt="" />
+                            <img th:if="${book.getStore().getStoreImageStored() != null}" th:src="|/images/${book.getStore().getStoreImageStored()}|"/>
                         </div>
                         <div class="book_storetext_wrap">
                             <p th:text="${book.store.storeTitle}">[판매서점]환상문학</p>
@@ -62,9 +62,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="book_button_wrap">
-<!--                        <button class="blackLine_btn" th:onclick="|location.href='@{/cart/{bookId}/addBook(bookId=${book.bookId})}'|">장바구니에 담기</button>-->
-                        <button class="blackLine_btn" id="cartButton" th:data-bookId="${book.bookId}">
+                    <div class="book_button_wrap" sec:authorize="isAuthenticated()">
+                        <button class="blackLine_btn" id="cartLoginButton"  th:data-bookId="${book.bookId}">
+                            장바구니에 담기</button>
+                        <button class="point_btn" th:onclick="|location.href='@{/cart/list}'|">구매하기</button>
+                    </div>
+                    <div class="book_button_wrap notLogin" sec:authorize="isAnonymous()">
+                        <button class="blackLine_btn">
                             장바구니에 담기</button>
                         <button class="point_btn">구매하기</button>
                     </div>
@@ -78,19 +82,19 @@
                     <hr />
                     <div class="sec_text_wrap wrap_bottom_line">
                         <h3>목차</h3>
-                        <p>내용</p>
+                        <p th:text="${book.getBookIndex()}">내용</p>
                     </div>
                     <div class="sec_text_wrap wrap_bottom_line">
                         <h3>소개</h3>
-                        <p>내용</p>
+                        <p th:text="${book.getBookIntro()}">내용</p>
                     </div>
                     <div class="sec_text_wrap wrap_bottom_line">
                         <h3>저자소개</h3>
-                        <p>내용</p>
+                        <p th:text="${book.getBookWriterProfile()}">내용</p>
                     </div>
                     <div class="sec_text_wrap">
-                        <h3><span>환상문학</span>의 리뷰</h3>
-                        <p>내용</p>
+                        <h3><span th:text="${book.getStore().getStoreTitle()}">환상문학</span>의 리뷰</h3>
+                        <p th:text="${book.getBookReview()}">내용</p>
                     </div>
                 </div>
             </div>
@@ -99,10 +103,10 @@
         <section class="section_wrap">
             <div class="section_wrap_pagebody flex_between page_line">
                 <div class="sec03_img_wrap">
-                    <img src="" alt="" />
+                    <img th:if="${book.getStore().getStoreImageStored() != null}" th:src="|/images/${book.getStore().getStoreImageStored()}|"/>
                 </div>
                 <div class="sec03_text_wrap">
-                    <p><span class="point_text">"환상문학"</span>이 생각하는 독립서점이란 단순히 출판물을 판매하는 것이 아닌 사람들 간의 삶과 생각을 남기는 가치 있는 문화라고 생각합니다.</p>
+                    <p><span class="point_text" th:text="${book.getStore().getStoreTitle()}">"환상문학"</span>이 생각하는 독립서점이란 단순히 출판물을 판매하는 것이 아닌 사람들 간의 삶과 생각을 남기는 가치 있는 문화라고 생각합니다.</p>
                     <button class="point_btn"><span>환상문학</span> 방문하기</button>
                 </div>
             </div>
@@ -234,8 +238,17 @@
 </th:block>
 <script th:inline="javascript">
 $(document).ready(function (){
-    $("#cartButton").on("click", function () {
+    $(".notLogin").on("click", function () {
+        let confirmation = confirm("로그인이 필요한 서비스입니다. 로그인 하시겠습니까?");
+        if (confirmation) {
+            window.location.href = '/login';
+        }
+    });
+
+    $("#cartLoginButton").on("click", function () {
+        console.log("장바구니 버튼 클릭");
         let bookId = $(this).attr("data-bookId");
+        console.log("bookId: ", bookId);
         $.ajax({
             url: '/cart/' + bookId + '/addBook',
             type: 'GET',

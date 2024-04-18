@@ -97,10 +97,16 @@ public class MyPageController {
         return "redirect:/myPage/info";
     }
 
+    // 문의하기
+
     // 나의 책장 조회
     @GetMapping("/bookshelf")
-    public String bookShelfForm(){
-
+    public String bookShelfForm(@AuthenticationPrincipal CustomMember customMember, Model model){
+        Long userNo = customMember.getMember().getUserNo();
+        log.info("********MyPageController userNo:{}",userNo);
+        List<PaymentBookHistoryDTO> bookList = myPageService.findHistoryList(userNo, new PageRequestDTO(1));
+        model.addAttribute("bookList", bookList);
+        log.info("********MyPageController bookList:{}", bookList);
         return "frontend/myPage/bookshelf";
     }
 
@@ -215,6 +221,6 @@ public class MyPageController {
         return new ResponseEntity<>(memPageResponseDTO, HttpStatus.OK);
     }
 
-    // 문의하기
+
 
 }
