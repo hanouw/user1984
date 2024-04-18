@@ -28,10 +28,10 @@
           <ul class="flex_start flex_wrap">
 
             <li th:each="store : ${storeList}">
-              <div th:onclick="|location.href='@{/store/{storeId}(storeId=${store.storeId})}'|">
-                <img th:src="|/images/${store.getStoreImageStored()}|" alt="" class="store_img_wrap">
+              <div th:onclick="|location.href='@{/store/{storeId}(storeId=${store.storeId})}'|" class="store_img_wrap">
+                <img th:src="|/images/${store.getStoreImageStored()}|" alt="">
               </div>
-                <p th:text="${store.storeTitle}" ></p>
+                <p><a th:text="${store.storeTitle}" th:href="@{/store/{storeId}(storeId=${store.storeId})}"></a></p>
               <span>
                 <span th:text="${store.storeAddress}"></span>
               </span>
