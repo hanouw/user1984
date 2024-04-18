@@ -45,7 +45,7 @@ public class UserSecurityConfig extends ConfigForExtend{
 
         http.authorizeHttpRequests(request -> // anyRequest(): 어떤 요청이든 permitAll(): 다 허용
 //                request.anyRequest().permitAll()
-                request.requestMatchers("/", "/signup", "/login", "/logout", "/storeList/**","/bookList/**", "/book/**", "/store/**", "/tenBook/**").permitAll()
+                request.requestMatchers("/", "/signup", "/login", "/logout", "/storeList/**", "/store/**", "/store/{storeId}", "/bookList/**", "/book/**", "/tenBook/**").permitAll()
                 .requestMatchers("/main/**").hasAnyAuthority("STATUS_USER", "STATUS_STORE") // authenticated는 사용자 정보를 기반으로 사용자가 인증되었는지 확인 //hasAnyRole을 할 경우에는 앞에 ROLE_~~ 로 시작해야함
 //                .requestMatchers("/myPage/**").hasAnyAuthority("STATUS_USER")
 //                .requestMatchers("/cart/**").hasAnyAuthority("STATUS_USER")
