@@ -1,10 +1,83 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
-<h2>MEMBERSHIP DETAIL 입니당</h2>
-</body>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{frontend/layouts/baseSidemenu :: baseSidemenu(~{this::content})}">
+  <th:block th:fragment="content">
+
+    <!-- 내용 -->
+    <div class="my_page_h_wrap">
+      <h2>구독 상세 내역</h2>
+      <div class="my_page_h_text_wrap">
+        <span class="my_page_h_text">주문번호</span>
+        <span th:text="${detail.orderMembershipId}">2024040300000</span>
+        <span>주문일자</span>
+        <span th:text="${detail.membershipStartDate}">2024-04-03</span>
+      </div>
+    </div>
+    <table class="mycart_table">
+      <tr class="myTable_th_body">
+        <th>서점명</th>
+        <th>주문금액</th>
+        <th>구매일자</th>
+        <th>종료일</th>
+        <th>리뷰</th>
+      </tr>
+      <tr class="myTable_td_body_2">
+        <td class="flex_start">
+          <div class="cart_img_body_3">
+            <img th:src="|/images/${detail.storeImgStored}|" alt="" />
+          </div>
+          <div class="cart_img_table_2">
+            <p th:text="${detail.storeTitle}" th:href="@{/store/{storeId}(storeId=${detail.storeId})}">서점명</p><br>
+            <span th:text="${detail.storeAddress}">주소</span>
+          </div>
+        </td>
+        <td th:text="${detail.price}"></td>
+        <td th:text="${detail.membershipStartDate}"></td>
+        <td th:text="${detail.membershipEndDate}"> </td>
+        <td>
+          <button class="greyLine_btn deleteButton" th:data-storeId="${detail.storeId}">리뷰작성</button>
+        </td>
+      </tr>
+    </table>
+    <div class="my_page_h_wrap">
+      <h2>최종 결제 정보</h2>
+    </div>
+    <div class="my_page_wrap">
+      <div class="my_page_wrap_one">
+        <p>결제방법</p>
+        <input type="text" th:field="${detail.orderMembershipMethod}" disabled>
+      </div>
+      <div class="my_page_wrap_one">
+        <p>최종 결제 금액</p>
+        <input type="text" th:field="${detail.price}" disabled>
+      </div>
+    </div>
+    <div class="my_page_wrap_button">
+      <button class="grey_btn" type="button" id="deleteBtn" th:data-orderMemId="${detail.orderMembershipId}">삭제</button>
+      <button class="black_btn" type="button" th:onclick="|history.go(-1)|">확인</button>
+    </div>
+
+  </th:block>
+</th:block>
+<script th:inline="javascript">
+  $(document).ready(function () {
+    document.getElementById("deleteBtn").addEventListener("click", function() {
+      let confirmation = confirm("주문 내역을 삭제하시면 복구할 수 없습니다. 정말 삭제하시겠습니까?");
+      let orderMemId = $(this).attr("data-orderMemId");
+      if (confirmation) {
+        $.ajax({
+          type: "DELETE",
+          url: "/myPage/membershipOrderDetail/"+ orderMemId +"/delete",
+          success: function (response) {
+            console.log(response);
+          },
+          error: function (e) {
+            console.log(e);
+          }
+        });
+
+      }
+    });
+  });
+</script>
 </html>

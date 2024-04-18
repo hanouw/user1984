@@ -15,7 +15,7 @@ public class ConfigForExtend {
                 .requestMatchers(new AntPathRequestMatcher("/**"))
                 .requestMatchers(new AntPathRequestMatcher("/img/**"))
                 .requestMatchers(new AntPathRequestMatcher("/js/**"))
-                .requestMatchers(new AntPathRequestMatcher("/storelist/**"))
+                .requestMatchers(new AntPathRequestMatcher("/storeList/**"))
                 .requestMatchers(new AntPathRequestMatcher("/bookList/**"))
                 .requestMatchers(new AntPathRequestMatcher("/tenBook/**"))
                 .requestMatchers(new AntPathRequestMatcher("/images/**"))

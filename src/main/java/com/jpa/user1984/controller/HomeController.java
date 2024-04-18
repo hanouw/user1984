@@ -2,16 +2,16 @@ package com.jpa.user1984.controller;
 
 
 
+import com.jpa.user1984.domain.Member;
+import com.jpa.user1984.domain.Store;
+import com.jpa.user1984.dto.BannerDTO;
 import com.jpa.user1984.domain.Book;
 import com.jpa.user1984.dto.BookDTO;
 import com.jpa.user1984.dto.BookListDTO;
 import com.jpa.user1984.dto.MemberDTO;
 import com.jpa.user1984.dto.StoreDTO;
 import com.jpa.user1984.security.domain.CustomMember;
-import com.jpa.user1984.service.BookService;
-import com.jpa.user1984.service.FileUploadService;
-import com.jpa.user1984.service.MemberService;
-import com.jpa.user1984.service.StoreService;
+import com.jpa.user1984.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
@@ -33,6 +33,7 @@ import java.util.List;
 public class HomeController {
 
     private final BookService bookService;
+    private final BannerService bannerService;
     private final StoreService storeService;
     private final FileUploadService fileUploadService;
     private final MemberService memberService;
@@ -40,7 +41,9 @@ public class HomeController {
     // 메뉴 리스트 //
     //메인
     @GetMapping("/")
-    public String homeController(@AuthenticationPrincipal CustomMember customMember){
+    public String homeController(@AuthenticationPrincipal CustomMember customMember, Model model){
+        List<BannerDTO> allBannerList = bannerService.findAll();
+        model.addAttribute("BannerList", allBannerList);
         return "frontend/home/index";
     }
 
@@ -50,10 +53,15 @@ public class HomeController {
         return "frontend/home/about";
     }
     //독립서점
-    @GetMapping("/storelist")
-    public String storeListController(){
-        return "frontend/home/storelist";
+    @GetMapping("/storeList")
+    public String storeListController(Model model){
+        List<StoreDTO> storeList = storeService.findAll();
+        model.addAttribute("storeList", storeList);
+        System.out.println("storeList = " + storeList);
+
+        return "frontend/home/storeList";
     }
+
     //도서목록
     @GetMapping("/bookList")
     public String bookListController(){

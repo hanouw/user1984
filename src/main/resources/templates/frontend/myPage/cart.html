@@ -27,7 +27,6 @@
                 <td class="flex_start">
                     <div class="cart_img_body" th:onclick="|location.href='@{/book/{bookId}(bookId=${list.bookId})}'|">
                         <img th:src="|/images/${list.bookImg}|" alt="" />
-<!--                        TODO 이미지 사이즈 조절-->
                     </div>
                     <div class="cart_img_table">
                         <a th:text="*{list.bookTitle}" th:href="@{/book/{bookId}(bookId=${list.bookId})}" id="bookTitle">호랑나비</a><br>
@@ -185,13 +184,14 @@ $(document).ready(function () {
     $("#orderButton").on("click", function () {
         console.log("IMP 실행");
         let merchantUid = createMerchantUid();
+        totalAmount = $("#amount").text();
+        console.log(totalAmount);
         let selectedBooks = [];
-        totalAmount = $("#amount").val();
         $('.selectedBookCheckbox:checked').each(function () {
             let bookId = $(this).siblings('input[type=hidden]').val();
             selectedBooks.push(bookId);
         });
-        let bookTitle = selectedBooks[0].closest('a').find('#bookTitle').text()
+        let bookTitle = $('.selectedBookCheckbox:checked:first').closest('tr').find('a#bookTitle').text();
         let name = bookTitle + ' 외 ' + (selectedBooks.length - 1);
         console.log(name);
         let data = {

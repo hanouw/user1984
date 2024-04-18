@@ -1,6 +1,7 @@
 package com.jpa.user1984.repository;
 
 import com.jpa.user1984.domain.PaymentMem;
+import com.jpa.user1984.domain.PaymentMemStatus;
 import com.jpa.user1984.dto.PageRequestDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -27,6 +28,15 @@ public class PaymentMemCustomRepositoryImpl implements PaymentMemCustomRepositor
     private final PaymentBookHistoryCustomRepository paymentBookHistoryCustomRepository;
 
     @Override
+    public PaymentMem findMembershipByOrderMembershipId(Long orderMembershipId) {
+        PaymentMem result = em.createQuery("select p from PaymentMem p " +
+                        "where p.orderMembershipId = :orderMembershipId And p.paymentMemStatus = 'COMPLETE' ", PaymentMem.class)
+                .setParameter("orderMembershipId", orderMembershipId)
+                .getSingleResult();
+        return result;
+    }
+
+    @Override
     public List<PaymentMem> findMembershipListByUserNo(Long userNo, PageRequestDTO pageRequestDTO) {
         int offset = (pageRequestDTO.getPage() - 1) * pageRequestDTO.getSize();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -45,7 +55,7 @@ public class PaymentMemCustomRepositoryImpl implements PaymentMemCustomRepositor
         if (startDate == null && keyword == null ) { // 키워드 없음 + 기간 없음
             log.info("**************************키워드 없음 + 기간 없음");
             List<PaymentMem> historyList = em.createQuery("select p from PaymentMem p " +
-                            "where p.member.userNo = :userNo " +
+                            "where p.member.userNo = :userNo And p.paymentMemStatus = 'COMPLETE' " +
                             "order by p.membershipStartDate "+ order +" ", PaymentMem.class)
                     .setParameter("userNo", userNo)
                     .setFirstResult(offset)
@@ -57,7 +67,7 @@ public class PaymentMemCustomRepositoryImpl implements PaymentMemCustomRepositor
             log.info("**************************키워드 없음 + 기간 있음");
             List<PaymentMem> historyList = em.createQuery("select p from PaymentMem p " +
                             "where p.member.userNo = :userNo and p.membershipStartDate between :startDate And :endDate " +
-                            "order by p.membershipStartDate "+ order +" ", PaymentMem.class)
+                            "And p.paymentMemStatus = 'COMPLETE' order by p.membershipStartDate "+ order +" ", PaymentMem.class)
                     .setParameter("userNo", userNo)
                     .setParameter("startDate", startDate)
                     .setParameter("endDate", endDate)
@@ -72,7 +82,7 @@ public class PaymentMemCustomRepositoryImpl implements PaymentMemCustomRepositor
             keyword = pageRequestDTO.getKeyword();
             List<PaymentMem> historyList = em.createQuery("select p from PaymentMem p " +
                             "where p.member.userNo = :userNo and " + s + " like concat('%', :keyword, '%') " +
-                            "order by p.membershipStartDate "+ order +" ", PaymentMem.class)
+                            "And p.paymentMemStatus = 'COMPLETE' order by p.membershipStartDate "+ order +" ", PaymentMem.class)
                     .setParameter("userNo", userNo)
                     .setParameter("keyword", keyword)
                     .setFirstResult(offset)
@@ -86,7 +96,7 @@ public class PaymentMemCustomRepositoryImpl implements PaymentMemCustomRepositor
             keyword = pageRequestDTO.getKeyword();
             List<PaymentMem> historySerachList = em.createQuery("select p from PaymentMem p " +
                             "where p.member.userNo = :userNo and " + s + " like concat('%', :keyword, '%') " +
-                            "and p.membershipStartDate between :startDate And :endDate  " +
+                            "and p.membershipStartDate between :startDate And :endDate And p.paymentMemStatus = 'COMPLETE' " +
                             "order by p.membershipStartDate " + order + " ", PaymentMem.class)
                     .setParameter("userNo", userNo)
                     .setParameter("keyword", keyword)
@@ -117,7 +127,7 @@ public class PaymentMemCustomRepositoryImpl implements PaymentMemCustomRepositor
         if (startDate == null && keyword == null) {
             log.info("**************************키워드 없음 + 기간 없음");
             Long result = (Long) em.createQuery("select count(p) from PaymentMem p " +
-                            "where p.member.userNo = :userNo " +
+                            "where p.member.userNo = :userNo And p.paymentMemStatus = 'COMPLETE' " +
                             "order by p.membershipStartDate "+ order +" ")
                     .setParameter("userNo", userNo)
                     .getSingleResult();
@@ -127,6 +137,7 @@ public class PaymentMemCustomRepositoryImpl implements PaymentMemCustomRepositor
             log.info("**************************키워드 없음 + 기간 있음");
             Long searchResult = (Long) em.createQuery("select count(p) from PaymentMem p " +
                             "where p.member.userNo = :userNo and p.membershipStartDate between :startDate And :endDate " +
+                            "And p.paymentMemStatus = 'COMPLETE' " +
                             "order by p.membershipStartDate "+ order +" ")
                     .setParameter("userNo", userNo)
                     .setParameter("startDate", startDate)
@@ -138,8 +149,8 @@ public class PaymentMemCustomRepositoryImpl implements PaymentMemCustomRepositor
             log.info("**************************키워드 있음 + 기간 없음");
             String s = searchTypeMethod(pageRequestDTO);
             Long searchResult = (Long) em.createQuery("select count(p) from PaymentMem p " +
-                            "where p.member.userNo = :userNo and " + s + " like concat('%', :keyword, '%')" +
-                            "order by p.membershipStartDate " + order + " ")
+                            "where p.member.userNo = :userNo and " + s + " like concat('%', :keyword, '%') " +
+                            "And p.paymentMemStatus = 'COMPLETE' order by p.membershipStartDate " + order + " ")
                     .setParameter("userNo", userNo)
                     .setParameter("keyword", keyword)
                     .getSingleResult();
@@ -150,7 +161,7 @@ public class PaymentMemCustomRepositoryImpl implements PaymentMemCustomRepositor
             String s = searchTypeMethod(pageRequestDTO);
             Long result = (Long) em.createQuery("select count(p) from PaymentMem p " +
                             "where p.member.userNo = :userNo and " + s + " like concat('%', :keyword, '%') " +
-                            "and p.membershipStartDate between :startDate And :endDate  " +
+                            "and p.membershipStartDate between :startDate And :endDate And p.paymentMemStatus = 'COMPLETE' " +
                             "order by p.membershipStartDate " + order + " ")
                     .setParameter("userNo", userNo)
                     .setParameter("keyword", keyword)
@@ -194,5 +205,6 @@ public class PaymentMemCustomRepositoryImpl implements PaymentMemCustomRepositor
         }
         return s;
     }
+
 
 }
