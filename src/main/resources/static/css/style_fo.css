@@ -968,6 +968,14 @@ span.priceText_big{
     width: 100%;
     object-fit: cover;
 }
+/*나의 책장*/
+.book_wrap_pagebody{
+    width:calc(100% - 80px);
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+}
+
 
 /*추천도서리스트*/
 .mypage_re_bookList_h2{
