@@ -50,10 +50,15 @@ public class HomeController {
         return "frontend/home/about";
     }
     //독립서점
-    @GetMapping("/storelist")
-    public String storeListController(){
-        return "frontend/home/storelist";
+    @GetMapping("/storeList")
+    public String storeListController(Model model){
+        List<StoreDTO> storeList = storeService.findAll();
+        model.addAttribute("storeList", storeList);
+        System.out.println("storeList = " + storeList);
+
+        return "frontend/home/storeList";
     }
+
     //도서목록
     @GetMapping("/bookList")
     public String bookListController(Model model){
@@ -78,7 +83,6 @@ public class HomeController {
         StoreDTO findStore = storeService.getOneStore(storeId);
         model.addAttribute("store", findStore);
         MemberDTO findMember = memberService.findMemberById(customMember.getMember().getUserNo());
-        log.info("**************************************************************************** customMember = {}", customMember.getMember().getUserNo());
         model.addAttribute("user", findMember);
         return "frontend/home/store";
     }
