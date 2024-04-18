@@ -1,101 +1,30 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{frontend/layouts/baseSidemenu :: baseSidemenu(~{this::content})}">
-    <th:block th:fragment="content">
-        <div class="search_bar_wrap">
-            <div class="my_page_title">
-                <p>나의 책장</p>
-                <hr />
+<th:block th:fragment="content">
+    <div class="my_page_h_wrap">
+        <h2>나의 책장</h2>
+    </div>
+    <section class="section_wrap">
+        <div class="book_wrap_pagebody">
+            <div class="item_list_wrap">
+                <ul class="flex_start flex_wrap">
+                    <li th:each="book : ${bookList}">
+                        <div class="item_img_wrap">
+                            <img th:src="|/images/${book.bookImgStored}|" alt="">
+                        </div>
+                        <p><a th:text="${book.storeTitle}" th:href="@{/book/{bookId}(bookId=${book.bookId})}"></a></p>
+                        <span>
+                            <span th:text="${book.bookWriter}"></span> /
+                            <span th:text="${book.bookPub}"></span>
+                        </span>
+                    </li>
+                </ul>
             </div>
-            <section class="section_wrap">
-                <div class="section_wrap_pagebody list_body">
-                    <div class="sec_h_wrap">
-                        <h2>1984와 함께하는 독립서점을 만나보세요.</h2>
-                    </div>
-                    <div class="store_list_wrap">
-                        <ul class="flex_start flex_wrap">
-                            <li>
-                                <div class="store_img_wrap" style="background-image: url('https://media.timeout.com/images/102189033/1372/772/image.webp')"></div>
-                                <p>임시입니다</p>
-                                <span>
-                                <span>서울시 마포구 성지1길 30 지하1층</span>
-                            </span>
-                            </li>
-                            <li>
-                                <div class="store_img_wrap" style="background-image: url('https://media.timeout.com/images/102189033/1372/772/image.webp')"></div>
-                                <p>임시입니다</p>
-                                <span>
-                                <span>서울시 마포구 성지1길 30 지하1층</span>
-                            </span>
-                            </li>
-                            <li>
-                                <div class="store_img_wrap" style="background-image: url('https://media.timeout.com/images/102189033/1372/772/image.webp')"></div>
-                                <p>임시입니다</p>
-                                <span>
-                                <span>서울시 마포구 성지1길 30 지하1층</span>
-                            </span>
-                            </li>
-                            <li>
-                                <div class="store_img_wrap" style="background-image: url('https://media.timeout.com/images/102189033/1372/772/image.webp')"></div>
-                                <p>임시입니다</p>
-                                <span>
-                                <span>서울시 마포구 성지1길 30 지하1층</span>
-                            </span>
-                            </li>
-                            <li>
-                                <div class="store_img_wrap" style="background-image: url('https://media.timeout.com/images/102189033/1372/772/image.webp')"></div>
-                                <p>임시입니다</p>
-                                <span>
-                                <span>서울시 마포구 성지1길 30 지하1층</span>
-                            </span>
-                            </li>
-                            <li>
-                                <div class="store_img_wrap" style="background-image: url('https://media.timeout.com/images/102189033/1372/772/image.webp')"></div>
-                                <p>임시입니다</p>
-                                <span>
-                                <span>서울시 마포구 성지1길 30 지하1층</span>
-                            </span>
-                            </li>
-                            <li>
-                                <div class="store_img_wrap" style="background-image: url('https://media.timeout.com/images/102189033/1372/772/image.webp')"></div>
-                                <p>임시입니다</p>
-                                <span>
-                                <span>서울시 마포구 성지1길 30 지하1층</span>
-                            </span>
-                            </li>
-                            <li>
-                                <div class="store_img_wrap" style="background-image: url('https://media.timeout.com/images/102189033/1372/772/image.webp')"></div>
-                                <p>임시입니다</p>
-                                <span>
-                                <span>서울시 마포구 성지1길 30 지하1층</span>
-                            </span>
-                            </li>
-                            <li>
-                                <div class="store_img_wrap" style="background-image: url('https://media.timeout.com/images/102189033/1372/772/image.webp')"></div>
-                                <p>임시입니다</p>
-                                <span>
-                                <span>서울시 마포구 성지1길 30 지하1층</span>
-                            </span>
-                            </li>
-                            <li>
-                                <div class="store_img_wrap" style="background-image: url('https://media.timeout.com/images/102189033/1372/772/image.webp')"></div>
-                                <p>임시입니다</p>
-                                <span>
-                                <span>서울시 마포구 성지1길 30 지하1층</span>
-                            </span>
-                            </li>
-                            <li>
-                                <div class="store_img_wrap" style="background-image: url('https://media.timeout.com/images/102189033/1372/772/image.webp')"></div>
-                                <p>코뿔소책방</p>
-                                <span>
-                                <span>서울시 마포구 성지1길 30 지하1층</span>
-                            </span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
         </div>
-    </th:block>
+    </section>
+
+
+</th:block>
 </th:block>
 </html>
