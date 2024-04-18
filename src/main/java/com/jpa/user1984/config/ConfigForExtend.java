@@ -12,7 +12,6 @@ public class ConfigForExtend {
     public WebSecurityCustomizer WebSecurityCustomizer() {
         return (web) -> web.ignoring()
                 .requestMatchers(new AntPathRequestMatcher("/css/**"))
-                .requestMatchers(new AntPathRequestMatcher("/**"))
                 .requestMatchers(new AntPathRequestMatcher("/img/**"))
                 .requestMatchers(new AntPathRequestMatcher("/js/**"))
                 .requestMatchers(new AntPathRequestMatcher("/storeList/**"))

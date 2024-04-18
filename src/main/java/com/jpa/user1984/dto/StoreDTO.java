@@ -32,6 +32,7 @@ public class StoreDTO { // 가져오는
     private LocalDateTime lastModifiedDate;
     private String storeAccount;
     private String storeBankName;
+    private String storeEmail;
     // 찢어야 함
     private String storeImageOrigin;
     private String storeImageStored;
@@ -65,6 +66,7 @@ public class StoreDTO { // 가져오는
         this.lastModifiedDate = store.getLastModifiedDate();
         this.storeAccount = store.getStoreAccount();
         this.storeBankName = store.getStoreBankName();
+        this.storeEmail = store.getStoreEmail();
         this.storeImageOrigin = store.getStoreImageOrigin();
         this.storeImageStored = store.getStoreImageStored();
         this.storeImageOrigin01 = store.getStoreImageOrigin01();

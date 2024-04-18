@@ -2,10 +2,7 @@ package com.jpa.user1984.controller;
 
 
 
-import com.jpa.user1984.domain.Member;
-import com.jpa.user1984.domain.Store;
 import com.jpa.user1984.dto.BannerDTO;
-import com.jpa.user1984.domain.Book;
 import com.jpa.user1984.dto.BookDTO;
 import com.jpa.user1984.dto.BookListDTO;
 import com.jpa.user1984.dto.MemberDTO;
