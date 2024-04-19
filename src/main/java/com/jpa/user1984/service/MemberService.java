@@ -55,6 +55,12 @@ public class MemberService {
 //        return null;
     }
 
+    // No로 회원 하나 데이터 찾기
+    public Member findMemberByIdDtMember(Long userNo){
+        Optional<Member> member = memberRepository.findById(userNo);
+        return member.get();
+    }
+
     public MemberDTO findMemberByUserId(String userId){
         try{
             Member member = memberCustomRepository.findByUserId(userId);

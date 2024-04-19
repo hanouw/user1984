@@ -490,7 +490,6 @@ a.book_ca_btn{
 .store_img{
     width: 80px;
     height: 80px;
-    padding-bottom : calc((360/260)*100%);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -510,7 +509,7 @@ a.book_ca_btn{
 
 
 .book_storetext_wrap{
-    width:calc(100% - 200px);
+    width:calc(100% - 220px);
 }
 .book_storetext_wrap > p{
     margin: 10px 20px;
@@ -523,7 +522,7 @@ a.book_ca_btn{
 }
 .book_storetext_btnwrap{
     height: 80px;
-    line-height: 80px;
+    /*line-height: 80px;*/
 }
 .book_storetext02_wrap{
     margin-top: 20px;
@@ -613,8 +612,8 @@ hr.bold_hr{
 
 /*page-section3*/
 .sec03_img_wrap{
-    width: calc(60% - 20px);
-    padding-bottom : calc((240/720)*100%);
+    width: 820px;
+    height: 420px;
     background-color: #dcdcdc;
     background-image: url("https://images.pexels.com/photos/247899/pexels-photo-247899.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2");
     background-size: cover;
@@ -622,6 +621,7 @@ hr.bold_hr{
 }
 .sec03_img_wrap > img{
     width: 100%;
+    height: 100%;
     object-fit: cover;
 }
 .sec03_text_wrap{
@@ -1140,6 +1140,17 @@ button.point_btn:hover{
     border: 1px solid var(--mainblack);
     color: var(--mainwhite);
 }
+/* 방문하기 버튼 */
+form > button.point_btn{
+    background-color: var(--pointcolor);
+    border: 1px solid var(--pointcolor);
+}
+form > button.point_btn:hover{
+    background-color: var(--mainblack);
+    border: 1px solid var(--mainblack);
+    color: var(--mainwhite);
+}
+
 button.black_btn{
     padding: 14px 22px;
     background-color: var(--mainblack);

@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
 
 @Data
-public class StoreForm { // 뿌려주는
+public class StoreForm { // 저장하는
     private Long storeId;
     private String storeLoginId;
     private String storePassword;

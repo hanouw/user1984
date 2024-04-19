@@ -2,6 +2,14 @@ package com.jpa.user1984.controller;
 
 
 
+import com.jpa.user1984.dto.BannerDTO;
+import com.jpa.user1984.dto.BookDTO;
+import com.jpa.user1984.dto.BookListDTO;
+import com.jpa.user1984.dto.MemberDTO;
+import com.jpa.user1984.dto.StoreDTO;
+import com.jpa.user1984.domain.Member;
+import com.jpa.user1984.domain.Store;
+import com.jpa.user1984.domain.StoreReview;
 import com.jpa.user1984.dto.*;
 import com.jpa.user1984.security.domain.CustomMember;
 import com.jpa.user1984.service.*;
@@ -9,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +39,7 @@ public class HomeController {
     private final BannerService bannerService;
     private final DisplayService displayService;
     private final StoreService storeService;
+    private final StoreReviewService storeReviewService;
     private final FileUploadService fileUploadService;
     private final MemberService memberService;
 
@@ -110,6 +121,17 @@ public class HomeController {
         return "frontend/home/book";
     }
 
+    // 서점
+
+    // 독립서점 목록
+    @GetMapping("/storeList")
+    public String storeListController(Model model){
+        List<StoreDTO> storeList = storeService.findAll();
+        model.addAttribute("storeList", storeList);
+        System.out.println("storeList = " + storeList);
+
+        return "frontend/home/storeList";
+    }
     // 서점 상세페이지 요청
     @GetMapping("/store/{storeId}")
     public String storeDetail(@PathVariable("storeId") Long storeId, Model model, @AuthenticationPrincipal CustomMember customMember) {
@@ -124,6 +146,38 @@ public class HomeController {
         log.info("******************************************************* store로 가기 직전이다!");
         return "frontend/home/store";
     }
+    // 서점 댓글 등록
+    @PostMapping("/storeUserReview/add")
+    public ResponseEntity<String> storeReviewAdd(@RequestBody StoreReviewForm storeReviewForm, @AuthenticationPrincipal CustomMember customMember, Member member) {
+        log.info("**** HomeController POST /add - storeReviewAdd : {}", storeReviewForm);
+        Member findMember = memberService.findMemberByIdDtMember(customMember.getMember().getUserNo());
+        storeReviewService.storeReviewAdd(storeReviewForm, findMember);
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+    // 서점 댓글 목록
+    @GetMapping("/storeUserReview/list/{storeId}")
+    @ResponseBody
+    public ResponseEntity<List<StoreReviewDTO>> getList(@PathVariable("storeId") Long storeId) {
+
+        log.info("***** CommentController GET /storeUserReview/list/{storeId} - storeId : {}", storeId);
+        // Board id에 해당하는 댓글들 중, 1페이지 10개 댓글 가져와줘~
+        //List<CommentDTO> commentList = commentService.getCommentList(boardId, new PageRequestDTO(page, 10));
+        List<StoreReviewDTO> storeReviewDTO = storeReviewService.findListByStoreId(storeId);
+        log.info("***** HomeController GET /list - commentResponseDTO : {}", storeReviewDTO);
+        return new ResponseEntity<>(storeReviewDTO, HttpStatus.OK);
+    }
+//    // 서점댓글 목록 조회 요청
+//    @GetMapping("/list")
+//    public String List(Model model) {
+//        log.info("******* StoreReviewController list");
+//        //DB에서 전체 게시글 데이터를 가져와서 List에 담아서 list.html로 전달
+//        List<StoreReviewDTO> storeReviewList = storeReviewService.findAll();
+//        model.addAttribute("storeReviewList", storeReviewList);
+//        System.out.println("storeReviewList = " + storeReviewList);
+//
+//        return "backend/storeReview/list";
+//    }
+
 
     // 이미지 데이터 요청
     @ResponseBody
