@@ -52,6 +52,8 @@ public class PaymentService {
             Book findBook = bookRepository.findById(bookId).orElse(null);
             history.setBook(findBook);
             history.setPrice(findBook.getBookEbookPrice());
+            history.setBookReviewStatus(BookReviewStatus.OFF);
+
             histories.add(history);
             PaymentBookHistory save = paymentBookHistoryRepository.save(history);
             log.info("-----PaymentBookHistory 저장성공 OrderBookHistoryId:{}", save.getOrderBookHistoryId());
@@ -71,6 +73,7 @@ public class PaymentService {
         order.setStore(storeRepository.findById(paymentMemForm.getStoreId()).orElse(null));
         order.setPaymentMemStatus(PaymentMemStatus.COMPLETE);
         order.setPrice(paymentMemForm.getPrice());
+        order.setStoreReviewStatus(StoreReviewStatus.OFF);
 
         PaymentMem saved = paymentMemRepository.save(order);
         log.info("**************PaymentService.saveMembershipOrder 성공 PaymentMem:{}", saved);

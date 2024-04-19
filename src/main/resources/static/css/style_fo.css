@@ -147,10 +147,14 @@ div.sec_01_bannerarea > ul > li.active{
     background-position:center;
     background-repeat:no-repeat;
     background-size:cover;
+    position:relative;
 }
 .banner_imgarea > a{
     width:100%;
     height:100%;
+    position:absolute;
+    top:0;
+    left:0;
 }
 .banner_textarea > h3{
     font-weight: 500;
@@ -483,10 +487,27 @@ a.book_ca_btn{
     justify-content: flex-start;
 }
 .store_img{
-    width:80px;
+    width: 80px;
     height: 80px;
-    background-color: #dcdcdc;
+    padding-bottom : calc((360/260)*100%);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: aliceblue;
+    border: 1px solid #dcdcdc;
+    position: relative;
 }
+
+.store_img > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+
 .book_storetext_wrap{
     width:calc(100% - 200px);
 }
@@ -730,6 +751,17 @@ hr.bold_hr{
     background-color: var(--mainblack);
     color: var(--mainwhite);
 }
+.paging_bar > ul > li > a:hover{
+    background-color: var(--mainblack);
+    color: var(--pointcolor);
+}
+.disabled {
+    pointer-events: none;
+}
+.active {
+    pointer-events: none;
+    color: var(--pointcolor);
+}
 .review_input_form{
     margin-top: 20px;
     width: 100%;
@@ -968,6 +1000,14 @@ span.priceText_big{
     width: 100%;
     object-fit: cover;
 }
+/*나의 책장*/
+.book_wrap_pagebody{
+    width:calc(100% - 80px);
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+}
+
 
 /*추천도서리스트*/
 .mypage_re_bookList_h2{

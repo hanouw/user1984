@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -37,6 +39,10 @@ public class Store extends TimeEntity{
     private String storeOneReview;
     @Column(length = 100)
     private String storeReview;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "storeReviewId")
+    private List<StoreReview> storeUserReviews = new ArrayList<>();
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StoreStatus storeStatus;

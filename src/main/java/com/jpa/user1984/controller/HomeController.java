@@ -2,6 +2,11 @@ package com.jpa.user1984.controller;
 
 
 
+import com.jpa.user1984.dto.BannerDTO;
+import com.jpa.user1984.dto.BookDTO;
+import com.jpa.user1984.dto.BookListDTO;
+import com.jpa.user1984.dto.MemberDTO;
+import com.jpa.user1984.dto.StoreDTO;
 import com.jpa.user1984.domain.Member;
 import com.jpa.user1984.domain.Store;
 import com.jpa.user1984.domain.StoreReview;
@@ -20,6 +25,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -52,19 +58,42 @@ public class HomeController {
 
     //도서목록
     @GetMapping("/bookList")
-    public String bookListController(Model model){
-        List<BookDTO> allBookList = bookService.findAll();
-        model.addAttribute("allBookList", allBookList);
+    public String bookListController(){
         return "frontend/home/bookList";
+    }
+
+    // 도서 10권 찾아오기
+    @GetMapping("/tenBook/{bookId}")
+    @ResponseBody
+    public List<BookListDTO> gotBookById(@PathVariable Long bookId){
+        log.info("*******  HomeController gotBookById");
+        List<BookListDTO> tenBookList = new ArrayList<BookListDTO>();
+        for (Long bookPosition=bookId; bookPosition < bookId+10; bookPosition++ ){
+            try{
+                BookDTO oneBook = bookService.findOne(bookPosition);
+                tenBookList.add(new BookListDTO(oneBook));
+            }catch (NullPointerException e){
+                log.info("******* 마지막 호출됨");
+                break;
+            }
+        }
+        log.info("*******  HomeController gotBookById - tenBookList : {}", tenBookList);
+        return tenBookList;
     }
 
     // 메뉴 리스트 //
 
     // 책 상세페이지 요청
     @GetMapping("/book/{bookId}")
-    public String bookDetail(@PathVariable Long bookId, Model model) {
+    public String bookDetail(@PathVariable Long bookId, Model model, @AuthenticationPrincipal CustomMember customMember) {
         BookDTO findBook = bookService.findOne(bookId);
         model.addAttribute("book", findBook);
+        if (customMember != null){
+            log.info("로그인된 book 페이지로 이동중");
+            MemberDTO findMember = memberService.findMemberById(customMember.getMember().getUserNo());
+            model.addAttribute("user", findMember);
+            return "frontend/home/bookLogin";
+        }
         return "frontend/home/book";
     }
 
@@ -84,8 +113,13 @@ public class HomeController {
     public String storeDetail(@PathVariable("storeId") Long storeId, Model model, @AuthenticationPrincipal CustomMember customMember) {
         StoreDTO findStore = storeService.getOneStore(storeId);
         model.addAttribute("store", findStore);
-        MemberDTO findMember = memberService.findMemberById(customMember.getMember().getUserNo());
-        model.addAttribute("user", findMember);
+        if(customMember != null){
+            log.info("******* 지금 if문 실행됨 customMember = {}", customMember);
+            MemberDTO findMember = memberService.findMemberById(customMember.getMember().getUserNo());
+            model.addAttribute("user", findMember);
+            return "frontend/home/storeLogin";
+        }
+        log.info("******************************************************* store로 가기 직전이다!");
         return "frontend/home/store";
     }
     // 서점 댓글 등록
