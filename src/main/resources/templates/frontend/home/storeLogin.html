@@ -289,8 +289,6 @@
         }
 
 
-
-  }); // ready
 </script>
 
 
@@ -308,7 +306,9 @@
         let name = storeTitle + " 구독";
         let price = $("#price").text();
         let amount = parseInt($("#price").text().replace(',', ''), 10);
-        $("#subscribeButton").on("click", function () {
+
+
+        $("#subscribeButton, #clickToAd").on("click", function () {
             console.log("IMP 실행");
             let merchantUid = createMerchantUid();
             let data = {
@@ -371,6 +371,7 @@
                     }
                 });
     });
+
     // 주문번호 생성 함수
     function createMerchantUid() {
         const date = new Date();
@@ -384,6 +385,9 @@
         }
         return parseInt(merchantUid);
     };
+
+
+
 });
 </script>
 </html>

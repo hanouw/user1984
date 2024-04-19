@@ -182,9 +182,19 @@
 
 <script th:inline="javascript">
   $(document).ready(function(){
+
+  // 배너띠광고 창 클릭 이벤트
+    $("#clickToAd").on("click", function () {
+        window.location.href = '/login';
+    });
+
     let storeIdVal = [[${store.storeId}]]; // 스토어번호
     let storeUserReview = $("#storeUserReviewList");  // 스토어유저리뷰목록
     console.log(storeIdVal);
+    //HeaderAd 버튼클릭(비로그인)
+    function clickToAd() {
+        window.location.href = '/login';
+    }
 
 
 
@@ -246,9 +256,6 @@
             return [yy, '/', (mm > 9 ? '':'0') + mm, '/', (dd > 9 ? '':'0') + dd].join('');
           }
         }
-
-
-
   }); // ready
 </script>
 
