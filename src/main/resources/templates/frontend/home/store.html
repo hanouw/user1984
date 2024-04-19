@@ -1,309 +1,404 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{frontend/layouts/baseAd :: baseAd(~{this::content})}">
-    <th:block th:fragment="content">
-        <section class="section_wrap sec_ad_01">
-            <div class="section_wrap_pagebody flex_between">
-                <div class="st_sec_01_img">
-<!--                    <img src="https://contents-cdn.viewus.co.kr/image/2023/04/CP-2023-0042/image-7ec7f2bb-01d6-475a-bc77-7e1044bbccd2.jpeg" alt="" />-->
-                    <img th:if="${store.getStoreImageStored() != null}" th:src="|/images/${store.getStoreImageStored()}|"/>
-                    <p th:text="${store.getStoreTag()}">#커피 #소설 #인문 #도서관 #식물 #자기개발 #감각적인</p>
-                </div>
-                <div class="st_sec_01_text">
-                    <div class="st_title_wrap">
-                        <p class="st_title" th:text="${store.storeTitle}" id="storeTitle">코뿔소서점</p>
-                        <a href="" class="st_ca_btn" th:text="${store.getStoreAddress()}">서울</a>
-                    </div>
-                    <div class="st_iftext_wrap line_bt_gr">
-                        <p th:text="${store.getStoreText()}">
-<!--                            커피와 책이 있는 당신의 '시행착오'를 응원하는 책방이다. 주인장은 실패는 늘 예견되어 있으니, 너무 크게 낙심하지 않아도 된다고 말한다. 그리고 숱한 시행착오 너머에는-->
-<!--                            반드시"마침내 해낸다"고 믿는 사람들을 기다린다.-->
-                        </p>
-                    </div>
-                    <div class="st_storetext01_wrap line_bt_gr">
-                        <div>
-                            <p>매장주소</p>
-                            <p>운영시간</p>
-                            <p>연락처</p>
-                            <p>이메일</p>
-                        </div>
-                        <div>
-                            <p th:text="${store.getStoreAddress()}"></p>
-                            <p th:text="${store.getStoreOperateTime()}"></p>
-                            <p th:text="${store.getStorePhoneNum()}"></p>
-                            <p th:text="${store.getStoreEmail()}"></p>
-                        </div>
-                    </div>
-                    <div class="st_storetext02_wrap line_bt_gr">
-                        <div>
-                            <p>
-                                구독권 <br />
-                                이용안내
-                            </p>
-                        </div>
-                        <div>
-                            <p>
-                                • 배송 없이 구매 후 바로 읽기 <br />
-                                • 30일간 무제한으로 해당 서점 전 도서 열람가능 <br />
-                                • 저작권 보호를 위한 인쇄 기능 제공 안함
-                            </p>
-                        </div>
-                    </div>
-                    <div class="st_storetext03_wrap line_bt_gr">
-                        <div>
-                            <span class="st_storetext03_span">구독권 판매가</span>
-                            <div>
-                                <span class="st_pay_text" id="price"> 12,000 </span>
-                                <span>원</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="st_button_wrap">
-                        <button class="blackLine_btn" id="inquiryButton" th:data-storeId="${store.storeId}">문의하기</button>
-                        <button class="point_btn" id="subscribeButton" th:data-storeId="${store.storeId}">구독하기</button>
-                    </div>
-                </div>
+  <th:block th:fragment="content">
+    <section class="section_wrap sec_ad_01">
+      <div class="section_wrap_pagebody flex_between">
+        <div class="st_sec_01_img">
+          <!--                    <img src="https://contents-cdn.viewus.co.kr/image/2023/04/CP-2023-0042/image-7ec7f2bb-01d6-475a-bc77-7e1044bbccd2.jpeg" alt="" />-->
+          <img th:if="${store.getStoreImageStored() != null}" th:src="|/images/${store.getStoreImageStored()}|"/>
+          <p th:text="${store.getStoreTag()}">#커피 #소설 #인문 #도서관 #식물 #자기개발 #감각적인</p>
+        </div>
+        <div class="st_sec_01_text">
+          <div class="st_title_wrap">
+            <p class="st_title" th:text="${store.storeTitle}" id="storeTitle">코뿔소서점</p>
+            <a href="" class="st_ca_btn" th:text="${store.getStoreAddress()}">서울</a>
+          </div>
+          <div class="st_iftext_wrap line_bt_gr">
+            <p th:text="${store.getStoreText()}">
+              <!--                            커피와 책이 있는 당신의 '시행착오'를 응원하는 책방이다. 주인장은 실패는 늘 예견되어 있으니, 너무 크게 낙심하지 않아도 된다고 말한다. 그리고 숱한 시행착오 너머에는-->
+              <!--                            반드시"마침내 해낸다"고 믿는 사람들을 기다린다.-->
+            </p>
+          </div>
+          <div class="st_storetext01_wrap line_bt_gr">
+            <div>
+              <p>매장주소</p>
+              <p>운영시간</p>
+              <p>연락처</p>
+              <p>이메일</p>
             </div>
-        </section>
-        <section class="section_wrap">
-            <div class="section_wrap_pagebody flex_between page_line">
-                <div class="sec_h_wrap">
-                    <h2>매장안내</h2>
-                    <hr class="bold_hr" />
-                    <div class="sec_text_wrap">
-                        <h3 class="text_center st_text_h3" th:text="${store.getStoreOneReview()}">대표님의 개성있는 도서들이 가득한 서점</h3>
-                        <img th:if="${store.getStoreImageStored01() != null}" th:src="|/images/${store.getStoreImageStored01()}|" alt="" /> <br />
-                        <img th:if="${store.getStoreImageStored02() != null}" th:src="|/images/${store.getStoreImageStored02()}|" alt="" /> <br />
-                        <img th:if="${store.getStoreImageStored03() != null}" th:src="|/images/${store.getStoreImageStored03()}|" alt="" /> <br />
-                        <p th:text="${store.getStoreReview()}">
-<!--                            전대표는 ‘콘텐츠란 단 하나의 의미와 행위에 국한되지 않는다’고 생각한다. 1984 역시 그런 운영방침을 갖고 있다. 카페, 편집숍, 갤러리, 세미나 공간이 각각 개별로 독립되지 않고-->
-<!--                            서로 융합하는 것이다. 예를 들어 래퍼 투팍에 관한 책을 출간하면서 뮤지션들의 헌정공연, 힙합문화에 대한 세미나는 물론 관련 소품의 판매까지 복합적으로 이뤄지도록 한다. “한-->
-<!--                            가지 주제가 다양한 콘텐츠로 재생산된다면, 이는 단순히 보고 듣고 즐기는 향유 차원을 벗어나 새로운 문화의 원동력이 될 수 있다고 봅니다”라는 게 그 이유다. 그러나 그 바탕에-->
-<!--                            존재하는 건 역시나 ‘텍스트’임을 잊지 않고 있다. 그렇다고 무조건 책이 중심이 된다는 1차원적 접근은 지양한다. 공간을 매개로 문화의 다양한 양상이 이합집산되고, 동시에 젊은-->
-<!--                            예술가들의 혁신적 시도를 지원할 수 있기를 바라고 있다. ‘종이책의 위기’만을 이야기하는 이 황량한 시대, 책이야말로 문화의 근간이자 뿌리라고 얘기하는 젊은 출판 브랜드 1984. 이-->
-<!--                            멋진 시도가 훌륭한 결실을 맺기를 기대해본다.-->
-                        </p>
-                    </div>
-                </div>
+            <div>
+              <p th:text="${store.getStoreAddress()}"></p>
+              <p th:text="${store.getStoreOperateTime()}"></p>
+              <p th:text="${store.getStorePhoneNum()}"></p>
+              <p th:text="${store.getStoreEmail()}"></p>
             </div>
-        </section>
-
-        <section class="section_wrap">
-            <div class="section_wrap_pagebody page_line">
-                <div class="sec_h_wrap">
-                    <h2><span>환상문학</span>의 다른 도서들</h2>
-                </div>
-                <div class="item_list_wrap">
-                    <ul class="flex_start">
-                        <li>
-                            <div class="item_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014614/XL')"></div>
-                            <p>위험을 향해 달리다</p>
-                            <span>
-                                <span>이제하</span>
-                                지음 /
-                                <span>샘터사</span>
-                            </span>
-                        </li>
-                        <li>
-                            <div class="item_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014616/XL')"></div>
-                            <p>위험을 향해 달리다</p>
-                            <span>
-                                <span>이제하</span>
-                                지음 /
-                                <span>샘터사</span>
-                            </span>
-                        </li>
-                        <li>
-                            <div class="item_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014615/XL')"></div>
-                            <p>위험을 향해 달리다</p>
-                            <span>
-                                <span>이제하</span>
-                                지음 /
-                                <span>샘터사</span>
-                            </span>
-                        </li>
-                        <li>
-                            <div class="item_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014613/XL')"></div>
-                            <p>위험을 향해 달리다</p>
-                            <span>
-                                <span>이제하</span>
-                                지음 /
-                                <span>샘터사</span>
-                            </span>
-                        </li>
-                        <li>
-                            <div class="item_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014611/XL')"></div>
-                            <p>위험을 향해 달리다</p>
-                            <span>
-                                <span>이제하</span>
-                                지음 /
-                                <span>샘터사</span>
-                            </span>
-                        </li>
-                    </ul>
-                </div>
+          </div>
+          <div class="st_storetext02_wrap line_bt_gr">
+            <div>
+              <p>
+                구독권 <br/>
+                이용안내
+              </p>
             </div>
-        </section>
-        <section class="section_wrap">
-            <div class="section_wrap_pagebody">
-                <!-- 리뷰헤더 -->
-                <div class="sec_h_wrap flex_between">
-                    <h2>한줄리뷰</h2>
-                    <select name="" id="">
-                        <option value="">최신순</option>
-                        <option value="">이전순</option>
-                    </select>
-                </div>
-
-                <!-- 리뷰 -->
-                <div class="review_wrap flex_between">
-                    <div class="review_text_wrap">
-                        <h4>아이디</h4>
-                        <p>내요오오오옹내요오오오옹내요오오오옹 내요오오오옹내요오오오옹내요오오오옹 내요오오오옹내요오오오옹내요오오오옹</p>
-                        <span>2024-4-10</span>
-                    </div>
-                    <div class="review_btn_wrap">
-                        <button class="greyLine_btn">댓글쓰기</button>
-                    </div>
-                </div>
-
-                <!-- 리뷰 -->
-                <div class="review_wrap flex_between">
-                    <div class="review_text_wrap">
-                        <h4>아이디</h4>
-                        <p>내요오오오옹내요오오오옹내요오오오옹 내요오오오옹내요오오오옹내요오오오옹 내요오오오옹내요오오오옹내요오오오옹</p>
-                        <span>2024-4-10</span>
-                    </div>
-                    <div class="review_btn_wrap">
-                        <button class="greyLine_btn">댓글쓰기</button>
-                    </div>
-                </div>
-
-                <!-- 리뷰 나눔선 -->
-                <div class="review_wrap flex_between">
-                    <div class="review_text_wrap"></div>
-                </div>
-
-                <!-- 페이징 -->
-                <div class="paging_wrap">
-                    <div class="paging_bar">
-                        <ul class="flex_between">
-                            <li>Prev</li>
-                            <li>1</li>
-                            <li>2</li>
-                            <li>3</li>
-                            <li>4</li>
-                            <li>5</li>
-                            <li>Next</li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- 리뷰작성 -->
-                <div class="sec_h_wrap">
-                    <h2>리뷰작성</h2>
-                    <div class="review_input_form">
-                        <form action="post">
-                            <input class="review_input" type="text" />
-                            <button type="submit" class="review_input_btn point_btn">댓글작성</button>
-                        </form>
-                    </div>
-                </div>
+            <div>
+              <p>
+                • 배송 없이 구매 후 바로 읽기 <br/>
+                • 30일간 무제한으로 해당 서점 전 도서 열람가능 <br/>
+                • 저작권 보호를 위한 인쇄 기능 제공 안함
+              </p>
             </div>
-        </section>
+          </div>
+          <div class="st_storetext03_wrap line_bt_gr">
+            <div>
+              <span class="st_storetext03_span">구독권 판매가</span>
+              <div>
+                <span class="st_pay_text" id="price"> 12,000 </span>
+                <span>원</span>
+              </div>
+            </div>
+          </div>
+          <div class="st_button_wrap">
+            <button class="blackLine_btn" id="inquiryButton" th:data-storeId="${store.storeId}">문의하기</button>
+            <button class="point_btn" id="subscribeButton" th:data-storeId="${store.storeId}">구독하기</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section_wrap">
+      <div class="section_wrap_pagebody flex_between page_line">
+        <div class="sec_h_wrap">
+          <h2>매장안내</h2>
+          <hr class="bold_hr"/>
+          <div class="sec_text_wrap">
+            <h3 class="text_center st_text_h3" th:text="${store.getStoreOneReview()}">대표님의 개성있는 도서들이 가득한 서점</h3>
+            <img th:if="${store.getStoreImageStored01() != null}" th:src="|/images/${store.getStoreImageStored01()}|"
+                 alt=""/> <br/>
+            <img th:if="${store.getStoreImageStored02() != null}" th:src="|/images/${store.getStoreImageStored02()}|"
+                 alt=""/> <br/>
+            <img th:if="${store.getStoreImageStored03() != null}" th:src="|/images/${store.getStoreImageStored03()}|"
+                 alt=""/> <br/>
+            <p th:text="${store.getStoreReview()}">
+              <!--                            전대표는 ‘콘텐츠란 단 하나의 의미와 행위에 국한되지 않는다’고 생각한다. 1984 역시 그런 운영방침을 갖고 있다. 카페, 편집숍, 갤러리, 세미나 공간이 각각 개별로 독립되지 않고-->
+              <!--                            서로 융합하는 것이다. 예를 들어 래퍼 투팍에 관한 책을 출간하면서 뮤지션들의 헌정공연, 힙합문화에 대한 세미나는 물론 관련 소품의 판매까지 복합적으로 이뤄지도록 한다. “한-->
+              <!--                            가지 주제가 다양한 콘텐츠로 재생산된다면, 이는 단순히 보고 듣고 즐기는 향유 차원을 벗어나 새로운 문화의 원동력이 될 수 있다고 봅니다”라는 게 그 이유다. 그러나 그 바탕에-->
+              <!--                            존재하는 건 역시나 ‘텍스트’임을 잊지 않고 있다. 그렇다고 무조건 책이 중심이 된다는 1차원적 접근은 지양한다. 공간을 매개로 문화의 다양한 양상이 이합집산되고, 동시에 젊은-->
+              <!--                            예술가들의 혁신적 시도를 지원할 수 있기를 바라고 있다. ‘종이책의 위기’만을 이야기하는 이 황량한 시대, 책이야말로 문화의 근간이자 뿌리라고 얘기하는 젊은 출판 브랜드 1984. 이-->
+              <!--                            멋진 시도가 훌륭한 결실을 맺기를 기대해본다.-->
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <div id="user" th:data-email="${user.userEmail}" th:data-name="${user.userName}" th:data-tel="${user.userPhoneNum}"></div>
-    </th:block>
+    <section class="section_wrap">
+      <div class="section_wrap_pagebody page_line">
+        <div class="sec_h_wrap">
+          <h2><span>환상문학</span>의 다른 도서들</h2>
+        </div>
+        <div class="item_list_wrap">
+          <ul class="flex_start">
+            <li>
+              <div class="item_img_wrap"
+                   style="background-image: url('https://image.yes24.com/goods/117014614/XL')"></div>
+              <p>위험을 향해 달리다</p>
+              <span>
+                                <span>이제하</span>
+                                지음 /
+                                <span>샘터사</span>
+                            </span>
+            </li>
+            <li>
+              <div class="item_img_wrap"
+                   style="background-image: url('https://image.yes24.com/goods/117014616/XL')"></div>
+              <p>위험을 향해 달리다</p>
+              <span>
+                                <span>이제하</span>
+                                지음 /
+                                <span>샘터사</span>
+                            </span>
+            </li>
+            <li>
+              <div class="item_img_wrap"
+                   style="background-image: url('https://image.yes24.com/goods/117014615/XL')"></div>
+              <p>위험을 향해 달리다</p>
+              <span>
+                                <span>이제하</span>
+                                지음 /
+                                <span>샘터사</span>
+                            </span>
+            </li>
+            <li>
+              <div class="item_img_wrap"
+                   style="background-image: url('https://image.yes24.com/goods/117014613/XL')"></div>
+              <p>위험을 향해 달리다</p>
+              <span>
+                                <span>이제하</span>
+                                지음 /
+                                <span>샘터사</span>
+                            </span>
+            </li>
+            <li>
+              <div class="item_img_wrap"
+                   style="background-image: url('https://image.yes24.com/goods/117014611/XL')"></div>
+              <p>위험을 향해 달리다</p>
+              <span>
+                                <span>이제하</span>
+                                지음 /
+                                <span>샘터사</span>
+                            </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section class="section_wrap">
+      <div class="section_wrap_pagebody">
+        <!-- 리뷰헤더 -->
+        <div class="sec_h_wrap flex_between">
+          <h2>한줄리뷰</h2>
+        </div>
+
+        <!-- 리뷰 나눔선 -->
+        <div class="review_wrap flex_between">
+          <div class="review_text_wrap"></div>
+        </div>
+
+        <!-- 리뷰작성 -->
+        <div class="sec_h_wrap">
+          <h2>리뷰작성</h2>
+          <div class="review_input_form">
+            <form id="storeUserReviewForm">
+              <!--              <input type="text" class="form-control"  id="storeUserReviewer">-->
+              <input class="review_input" type="text" id="storeUserReview"/>
+              <button type=button class="review_input_btn point_btn" id="newStoreUserReviewBtn">댓글작성</button>
+            </form>
+          </div>
+        </div>
+
+
+        <!-- 리뷰 목록 (답글 버튼) -->
+        <!-- 댓글 리스트 : printReplyList 함수에서 동적으로 추가 -->
+
+        <div class="review_wrap flex_between" id="storeUserReviewList">
+
+        </div>
+
+
+      </div>
+    </section>
+
+
+    <div id="user" th:data-email="${user.userEmail}" th:data-name="${user.userName}"
+         th:data-tel="${user.userPhoneNum}"></div>
+  </th:block>
 </th:block>
+
+
+<script th:inline="javascript">
+  $(document).ready(function(){
+    let storeIdVal = [[${store.storeId}]]; // 스토어번호
+    let storeUserReview = $("#storeUserReviewList");  // 스토어유저리뷰목록
+    console.log(storeIdVal);
+
+
+
+    // 댓글 목록 화면에 출력하는 함수
+    function printStoreUserReviewList(list) {
+      let html = '';
+      for(let i = 0; i < list.length; i++) {
+        html += '<div class="row align-items-center p-2">';
+        html += '<div>';
+        html += '</div><div class="col mr-2">';
+        html += '<div class="h5 mb-0 font-weight-bold text-gray-800">'+ list[i].storeReviewDetail +'</div>';
+        html += ' <span class="ml2 text-gray-500"> '+ displayTime(list[i].createDate) +' </span></div></div>';
+        html += '<div class="col-auto btn-group-sm">';
+        html += '<button class="btn btn-info mr-1" data-storeReviewPositionId="'+ list[i].storeReviewPositionId +'" data-step="'+ list[i].step +'">답글</button>';
+        // html += '<button class="btn btn-warning mr-1 storeUserReviewModifBtn" data-storeUserReviewId="'+ list[i].id +'">수정</button>';
+        html += '</div></div><hr />';
+      }
+      storeUserReview.html(html); // 목록 태그 컨테이너 안에 붙히기
+    }
+
+
+    // ***** 댓글 목록 ********************
+    // 댓글 목록 요청 함수
+    function getStoreUserReviewList() {
+      console.log("getStoreUserReviewList!");
+      $.ajax({
+        type: "get",
+        url: "/storeUserReview/list/" + storeIdVal ,
+        success: function(result){
+          console.log("댓글 목록 요청 성공!");
+          console.log(result);
+          // 댓글 목록 화면에 띄우기
+          printStoreUserReviewList(result);
+        },
+        error: function(e){
+          console.log("댓글 목록 요청 실패....");
+          console.log(e);
+        }
+      });
+    }
+
+
+    getStoreUserReviewList();  // 댓글 목록 요청 호출!
+
+
+
+
+
+    // ***** 댓글 등록 ********************
+
+    $("#newStoreUserReviewBtn").on("click", function(){
+      console.log("new storeUserReview button clicked!!");
+      let storeUserReviewTxt = $("#storeUserReview").val(); // 댓글 내용 가져오기
+      let data = {
+        storeReviewDetail: storeUserReviewTxt,
+        storeId: storeIdVal,
+        storeReviewPosition: 0,
+        step: 0
+      };
+      console.log(data);
+      saveStoreUserReview(data, function(){
+        $("#storeUserReview").val(""); // 댓글작성란 비우기
+      });
+    });
+    // 댓글 저장 처리 함수
+    function saveStoreUserReview(data, callbackFn) { // 저장데이터와 성공시 실행할 콜백함수 전달받기
+      $.ajax({
+        type: "post",
+        url: "/storeUserReview/add",
+        data: JSON.stringify(data),
+        contentType: "application/json;charset=UTF-8",
+        success: function(result){
+          console.log("댓글 등록 성공!!");
+          console.log(result);
+          callbackFn();  // 콜백함수 호출
+        },
+        error: function(e){
+          console.log("댓글 등록 실패....");
+          console.log(e);
+        }
+      });
+    }
+
+    // 화면에 뿌려주는 시간 포맷팅 함수
+        function displayTime(timeValue) {
+          let today = new Date();
+          let dateObj = new Date(timeValue);
+          let gap = today.getTime() - dateObj;
+          if(gap < (1000 * 60 * 60 * 24) && today.getDate() == dateObj.getDate()) {
+            let hh = dateObj.getHours();
+            let mi = dateObj.getMinutes();
+            let ss = dateObj.getSeconds();
+            return [(hh > 9 ? '':'0') + hh, ':', (mi > 9 ? '':'0') + mi, ':', (ss > 9 ? '':'0') + ss].join('');
+          }else {
+            let yy = dateObj.getFullYear();
+            let mm = dateObj.getMonth() + 1;
+            let dd = dateObj.getDate();
+            return [yy, '/', (mm > 9 ? '':'0') + mm, '/', (dd > 9 ? '':'0') + dd].join('');
+          }
+        }
+
+
+
+  }); // ready
+</script>
+
+
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <script th:inline="javascript">
-    $(document).ready(function (){
-        // *********************************** 결제
-        let IMP = window.IMP;
-        IMP.init("imp20085076");
-        let userEmail = $("#user").attr("data-email");
-        let userName = $("#user").attr("data-name");
-        let userTel = $("#user").attr("data-tel");
-        let storeId = $("#subscribeButton").attr("data-storeId");
-        let storeTitle = $("#storeTitle").text();
-        let name = storeTitle + " 구독";
-        let price = $("#price").text();
-        let amount = parseInt($("#price").text().replace(',', ''), 10);
-        $("#subscribeButton").on("click", function () {
-            console.log("IMP 실행");
-            let merchantUid = createMerchantUid();
-            let data = {
-                orderMembershipId: merchantUid,
-                orderMembershipMethod: "card",
-                storeId: storeId,
-                price: price
-            };
-            console.log("data: ", data);
-            IMP.request_pay(
-                {
-                    pg: "html5_inicis",
-                    pay_method: "card",
-                    merchant_uid: merchantUid,
-                    name: name,
-                    amount: amount,
-                    buyer_email: userEmail,
-                    buyer_name: userName,
-                    buyer_tel: userTel,
-                },
-                function (rsp) {
-                    console.log(rsp);
-                    if (rsp.success) {
-                        $.ajax({
-                            type: 'POST',
-                            url: '/order/validation/' + rsp.imp_uid
-                        }).done(function (result) { // PaymentController 에서 IamportResponse<Payment> 넘겨줌
-                            if (rsp.paid_amount === result.response.amount) {
-                                console.log("rsp.paid_amount : ", rsp.paid_amount);
-                                console.log("result.response.amount : ", result.response.amount);
-                                console.log(result);
-                                $.ajax({
-                                    type: 'POST',
-                                    url: '/order/membership',
-                                    data: JSON.stringify(data),
-                                    contentType: "application/json;charset=UTF-8",
-                                    success: function (response) {
-                                        console.log("결제 POST 요청 성공", response);
-                                        // 결제완료 창 띄우기
-                                        let msg = '결제가 완료되었습니다.';
-                                        msg += '고유ID : ' + rsp.imp_uid;
-                                        msg += '상점 거래ID : ' + rsp.merchant_uid;
-                                        msg += '결제 금액 : ' + rsp.paid_amount;
-                                        msg += '카드 승인번호 : ' + rsp.apply_num;
-                                        alert(msg);
-                                        // 결제완료 페이지로 리다이렉트
-                                        window.location.href = '/cart/orderSuccess';
-                                    },
-                                    error: function (e) {
-                                        let msg = '결제에 실패하였습니다. ';
-                                        msg += '에러내용 : ' + rsp.error_msg;
-                                        alert(msg);
-                                        console.log(e);
-                                    }
-                                });
-                            } else {
-                                alert("결제 실패");
-                            }
-                        });
-                    }
-                });
-    });
-    // 주문번호 생성 함수
-    function createMerchantUid() {
-        const date = new Date();
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const day = String(date.getDate()).padStart(2, "0");
+  $(document).ready(function (){
+      // *********************************** 결제
+      let IMP = window.IMP;
+      IMP.init("imp20085076");
+      let userEmail = $("#user").attr("data-email");
+      let userName = $("#user").attr("data-name");
+      let userTel = $("#user").attr("data-tel");
+      let storeId = $("#subscribeButton").attr("data-storeId");
+      let storeTitle = $("#storeTitle").text();
+      let name = storeTitle + " 구독";
+      let price = $("#price").text();
+      let amount = parseInt($("#price").text().replace(',', ''), 10);
+      $("#subscribeButton").on("click", function () {
+          console.log("IMP 실행");
+          let merchantUid = createMerchantUid();
+          let data = {
+              orderMembershipId: merchantUid,
+              orderMembershipMethod: "card",
+              storeId: storeId,
+              price: price
+          };
+          console.log("data: ", data);
+          IMP.request_pay(
+              {
+                  pg: "html5_inicis",
+                  pay_method: "card",
+                  merchant_uid: merchantUid,
+                  name: name,
+                  amount: amount,
+                  buyer_email: userEmail,
+                  buyer_name: userName,
+                  buyer_tel: userTel,
+              },
+              function (rsp) {
+                  console.log(rsp);
+                  if (rsp.success) {
+                      $.ajax({
+                          type: 'POST',
+                          url: '/order/validation/' + rsp.imp_uid
+                      }).done(function (result) { // PaymentController 에서 IamportResponse<Payment> 넘겨줌
+                          if (rsp.paid_amount === result.response.amount) {
+                              console.log("rsp.paid_amount : ", rsp.paid_amount);
+                              console.log("result.response.amount : ", result.response.amount);
+                              console.log(result);
+                              $.ajax({
+                                  type: 'POST',
+                                  url: '/order/membership',
+                                  data: JSON.stringify(data),
+                                  contentType: "application/json;charset=UTF-8",
+                                  success: function (response) {
+                                      console.log("결제 POST 요청 성공", response);
+                                      // 결제완료 창 띄우기
+                                      let msg = '결제가 완료되었습니다.';
+                                      msg += '고유ID : ' + rsp.imp_uid;
+                                      msg += '상점 거래ID : ' + rsp.merchant_uid;
+                                      msg += '결제 금액 : ' + rsp.paid_amount;
+                                      msg += '카드 승인번호 : ' + rsp.apply_num;
+                                      alert(msg);
+                                      // 결제완료 페이지로 리다이렉트
+                                      window.location.href = '/cart/orderSuccess';
+                                  },
+                                  error: function (e) {
+                                      let msg = '결제에 실패하였습니다. ';
+                                      msg += '에러내용 : ' + rsp.error_msg;
+                                      alert(msg);
+                                      console.log(e);
+                                  }
+                              });
+                          } else {
+                              alert("결제 실패");
+                          }
+                      });
+                  }
+              });
+  });
+  // 주문번호 생성 함수
+  function createMerchantUid() {
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
 
-        let merchantUid = year + month + day;
-        for (let i = 0; i < 5; i++) {
-            merchantUid += Math.floor(Math.random() * 8);
-        }
-        return parseInt(merchantUid);
-    };
+      let merchantUid = year + month + day;
+      for (let i = 0; i < 5; i++) {
+          merchantUid += Math.floor(Math.random() * 8);
+      }
+      return parseInt(merchantUid);
+  };
 });
 </script>
+
+
 </html>

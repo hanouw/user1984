@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -41,6 +42,10 @@ public class StoreDTO { // 가져오는
     private String storeImageOrigin03;
     private String storeImageStored03;
 
+    //
+    private List<StoreReviewDTO> storeReviewList;  // 댓글 목록
+
+    // DTO는 html에 뿌려주기 위해 데이터 변환 해주는 거
     // sampleDTO 생성자의 매개변수는 entity
     // Entity -> DTO
     // 생성자 : Store 엔티티 -> StoreForm으로 변경해 화면에 전달
