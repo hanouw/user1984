@@ -17,14 +17,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -68,16 +68,6 @@ public class HomeController {
         DisplayDTO displayList = displayService.findOne();
         model.addAttribute("DisplayList", displayList);
         return "frontend/home/about";
-    }
-
-    //독립서점
-    @GetMapping("/storeList")
-    public String storeListController(Model model){
-        List<StoreDTO> storeList = storeService.findAll();
-        model.addAttribute("storeList", storeList);
-        System.out.println("storeList = " + storeList);
-
-        return "frontend/home/storeList";
     }
 
     //도서목록
@@ -164,7 +154,13 @@ public class HomeController {
         //List<CommentDTO> commentList = commentService.getCommentList(boardId, new PageRequestDTO(page, 10));
         List<StoreReviewDTO> storeReviewDTO = storeReviewService.findListByStoreId(storeId);
         log.info("***** HomeController GET /list - commentResponseDTO : {}", storeReviewDTO);
-        return new ResponseEntity<>(storeReviewDTO, HttpStatus.OK);
+        HttpHeaders responseHeader = new HttpHeaders();
+//        responseHeader.add("Content-Type", "text/plain;charset=UTF-8");
+//        responseHeader.add("Content-Type", "APPLICATION_JSON");
+        ResponseEntity<List<StoreReviewDTO>> response = ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(storeReviewDTO);
+        return response;
     }
 //    // 서점댓글 목록 조회 요청
 //    @GetMapping("/list")

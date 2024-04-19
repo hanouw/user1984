@@ -214,6 +214,7 @@
       $.ajax({
         type: "get",
         url: "/storeUserReview/list/" + storeIdVal ,
+        dataType: "JSON",
         success: function(result){
           console.log("댓글 목록 요청 성공!");
           console.log(result);
