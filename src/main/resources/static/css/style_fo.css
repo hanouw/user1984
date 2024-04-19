@@ -678,6 +678,7 @@ hr.bold_hr{
     background-color: aliceblue;
     border: 1px solid #dcdcdc;
     position: relative;
+    cursor:pointer;
 }
 
 .item_img_wrap{
