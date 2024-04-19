@@ -29,11 +29,11 @@ public class StoreService {
     // 서점 목록 조회
     public List<StoreDTO> findAll() {
         List<Store> all = storeRepository.findAll();
-        System.out.println("all = " + all);//all까지는 불러옴
+//        System.out.println("all = " + all);//all까지는 불러옴
         List<StoreDTO> list = all.stream()
                 .map(b -> new StoreDTO(b))
                 .collect(Collectors.toList());
-        System.out.println("list = " + list);
+//        System.out.println("list = " + list);
         return list;
     }
 

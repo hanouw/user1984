@@ -45,6 +45,10 @@ public class StoreDTO { // 가져오는
 
     private List<StoreReview> storeUserReviews;
 
+    //
+//    private List<StoreReviewDTO> storeReviewList;  // 댓글 목록 // 필요하면 다시 만드셈
+
+    // DTO는 html에 뿌려주기 위해 데이터 변환 해주는 거
     // sampleDTO 생성자의 매개변수는 entity
     // Entity -> DTO
     // 생성자 : Store 엔티티 -> StoreForm으로 변경해 화면에 전달
@@ -67,6 +71,7 @@ public class StoreDTO { // 가져오는
         this.storeAccount = store.getStoreAccount();
         this.storeBankName = store.getStoreBankName();
         this.storeEmail = store.getStoreEmail();
+
         this.storeImageOrigin = store.getStoreImageOrigin();
         this.storeImageStored = store.getStoreImageStored();
         this.storeImageOrigin01 = store.getStoreImageOrigin01();
