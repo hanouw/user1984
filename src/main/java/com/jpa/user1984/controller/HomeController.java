@@ -64,10 +64,6 @@ public class HomeController {
     public String bookListController(){
         return "frontend/home/bookList";
     }
-    @GetMapping("/booklist")
-    public String redirectBookList(){
-        return "redirect:/bookList";
-    }
 
     // 도서 10권 찾아오기
     @GetMapping("/tenBook/{bookId}")
@@ -92,9 +88,15 @@ public class HomeController {
 
     // 책 상세페이지 요청
     @GetMapping("/book/{bookId}")
-    public String bookDetail(@PathVariable Long bookId, Model model) {
+    public String bookDetail(@PathVariable Long bookId, Model model, @AuthenticationPrincipal CustomMember customMember) {
         BookDTO findBook = bookService.findOne(bookId);
         model.addAttribute("book", findBook);
+        if (customMember != null){
+            log.info("로그인된 book 페이지로 이동중");
+            MemberDTO findMember = memberService.findMemberById(customMember.getMember().getUserNo());
+            model.addAttribute("user", findMember);
+            return "frontend/home/bookLogin";
+        }
         return "frontend/home/book";
     }
 
@@ -103,8 +105,13 @@ public class HomeController {
     public String storeDetail(@PathVariable("storeId") Long storeId, Model model, @AuthenticationPrincipal CustomMember customMember) {
         StoreDTO findStore = storeService.getOneStore(storeId);
         model.addAttribute("store", findStore);
-//        MemberDTO findMember = memberService.findMemberById(customMember.getMember().getUserNo());
-//        model.addAttribute("user", findMember);
+        if(customMember != null){
+            log.info("******* 지금 if문 실행됨 customMember = {}", customMember);
+            MemberDTO findMember = memberService.findMemberById(customMember.getMember().getUserNo());
+            model.addAttribute("user", findMember);
+            return "frontend/home/storeLogin";
+        }
+        log.info("******************************************************* store로 가기 직전이다!");
         return "frontend/home/store";
     }
 
