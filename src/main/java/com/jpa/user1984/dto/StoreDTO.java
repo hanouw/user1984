@@ -46,7 +46,7 @@ public class StoreDTO { // 가져오는
     private List<StoreReview> storeUserReviews;
 
     //
-    private List<StoreReviewDTO> storeReviewList;  // 댓글 목록
+//    private List<StoreReviewDTO> storeReviewList;  // 댓글 목록 // 필요하면 다시 만드셈
 
     // DTO는 html에 뿌려주기 위해 데이터 변환 해주는 거
     // sampleDTO 생성자의 매개변수는 entity
