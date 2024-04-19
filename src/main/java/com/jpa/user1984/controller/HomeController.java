@@ -2,11 +2,7 @@ package com.jpa.user1984.controller;
 
 
 
-import com.jpa.user1984.dto.BannerDTO;
-import com.jpa.user1984.dto.BookDTO;
-import com.jpa.user1984.dto.BookListDTO;
-import com.jpa.user1984.dto.MemberDTO;
-import com.jpa.user1984.dto.StoreDTO;
+import com.jpa.user1984.dto.*;
 import com.jpa.user1984.security.domain.CustomMember;
 import com.jpa.user1984.service.*;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +27,7 @@ public class HomeController {
 
     private final BookService bookService;
     private final BannerService bannerService;
+    private final DisplayService displayService;
     private final StoreService storeService;
     private final FileUploadService fileUploadService;
     private final MemberService memberService;
@@ -40,15 +37,28 @@ public class HomeController {
     @GetMapping("/")
     public String homeController(@AuthenticationPrincipal CustomMember customMember, Model model){
         List<BannerDTO> allBannerList = bannerService.findAll();
+        List<BookDTO> allBookList = bookService.findAll();
+        List<BookDTO> BookCate01 = bookService.findCategory01();
+        List<BookDTO> BookCate02 = bookService.findCategory02();
+        List<BookDTO> BookCate03 = bookService.findCategory03();
+        DisplayDTO displayList = displayService.findOne();
         model.addAttribute("BannerList", allBannerList);
+        model.addAttribute("DisplayList", displayList);
+        model.addAttribute("BookList", allBookList);
+        model.addAttribute("BookCA01", BookCate01);
+        model.addAttribute("BookCA02", BookCate02);
+        model.addAttribute("BookCA03", BookCate03);
         return "frontend/home/index";
     }
 
     //1984소개
     @GetMapping("/about")
-    public String aboutController(){
+    public String aboutController(Model model){
+        DisplayDTO displayList = displayService.findOne();
+        model.addAttribute("DisplayList", displayList);
         return "frontend/home/about";
     }
+
     //독립서점
     @GetMapping("/storeList")
     public String storeListController(Model model){

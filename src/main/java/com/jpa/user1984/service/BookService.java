@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -51,6 +52,40 @@ public class BookService {
     public BookDTO findOne(Long id) {
         Book book = bookRepository.findById(id).orElse(null);
         return new BookDTO(book);
+    }
+
+    //카테고리01 랜덤 조회
+    public List<BookDTO> findCategory01() {
+        List<Book> all = bookRepository.findAll();
+        Collections.shuffle(all); // 랜덤
+        List<BookDTO> list = all.stream()
+                .filter(b -> b.getBookCategory().getBookCategoryId() == 1)
+                .map(b -> new BookDTO(b))
+                .limit(2)
+                .collect(Collectors.toList());
+        return list;
+    }
+    //카테고리02 랜덤 조회
+    public List<BookDTO> findCategory02() {
+        List<Book> all = bookRepository.findAll();
+        Collections.shuffle(all); // 랜덤
+        List<BookDTO> list = all.stream()
+                .filter(b -> b.getBookCategory().getBookCategoryId() == 2)
+                .map(b -> new BookDTO(b))
+                .limit(2)
+                .collect(Collectors.toList());
+        return list;
+    }
+    //카테고리03 랜덤 조회
+    public List<BookDTO> findCategory03() {
+        List<Book> all = bookRepository.findAll();
+        Collections.shuffle(all); // 랜덤
+        List<BookDTO> list = all.stream()
+                .filter(b -> b.getBookCategory().getBookCategoryId() == 3)
+                .map(b -> new BookDTO(b))
+                .limit(2)
+                .collect(Collectors.toList());
+        return list;
     }
 
     //수정

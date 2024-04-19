@@ -25,39 +25,6 @@
                                 </div>
                             </div>
                         </li>
-<!--                        <li class="active">-->
-<!--                            <div class="banner_li_wrap">-->
-<!--                                <div class="banner_textarea">-->
-<!--                                    <h3>배너 테스트입니둥</h3>-->
-<!--                                    <p>배너 테스트!설명글!</p>-->
-<!--                                </div>-->
-<!--                                <div class="banner_imgarea" style="background-image: url('https://img.animalplanet.co.kr/news/2019/08/26/700/114915182ls057ora0n5.jpg');">-->
-<!--                                    <a href=""></a>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </li>-->
-<!--                        <li>-->
-<!--                            <div class="banner_li_wrap">-->
-<!--                                <div class="banner_textarea">-->
-<!--                                    <h3>배너 테스트입니다람쥐</h3>-->
-<!--                                    <p>배너 테스트!설명글입니다람쥐</p>-->
-<!--                                </div>-->
-<!--                                    <div class="banner_imgarea" style="background-image: url('https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F216BC7505885D14B40');">-->
-<!--                                        <a href=""></a>-->
-<!--                                    </div>-->
-<!--                            </div>-->
-<!--                        </li>-->
-<!--                        <li>-->
-<!--                            <div class="banner_li_wrap">-->
-<!--                                <div class="banner_textarea">-->
-<!--                                    <h3>배너 테스트입니다다다다다다다다다다다</h3>-->
-<!--                                    <p>배너 테스트! 다람쥐 설명글입니 다람쥐</p>-->
-<!--                                </div>-->
-<!--                                    <div class="banner_imgarea" style="background-image: url('https://img.animalplanet.co.kr/news/2019/08/26/700/114915182ls057ora0n5.jpg');">-->
-<!--                                        <a href=""></a>-->
-<!--                                    </div>-->
-<!--                            </div>-->
-<!--                        </li>-->
                     </ul>
                 </div>
             </div>
@@ -68,53 +35,68 @@
             <div class="section_wrap_pagebody">
                 <div class="sec_h_wrap flex_between">
                     <h2 class="blackLine_btn">1984의 추천 도서</h2>
-                    <button class="black_btn">더보기</button>
+                    <button class="black_btn" th:onclick="'window.location = ' + '\'' + '/bookList' + '\''">더보기</button>
                 </div>
                 <div class="item_list_wrap">
                     <ul class="flex_start">
                         <li>
-                            <div class="item_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014614/XL')"></div>
-                            <p>위험을 향해 달리다</p>
+                            <div class="item_img_wrap"
+                                 th:style="'background-image: url(\'/images/' + @{${DisplayList.mainBook01.bookImgStored}} + '\');'"
+                                 th:onclick="'window.location = \'/book/' + ${DisplayList.mainBook01.bookId} + '\''">
+                            </div>
+                            <p th:text="${DisplayList.mainBook01.bookTitle}">위험을 향해 달리다</p>
                             <span>
-                                <span>이제하</span>
+                                <span th:text="${DisplayList.mainBook01.bookWriter}">이제하</span>
                                 지음 /
-                                <span>샘터사</span>
+                                <span th:text="${DisplayList.mainBook01.bookPub}">샘터사</span>
                             </span>
                         </li>
                         <li>
-                            <div class="item_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014616/XL')"></div>
-                            <p>위험을 향해 달리다</p>
+                            <div class="item_img_wrap"
+                                 th:style="'background-image: url(\'/images/' + @{${DisplayList.mainBook02.bookImgStored}} + '\');'"
+                                 th:onclick="'window.location = \'/book/' + ${DisplayList.mainBook02.bookId} + '\''">
+                            </div>
+                            <p th:text="${DisplayList.mainBook02.bookTitle}">위험을 향해 달리다</p>
                             <span>
-                                <span>이제하</span>
+                                <span th:text="${DisplayList.mainBook02.bookWriter}">이제하</span>
                                 지음 /
-                                <span>샘터사</span>
+                                <span th:text="${DisplayList.mainBook02.bookPub}">샘터사</span>
                             </span>
                         </li>
                         <li>
-                            <div class="item_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014615/XL')"></div>
-                            <p>위험을 향해 달리다</p>
+                            <div class="item_img_wrap"
+                                 th:style="'background-image: url(\'/images/' + @{${DisplayList.mainBook03.bookImgStored}} + '\');'"
+                                 th:onclick="'window.location = \'/book/' + ${DisplayList.mainBook03.bookId} + '\''">
+                            </div>
+                            <p th:text="${DisplayList.mainBook03.bookTitle}">위험을 향해 달리다</p>
                             <span>
-                                <span>이제하</span>
+                                <span th:text="${DisplayList.mainBook03.bookWriter}">이제하</span>
                                 지음 /
-                                <span>샘터사</span>
+                                <span th:text="${DisplayList.mainBook03.bookPub}">샘터사</span>
                             </span>
                         </li>
                         <li>
-                            <div class="item_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014613/XL')"></div>
-                            <p>위험을 향해 달리다</p>
+                            <div class="item_img_wrap"
+                                 th:style="'background-image: url(\'/images/' + @{${DisplayList.mainBook04.bookImgStored}} + '\');'"
+                                 th:onclick="'window.location = \'/book/' + ${DisplayList.mainBook04.bookId} + '\''">
+                            </div>
+                            <p th:text="${DisplayList.mainBook04.bookTitle}">위험을 향해 달리다</p>
                             <span>
-                                <span>이제하</span>
+                                <span th:text="${DisplayList.mainBook04.bookWriter}">이제하</span>
                                 지음 /
-                                <span>샘터사</span>
+                                <span th:text="${DisplayList.mainBook04.bookPub}">샘터사</span>
                             </span>
                         </li>
                         <li>
-                            <div class="item_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014611/XL')"></div>
-                            <p>위험을 향해 달리다</p>
+                            <div class="item_img_wrap"
+                                 th:style="'background-image: url(\'/images/' + @{${DisplayList.mainBook05.bookImgStored}} + '\');'"
+                                 th:onclick="'window.location = \'/book/' + ${DisplayList.mainBook05.bookId} + '\''">
+                            </div>
+                            <p th:text="${DisplayList.mainBook05.bookTitle}">위험을 향해 달리다</p>
                             <span>
-                                <span>이제하</span>
+                                <span th:text="${DisplayList.mainBook05.bookWriter}">이제하</span>
                                 지음 /
-                                <span>샘터사</span>
+                                <span th:text="${DisplayList.mainBook05.bookPub}">샘터사</span>
                             </span>
                         </li>
                     </ul>
@@ -131,100 +113,75 @@
                 <div class="main_cate_wrap">
                     <ul class="flex_between">
                         <li>
-                            <a href="">
-                                <div
-                                        class="cate_img_wrap"
-                                        style="background-image: url('https://images.pexels.com/photos/6798601/pexels-photo-6798601.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')"
-                                ></div>
-                                <h3>#인문</h3>
-                                <hr />
-                                <div class="cate_item flex_between">
-                                    <div class="cate_img_body" style="background-image: url('https://image.yes24.com/goods/117014611/XL')"></div>
+                            <div class="cate_img_wrap"
+                                     style="background-image: url('https://images.pexels.com/photos/6798601/pexels-photo-6798601.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')"
+                            ></div>
+                            <h3>#인문</h3>
+                            <hr />
+                            <div th:each="bookCa01 : ${BookCA01}">
+                                <div class="cate_item flex_between" th:onclick="'window.location = \'/book/' + ${bookCa01.bookId} + '\''">
+                                    <div class="cate_img_body"
+                                         th:style="'background-image: url(\'/images/' + @{${bookCa01.bookImgStored}} + '\');'">
+                                </div>
                                     <div class="cate_store_table">
-                                        <p>호랑나비</p>
-                                        <span><span>김흥국</span> / <span>호랑수월출판사</span></span>
+                                        <p th:text="${bookCa01.bookTitle}">호랑나비</p>
+                                        <span>
+                                            <span th:text="${bookCa01.bookWriter}">김흥국</span> / <span th:text="${bookCa01.bookPub}">호랑수월출판사</span>
+                                        </span>
                                     </div>
                                     <div class="cate_store_table02">
-                                        <span>아트몰링</span>
+                                        <span th:text="${bookCa01.store.storeTitle}">아트몰링</span>
                                     </div>
                                 </div>
-                            </a>
-                            <a href="">
-                                <div class="cate_item flex_between">
-                                    <div class="cate_img_body" style="background-image: url('https://image.yes24.com/goods/117014615/XL')"></div>
-                                    <div class="cate_store_table">
-                                        <p>호랑나비</p>
-                                        <span><span>김흥국</span> / <span>호랑수월출판사</span></span>
-                                    </div>
-                                    <div class="cate_store_table02">
-                                        <span>아트몰링</span>
-                                    </div>
-                                </div>
-                            </a>
+                            </div>
                         </li>
                         <li>
-                            <a href="">
-                                <div
-                                        class="cate_img_wrap"
-                                        style="background-image: url('https://images.pexels.com/photos/4738009/pexels-photo-4738009.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')"
-                                ></div>
-                                <h3>#예술</h3>
-                                <hr />
-                                <div class="cate_item flex_between">
-                                    <div class="cate_img_body" style="background-image: url('https://image.yes24.com/goods/117014612/XL')"></div>
+                            <div
+                                    class="cate_img_wrap"
+                                    style="background-image: url('https://images.pexels.com/photos/4738009/pexels-photo-4738009.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')"
+                            ></div>
+                            <h3>#예술</h3>
+                            <hr />
+                            <div th:each="bookCa02 : ${BookCA02}">
+                                <div class="cate_item flex_between" th:onclick="'window.location = \'/book/' + ${bookCa02.bookId} + '\''">
+                                    <div class="cate_img_body"
+                                         th:style="'background-image: url(\'/images/' + @{${bookCa02.bookImgStored}} + '\');'">
+                                    </div>
                                     <div class="cate_store_table">
-                                        <p>호랑나비</p>
-                                        <span><span>김흥국</span> / <span>호랑수월출판사</span></span>
+                                        <p th:text="${bookCa02.bookTitle}">호랑나비</p>
+                                        <span>
+                                            <span th:text="${bookCa02.bookWriter}">김흥국</span> / <span th:text="${bookCa02.bookPub}">호랑수월출판사</span>
+                                        </span>
                                     </div>
                                     <div class="cate_store_table02">
-                                        <span>아트몰링</span>
+                                        <span th:text="${bookCa02.store.storeTitle}">아트몰링</span>
                                     </div>
                                 </div>
-                            </a>
-                            <a href="">
-                                <div class="cate_item flex_between">
-                                    <div class="cate_img_body" style="background-image: url('https://image.yes24.com/goods/117014613/XL')"></div>
-                                    <div class="cate_store_table">
-                                        <p>호랑나비</p>
-                                        <span><span>김흥국</span> / <span>호랑수월출판사</span></span>
-                                    </div>
-                                    <div class="cate_store_table02">
-                                        <span>아트몰링</span>
-                                    </div>
-                                </div>
-                            </a>
+                            </div>
                         </li>
                         <li>
-                            <a href="">
-                                <div
-                                        class="cate_img_wrap"
-                                        style="background-image: url('https://images.pexels.com/photos/17888754/pexels-photo-17888754.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')"
-                                ></div>
-                                <h3>#여행</h3>
-                                <hr />
-                                <div class="cate_item flex_between">
-                                    <div class="cate_img_body" style="background-image: url('https://image.yes24.com/goods/117014603/XL')"></div>
+                            <div
+                                    class="cate_img_wrap"
+                                    style="background-image: url('https://images.pexels.com/photos/17888754/pexels-photo-17888754.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')"
+                            ></div>
+                            <h3>#여행</h3>
+                            <hr />
+                            <div th:each="bookCa03 : ${BookCA03}">
+                                <div class="cate_item flex_between" th:onclick="'window.location = \'/book/' + ${bookCa03.bookId} + '\''">
+                                    <div class="cate_img_body"
+                                         th:style="'background-image: url(\'/images/' + @{${bookCa03.bookImgStored}} + '\');'">
+                                    </div>
                                     <div class="cate_store_table">
-                                        <p>호랑나비</p>
-                                        <span><span>김흥국</span> / <span>호랑수월출판사</span></span>
+                                        <p th:text="${bookCa03.bookTitle}">호랑나비</p>
+                                        <span>
+                                            <span th:text="${bookCa03.bookWriter}">김흥국</span> / <span th:text="${bookCa03.bookPub}">호랑수월출판사</span>
+                                        </span>
                                     </div>
                                     <div class="cate_store_table02">
-                                        <span>아트몰링</span>
+                                        <span th:text="${bookCa03.store.storeTitle}">아트몰링</span>
                                     </div>
                                 </div>
-                            </a>
-                            <a href="">
-                                <div class="cate_item flex_between">
-                                    <div class="cate_img_body" style="background-image: url('https://image.yes24.com/goods/117014604/XL')"></div>
-                                    <div class="cate_store_table">
-                                        <p>호랑나비</p>
-                                        <span><span>김흥국</span> / <span>호랑수월출판사</span></span>
-                                    </div>
-                                    <div class="cate_store_table02">
-                                        <span>아트몰링</span>
-                                    </div>
-                                </div>
-                            </a>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -236,37 +193,49 @@
             <div class="section_wrap_pagebody">
                 <div class="sec_h_wrap flex_between">
                     <h2 class="blackLine_btn">1984의 추천 서점</h2>
-                    <button class="black_btn">더보기</button>
+                    <button class="black_btn" th:onclick="'window.location = ' + '\'' + '/storeList' + '\''">더보기</button>
                 </div>
                 <div class="item_list_wrap">
                     <ul class="flex_start">
                         <li>
-                            <div class="store_img_wrap" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9bY3AnrGmhqOE1t3nfJjHKbw_vb_ZmKIJu-0EHsjNMg&s')"></div>
-                            <p>코뿔소책방</p>
-                            <span> 서울시 마포구 성지1길 30 지하1층 </span>
+                            <div class="store_img_wrap"
+                                 th:style="'background-image: url(\'/images/' + @{${DisplayList.mainStore01.StoreImageStored}} + '\');'"
+                                 th:onclick="'window.location = \'/store/' + ${DisplayList.mainStore01.storeId} + '\''">
+                            </div>
+                            <p th:text="${DisplayList.mainStore01.storeTitle}">코뿔소책방</p>
+                            <span th:text="${DisplayList.mainStore01.storeAddress}"> 서울시 마포구 성지1길 30 지하1층 </span>
                         </li>
                         <li>
-                            <div class="store_img_wrap" style="background-image: url('https://img.ctykit.com/cdn/co-boulder/images/tr:w-1800/bookstore_storefront_2015.jpg')"></div>
-                            <p>코뿔소책방</p>
-                            <span> 서울시 마포구 성지1길 30 지하1층 </span>
+                            <div class="store_img_wrap"
+                                 th:style="'background-image: url(\'/images/' + @{${DisplayList.mainStore02.StoreImageStored}} + '\');'"
+                                 th:onclick="'window.location = \'/store/' + ${DisplayList.mainStore02.storeId} + '\''">
+                            </div>
+                            <p th:text="${DisplayList.mainStore02.storeTitle}">코뿔소책방</p>
+                            <span th:text="${DisplayList.mainStore02.storeAddress}"> 서울시 마포구 성지1길 30 지하1층 </span>
                         </li>
                         <li>
-                            <div
-                                    class="store_img_wrap"
-                                    style="background-image: url('https://media.architecturaldigest.com/photos/5cf945fce56e2a6bd5dac7aa/16:9/w_2240,c_limit/ladder%20hall00002.jpg')"
-                            ></div>
-                            <p>코뿔소책방</p>
-                            <span> 서울시 마포구 성지1길 30 지하1층 </span>
+                            <div class="store_img_wrap"
+                                 th:style="'background-image: url(\'/images/' + @{${DisplayList.mainStore03.StoreImageStored}} + '\');'"
+                                 th:onclick="'window.location = \'/store/' + ${DisplayList.mainStore03.storeId} + '\''">
+                            </div>
+                            <p th:text="${DisplayList.mainStore03.storeTitle}">코뿔소책방</p>
+                            <span th:text="${DisplayList.mainStore03.storeAddress}"> 서울시 마포구 성지1길 30 지하1층 </span>
                         </li>
                         <li>
-                            <div class="store_img_wrap" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9bY3AnrGmhqOE1t3nfJjHKbw_vb_ZmKIJu-0EHsjNMg&s')"></div>
-                            <p>코뿔소책방</p>
-                            <span> 서울시 마포구 성지1길 30 지하1층 </span>
+                            <div class="store_img_wrap"
+                                 th:style="'background-image: url(\'/images/' + @{${DisplayList.mainStore04.StoreImageStored}} + '\');'"
+                                 th:onclick="'window.location = \'/store/' + ${DisplayList.mainStore04.storeId} + '\''">
+                            </div>
+                            <p th:text="${DisplayList.mainStore04.storeTitle}">코뿔소책방</p>
+                            <span th:text="${DisplayList.mainStore04.storeAddress}"> 서울시 마포구 성지1길 30 지하1층 </span>
                         </li>
                         <li>
-                            <div class="store_img_wrap" style="background-image: url('https://img.ctykit.com/cdn/co-boulder/images/tr:w-1800/bookstore_storefront_2015.jpg')"></div>
-                            <p>코뿔소책방</p>
-                            <span> 서울시 마포구 성지1길 30 지하1층 </span>
+                            <div class="store_img_wrap"
+                                 th:style="'background-image: url(\'/images/' + @{${DisplayList.mainStore05.StoreImageStored}} + '\');'"
+                                 th:onclick="'window.location = \'/store/' + ${DisplayList.mainStore05.storeId} + '\''">
+                            </div>
+                            <p th:text="${DisplayList.mainStore05.storeTitle}">코뿔소책방</p>
+                            <span th:text="${DisplayList.mainStore05.storeAddress}"> 서울시 마포구 성지1길 30 지하1층 </span>
                         </li>
                     </ul>
                 </div>
@@ -325,7 +294,7 @@
                 <div class="sec03_img_wrap"></div>
                 <div class="sec03_text_wrap">
                     <p><span class="point_text">"1984"</span>가 생각하는 독립서점이란 단순히 출판물을 판매하는 것이 아닌 사람들 간의 삶과 생각을 남기는 가치 있는 문화라고 생각합니다.</p>
-                    <button class="point_btn">방문하기</button>
+                    <button class="point_btn" th:onclick="'window.location = ' + '\'' + '/about' + '\''">방문하기</button>
                 </div>
             </div>
         </section>

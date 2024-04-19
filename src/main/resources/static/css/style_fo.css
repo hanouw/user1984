@@ -196,6 +196,7 @@ div.sec_01_bannerarea > ul > li.active{
 }
 .cate_item{
     margin: 20px;
+    cursor:pointer;
 }
 .cate_item > p{
     font-size: 20px;
@@ -615,7 +616,7 @@ hr.bold_hr{
     width: calc(60% - 20px);
     padding-bottom : calc((240/720)*100%);
     background-color: #dcdcdc;
-    background-image: url("https://i.namu.wiki/i/2fSNiUXeGXnH5EOB2VqhihYz4dH4hukzYOEAeMT5gT94-sO70tZDsaAOQ4WqJ5_Bi0T-H9sKruwfGIu7o7Yyc0DpFpNEGxPLswA4kJ94bz_TTiw9s2BJHRnOxVdeUoksToMKM2qER1_Jaed1Ky9oyw.webp");
+    background-image: url("https://images.pexels.com/photos/247899/pexels-photo-247899.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2");
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -689,6 +690,7 @@ hr.bold_hr{
     background-color: aliceblue;
     border: 1px solid #dcdcdc;
     position: relative;
+    cursor:pointer;
 }
 
 .item_img_wrap > img,
