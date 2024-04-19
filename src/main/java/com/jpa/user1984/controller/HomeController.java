@@ -103,9 +103,8 @@ public class HomeController {
     public String storeDetail(@PathVariable("storeId") Long storeId, Model model, @AuthenticationPrincipal CustomMember customMember) {
         StoreDTO findStore = storeService.getOneStore(storeId);
         model.addAttribute("store", findStore);
-        MemberDTO findMember = memberService.findMemberById(customMember.getMember().getUserNo());
-        log.info("********************* customMember = {}", customMember.getMember().getUserNo());
-        model.addAttribute("user", findMember);
+//        MemberDTO findMember = memberService.findMemberById(customMember.getMember().getUserNo());
+//        model.addAttribute("user", findMember);
         return "frontend/home/store";
     }
 

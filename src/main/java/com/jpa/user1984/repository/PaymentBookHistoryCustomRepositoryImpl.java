@@ -210,14 +210,15 @@ public class PaymentBookHistoryCustomRepositoryImpl implements PaymentBookHistor
                     .getSingleResult();
             return searchResult;
         }
-        else if (startDate == null && keyword != null) {
-        log.info("**************************키워드 없음 + 기간 있음");
+        else if (keyword != null && startDate == null) {
+        log.info("**************************키워드 있음 + 기간 없음");
             String s = searchTypeMethod(pageRequestDTO);
             Long searchResult = (Long) em.createQuery("select count(p) from PaymentBookHistory p " +
                             "where p.paymentBook.member.userNo = :userNo and " + s + " like concat('%', :keyword, '%') " +
                             "And p.paymentBook.paymentBookStatus = 'COMPLETE' " +
                             "order by p.createDate "+ order +" ")
                     .setParameter("userNo", userNo)
+                    .setParameter("keyword", keyword)
                     .getSingleResult();
             log.info("--PaymentRepo result : {}", searchResult);
             return searchResult;

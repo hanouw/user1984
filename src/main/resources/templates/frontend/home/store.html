@@ -5,7 +5,6 @@
         <section class="section_wrap sec_ad_01">
             <div class="section_wrap_pagebody flex_between">
                 <div class="st_sec_01_img">
-<!--                    <img src="https://contents-cdn.viewus.co.kr/image/2023/04/CP-2023-0042/image-7ec7f2bb-01d6-475a-bc77-7e1044bbccd2.jpeg" alt="" />-->
                     <img th:if="${store.getStoreImageStored() != null}" th:src="|/images/${store.getStoreImageStored()}|"/>
                     <p th:text="${store.getStoreTag()}">#커피 #소설 #인문 #도서관 #식물 #자기개발 #감각적인</p>
                 </div>
@@ -16,8 +15,6 @@
                     </div>
                     <div class="st_iftext_wrap line_bt_gr">
                         <p th:text="${store.getStoreText()}">
-<!--                            커피와 책이 있는 당신의 '시행착오'를 응원하는 책방이다. 주인장은 실패는 늘 예견되어 있으니, 너무 크게 낙심하지 않아도 된다고 말한다. 그리고 숱한 시행착오 너머에는-->
-<!--                            반드시"마침내 해낸다"고 믿는 사람들을 기다린다.-->
                         </p>
                     </div>
                     <div class="st_storetext01_wrap line_bt_gr">
@@ -211,7 +208,7 @@
             </div>
         </section>
 
-        <div id="user" th:data-email="${user.userEmail}" th:data-name="${user.userName}" th:data-tel="${user.userPhoneNum}"></div>
+<!--        <div id="user" th:data-email="${user.userEmail}" th:data-name="${user.userName}" th:data-tel="${user.userPhoneNum}"></div>-->
     </th:block>
 </th:block>
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
