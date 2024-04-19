@@ -153,7 +153,12 @@ public class MyPageController {
 
     // 도서 구매내역 상세페이지 조회
     @GetMapping("/bookOrderDetail/{orderBookId}")
-    public String bookOrderDetail(@PathVariable Long orderBookId, Model model) {
+    public String bookOrderDetail(@PathVariable Long orderBookId, @RequestParam(required = false) String success, Model model) {
+        if ("true".equals(success)) {
+            model.addAttribute("paymentSuccess", true);
+        } else {
+            model.addAttribute("paymentSuccess", false);
+        }
         List<PaymentBookHistoryDTO> booksByOrderBookId = myPageService.findBooksByOrderBookId(orderBookId);
         model.addAttribute("orderList", booksByOrderBookId);
         PaymentBookHistoryDTO firstDTO = booksByOrderBookId.get(0);
@@ -168,20 +173,25 @@ public class MyPageController {
         return "redirect:/bookOrderList";
     }
 
+    // 서점 구독내역 상세페이지 조회
+    @GetMapping("/membershipOrderDetail/{orderMembershipId}")
+    public String membershipOrderDetail(@PathVariable Long orderMembershipId,  @RequestParam(required = false) String success, Model model) {
+        if ("true".equals(success)) {
+            model.addAttribute("paymentSuccess", true);
+        } else {
+            model.addAttribute("paymentSuccess", false);
+        }
+        PaymentMemDTO findDTO = myPageService.findMembershipByOrderMembershipId(orderMembershipId);
+        model.addAttribute("detail", findDTO);
+        return "frontend/order/membership/detail";
+    }
+
     // 서점 구매내역 삭제
     @DeleteMapping("/membershipOrderDetail/{orderMembershipId}/delete")
     public String membershipOrderDelete(@PathVariable Long orderMembershipId) {
         log.info("********* Controller membershipOrderDelete orderMembershipId : {}", orderMembershipId);
         myPageService.deleteMembershipOrder(orderMembershipId);
         return "redirect:/membershipOrderList";
-    }
-
-    // 서점 구독내역 상세페이지 조회
-    @GetMapping("/membershipOrderDetail/{orderMembershipId}")
-    public String membershipOrderDetail(@PathVariable Long orderMembershipId, Model model) {
-        PaymentMemDTO findDTO = myPageService.findMembershipByOrderMembershipId(orderMembershipId);
-        model.addAttribute("detail", findDTO);
-        return "frontend/order/membership/detail";
     }
 
     // 서점 구독내역 조회

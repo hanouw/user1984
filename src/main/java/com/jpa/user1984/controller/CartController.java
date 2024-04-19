@@ -74,9 +74,5 @@ public class CartController {
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
-    // 주문완료시
-    @GetMapping("/orderSuccess")
-    public String orderSuccess() {
-        return "frontend/myPage/bookOrderSuccess";
-    }
+
 }
