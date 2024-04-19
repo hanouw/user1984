@@ -62,11 +62,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="book_button_wrap" sec:authorize="isAuthenticated()">
-                        <button class="blackLine_btn" id="cartLoginButton"  th:data-bookId="${book.bookId}">
-                            장바구니에 담기</button>
-                        <button class="point_btn" th:onclick="|location.href='@{/cart/list}'|">구매하기</button>
-                    </div>
                     <div class="book_button_wrap notLogin" sec:authorize="isAnonymous()">
                         <button class="blackLine_btn">
                             장바구니에 담기</button>
