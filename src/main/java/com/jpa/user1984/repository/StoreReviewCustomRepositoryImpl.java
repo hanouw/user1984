@@ -1,7 +1,6 @@
 package com.jpa.user1984.repository;
 
 import com.jpa.user1984.domain.StoreReview;
-import com.jpa.user1984.dto.PageRequestDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
