@@ -54,7 +54,7 @@ public class Book extends TimeEntity{
     private String bookReview;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookReviewId")
-    private List<BookReview> bookUserReviews = new ArrayList<>();
+    private List<BookReview> bookUserReviewList = new ArrayList<>();
 
     @Column
     private String bookWriterProfile;
