@@ -98,6 +98,8 @@ public class MyPageController {
     }
 
     // 문의하기
+//    @GetMapping("/inquiry")
+    // 문의내역
 
     // 나의 책장 조회
     @GetMapping("/myBook")
