@@ -100,17 +100,25 @@ public class MyPageController {
     // 문의하기
 
     // 나의 책장 조회
-    @GetMapping("/bookshelf")
-    public String bookShelfForm(@AuthenticationPrincipal CustomMember customMember, Model model){
+    @GetMapping("/myBook")
+    public String myBookForm(@AuthenticationPrincipal CustomMember customMember, Model model){
         Long userNo = customMember.getMember().getUserNo();
-        log.info("********MyPageController userNo:{}",userNo);
+        log.info("********MyPageController /myBook userNo:{}",userNo);
         List<PaymentBookHistoryDTO> bookList = myPageService.findHistoryList(userNo, new PageRequestDTO(1));
         model.addAttribute("bookList", bookList);
         log.info("********MyPageController bookList:{}", bookList);
-        return "frontend/myPage/bookshelf";
+        return "frontend/myPage/myBook";
     }
 
     // 나의 서점 조회
+    @GetMapping("/myStore")
+    public String myStoreForm(@AuthenticationPrincipal CustomMember customMember, Model model) {
+        Long userNo = customMember.getMember().getUserNo();
+        log.info("********MyPageController /myStore userNo:{}",userNo);
+        List<PaymentMemDTO> storeList = myPageService.findMembershipList(userNo, new PageRequestDTO(1));
+        model.addAttribute("storeList", storeList);
+        return "frontend/myPage/myStore";
+    }
 
     // 도서 구매내역 조회
     @GetMapping("/bookOrderList")

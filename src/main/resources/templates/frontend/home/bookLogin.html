@@ -235,6 +235,11 @@
 <script th:inline="javascript">
 $(document).ready(function (){
 
+    // 배너띠광고 창 클릭 이벤트
+    $("#clickToAd").on("click", function () {
+        let storeIdSerch = $("#storeIdSerch").val();
+        window.location.href = '/store/' + storeIdSerch;
+    });
 
     $("#orderBtn").on("click", function () {
         let bookId = $(this).attr("data-bookId");
@@ -250,14 +255,8 @@ $(document).ready(function (){
         });
     });
 
-    $("#cartBtn").on("click", function () {
-    // 배너띠광고 창 클릭 이벤트
-    $("#clickToAd").on("click", function () {
-        let storeIdSerch = $("#storeIdSerch").val();
-        window.location.href = '/store/' + storeIdSerch;
-    });
 
-    $("#cartLoginButton").on("click", function () {
+    $("#cartBtn").on("click", function () {
         console.log("장바구니 버튼 클릭");
         let bookId = $(this).attr("data-bookId");
         console.log("bookId: ", bookId);
