@@ -178,29 +178,23 @@ public class PaymentMemCustomRepositoryImpl implements PaymentMemCustomRepositor
         String searchType = pageRequestDTO.getSearchType();
         String s = "p";
         switch (searchType) {
-            case "orderNo" :
-                s += ".paymentBook.orderBookNo";
-                break;
             case "userId" :
-                s += ".paymentBook.member.userId";
+                s += ".member.userId";
                 break;
             case "userName" :
-                s += ".paymentBook.member.userName";
+                s += ".member.userName";
                 break;
-            case "bookId" :
-                s += ".book.bookId";
+            case "userPhoneNum" :
+                s += ".member.userPhoneNum";
                 break;
-            case "bookTitle" :
-                s += ".book.bookTitle";
+            case "userEmail" :
+                s += ".member.userEmail";
                 break;
-            case "storeTitle" :
-                s += ".book.storeTitle";
+            case "orderMembershipMethod" :
+                s += ".orderMembershipMethod";
                 break;
-            case "status" :
-                s += ".paymentBook.paymentBookStatus";
-                break;
-            case "method" :
-                s += ".paymentBook.orderBookMethod";
+            case "storeTitle":
+                s += ".store.storeTitle";
                 break;
         }
         return s;

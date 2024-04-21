@@ -246,28 +246,6 @@ $(document).ready(function (){
         window.location.href = '/store/' + storeIdSerch;
     });
 
-    $("#cartLoginButton").on("click", function () {
-        console.log("장바구니 버튼 클릭");
-        let bookId = $(this).attr("data-bookId");
-        console.log("bookId: ", bookId);
-        $.ajax({
-            url: '/cart/' + bookId + '/addBook',
-            type: 'GET',
-            success: function(response) {
-                if (response === 'success') {
-                    alert('장바구니에 도서가 추가되었습니다.');
-                } else if(response === 'fail') {
-                    alert('이미 장바구니에 담겨있는 도서입니다.');
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('Error:', error);
-            }
-        });
-    });
-
-
-
 
 });
 </script>
