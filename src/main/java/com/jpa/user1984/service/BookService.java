@@ -47,6 +47,15 @@ public class BookService {
         return list;
     }
 
+    // 서점아이디로 책 목록조회
+    public List<BookDTO> findAllByStoreId() {
+        List<Book> all = bookRepository.findAll();
+        List<BookDTO> list = all.stream()
+                .map(b -> new BookDTO(b))
+                .collect(Collectors.toList());
+        return list;
+    }
+
     //조회(1개)
     public BookDTO findOne(Long id) {
         Book book = bookRepository.findById(id).orElse(null);

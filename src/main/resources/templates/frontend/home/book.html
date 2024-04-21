@@ -30,7 +30,7 @@
                             <span th:text="${book.store.storeAddress}">서울시 마포구 성지1길 30 지하1층</span>
                         </div>
                         <div class="book_storetext_btnwrap">
-                            <button class="greyLine_btn">서점보러가기</button>
+                            <button class="greyLine_btn" th:onclick="|location.href='/store/' + ${book.getStore().getStoreId()}|">서점보러가기</button>
                         </div>
                     </div>
                     <div class="book_storetext02_wrap line_bt_gr">
@@ -114,7 +114,7 @@
         <section class="section_wrap">
             <div class="section_wrap_pagebody page_line">
                 <div class="sec_h_wrap">
-                    <h2><span>환상문학</span>의 다른 도서들</h2>
+                    <h2><span th:text="${book.getStore().getStoreTitle()}">환상문학</span>의 다른 도서들</h2>
                 </div>
                 <div class="item_list_wrap">
                     <ul class="flex_start">

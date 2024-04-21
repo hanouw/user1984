@@ -62,6 +62,14 @@ public class HomeController {
         return "frontend/home/bookList";
     }
 
+    // 서점별 도서 목록
+    @GetMapping("/bookList/store/{id}")
+    public String bookListStoreForm(@PathVariable Long id, Model model){
+        StoreDTO oneStore = storeService.getOneStore(id);
+        model.addAttribute("store", oneStore);
+        return "frontend/home/bookListStore";
+    }
+
     // 도서 10권 찾아오기
     @GetMapping("/tenBook/{bookId}")
     @ResponseBody
@@ -88,6 +96,8 @@ public class HomeController {
     public String bookDetail(@PathVariable Long bookId, Model model, @AuthenticationPrincipal CustomMember customMember) {
         BookDTO findBook = bookService.findOne(bookId);
         model.addAttribute("book", findBook);
+        Long StoreId = findBook.getStore().getStoreId();
+//        bookService.fin TODO 하단 책 5권 추가
         if (customMember != null){
             log.info("로그인된 book 페이지로 이동중");
             MemberDTO findMember = memberService.findMemberById(customMember.getMember().getUserNo());
