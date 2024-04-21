@@ -204,9 +204,9 @@
 
 <script th:inline="javascript">
     $(document).ready(function(){
-      let storeIdVal = [[${store.storeId}]]; // 스토어번호
-      let bookUserReview = $("#bookUserReviewList");  // 스토어유저리뷰목록
-      console.log(storeIdVal);
+      let bookIdVal = [[${book.bookId}]];
+      let bookUserReview = $("#bookUserReviewList");
+      console.log(bookIdVal);
   
   
   
@@ -217,10 +217,10 @@
           html += '<div class="row align-items-center p-2">';
           html += '<div>';
           html += '</div><div class="col mr-2">';
-          html += '<div class="h5 mb-0 font-weight-bold text-gray-800">'+ list[i].storeReviewDetail +'</div>';
+          html += '<div class="h5 mb-0 font-weight-bold text-gray-800">'+ list[i].bookReviewDetail +'</div>';
           html += ' <span class="ml2 text-gray-500"> '+ displayTime(list[i].createDate) +' </span></div></div>';
           html += '<div class="col-auto btn-group-sm">';
-          html += '<button class="btn btn-info mr-1" data-storeReviewPositionId="'+ list[i].storeReviewPositionId +'" data-step="'+ list[i].step +'">답글</button>';
+          html += '<button class="btn btn-info mr-1" data-bookReviewPositionId="'+ list[i].bookReviewPositionId +'" data-step="'+ list[i].step +'">답글</button>';
           // html += '<button class="btn btn-warning mr-1 bookUserReviewModifBtn" data-bookUserReviewId="'+ list[i].id +'">수정</button>';
           html += '</div></div><hr />';
         }
@@ -234,7 +234,7 @@
         console.log("getBookUserReviewList!");
         $.ajax({
           type: "get",
-          url: "/bookUserReview/list/" + storeIdVal ,
+          url: "/bookUserReview/list/" + bookIdVal ,
           dataType: "JSON",
           success: function(result){
             console.log("댓글 목록 요청 성공!");
@@ -262,9 +262,9 @@
         console.log("new bookUserReview button clicked!!");
         let bookUserReviewTxt = $("#bookUserReview").val(); // 댓글 내용 가져오기
         let data = {
-          storeReviewDetail: bookUserReviewTxt,
-          storeId: storeIdVal,
-          storeReviewPosition: 0,
+          bookReviewDetail: bookUserReviewTxt,
+          bookId: bookIdVal,
+          bookReviewPosition: 0,
           step: 0
         };
         console.log(data);
@@ -308,7 +308,7 @@
               return [yy, '/', (mm > 9 ? '':'0') + mm, '/', (dd > 9 ? '':'0') + dd].join('');
             }
           }
-
+   });
 
 </script>
 

@@ -15,7 +15,7 @@ public class BookReviewCustomRepositoryImpl implements BookReviewCustomRepositor
 
     @Override
     public List<BookReview> findBookReviewList(Long bookId) {
-        List<BookReview> list = em.createQuery("select b from BookReview b where b.book.bookId = :bookId order by b.storeReviewPosition desc, b.step asc",
+        List<BookReview> list = em.createQuery("select b from BookReview b where b.book.bookId = :bookId order by b.bookReviewPosition desc, b.step asc",
                         BookReview.class)
                 .setParameter("bookId", bookId)
                 .getResultList();
