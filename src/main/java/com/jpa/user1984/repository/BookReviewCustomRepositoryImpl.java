@@ -26,7 +26,7 @@ public class BookReviewCustomRepositoryImpl implements BookReviewCustomRepositor
     public int updateStep(Long bookReviewPosition, Integer step) {
         int updatedCount = em.createQuery(
                         "update BookReview b set b.step = b.step + 1 where bookReviewPosition = :bookReviewPosition and step > :step")
-                .setParameter("storeReviewPosition", bookReviewPosition)
+                .setParameter("bookReviewPosition", bookReviewPosition)
                 .setParameter("step", step)
                 .executeUpdate();
         return updatedCount;
