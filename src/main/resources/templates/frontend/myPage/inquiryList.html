@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<th:block th:replace="~{frontend/layouts/baseSidemenu :: baseSidemenu(~{this::content})}">
+    <th:block th:fragment="content">
+
+        <!-- 내용 -->
+        <div class="my_page_h_wrap">
+            <h2>문의내역</h2>
+        </div>
+        <table class="mycart_table">
+            <tr class="myTable_th_body">
+                <th>문의일자</th>
+                <th>서점명</th>
+                <th>문의제목</th>
+                <th>주문금액</th>
+                <th>답변여부</th>
+            </tr>
+
+            <!-- 반복되는 구간 -->
+            <tr class="myTable_td_body" th:each="list, index : ${list}">
+                <td th:text="${list.createDate}"></td>
+                <td th:text="${list.storeTitle}"></td>
+                <td><a th:text="${list.inquiryTitle}"
+                       th:onclick="|location.href='@{/myPage/inquiryDetail/{inquiryId}(inquiryId=${list.inquiryId})}'|">
+                </a></td>
+                <td th:text="${list.inquiryDetail}"></td>
+                <td><button class="greyLine_btn" >미답변</button></td>
+            </tr>
+        </table>
+
+
+        <!-- 추천 도서 리스트 -->
+        <div class="mypage_re_bookList last-section">
+            <div class="mypage_re_bookList_h2">
+                <h2>1984에서 추천하는 인기도서를 둘러보세요!</h2>
+            </div>
+            <div class="mypage_re_List">
+                <ul class="flex_start">
+                    <!-- 아이템 -->
+                    <li>
+                        <div class="mpre_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014616/XL')"></div>
+                        <p>호랑나비</p>
+                        <span>
+                                        <span>이제하</span>
+                                        지음 /
+                                        <span>샘터사</span>
+                                    </span>
+                    </li>
+                    <!-- 아이템 -->
+                    <li>
+                        <div class="mpre_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014610/XL')"></div>
+                        <p>호랑나비</p>
+                        <span>
+                                        <span>이제하</span>
+                                        지음 /
+                                        <span>샘터사</span>
+                                    </span>
+                    </li>
+                    <!-- 아이템 -->
+                    <li>
+                        <div class="mpre_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014620/XL')"></div>
+                        <p>호랑나비</p>
+                        <span>
+                                        <span>이제하</span>
+                                        지음 /
+                                        <span>샘터사</span>
+                                    </span>
+                    </li>
+                    <!-- 아이템 -->
+                    <li>
+                        <div class="mpre_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014622/XL')"></div>
+                        <p>호랑나비</p>
+                        <span>
+                                        <span>이제하</span>
+                                        지음 /
+                                        <span>샘터사</span>
+                                    </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </th:block>
+</th:block>
+</html>

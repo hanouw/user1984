@@ -3,8 +3,10 @@ package com.jpa.user1984.controller;
 import com.jpa.user1984.domain.MemberStatus;
 import com.jpa.user1984.dto.*;
 import com.jpa.user1984.security.domain.CustomMember;
+import com.jpa.user1984.service.InquiryService;
 import com.jpa.user1984.service.MemberService;
 import com.jpa.user1984.service.MyPageService;
+import com.jpa.user1984.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,6 +27,8 @@ public class MyPageController {
 
     private final MyPageService myPageService;
     private final MemberService memberService;
+    private final InquiryService inquiryService;
+    private final StoreService storeService;
     private final PasswordEncoder memberPasswordEncoder;
 
     // 회원정보 조회
@@ -97,9 +101,43 @@ public class MyPageController {
         return "redirect:/myPage/info";
     }
 
-    // 문의하기
-//    @GetMapping("/inquiry")
+    // 문의하기 페이지 요청
+    @GetMapping("/inquiry/{storeId}")
+    public String inquiryForm(@PathVariable("storeId") Long storeId, Model model,
+                              @ModelAttribute("inquiryForm") InquiryForm inquiryForm ) {
+        model.addAttribute("storeId", storeId);
+        String storeTitle = storeService.getOneStore(storeId).getStoreTitle();
+        model.addAttribute("storeTitle", storeTitle);
+        return "frontend/myPage/inquiryForm";
+    }
+
+    // 문의하기 등록 처리 요청
+    @PostMapping("/inquiry/{storeId}")
+    public String inquiryPro(@AuthenticationPrincipal CustomMember customMember, InquiryForm inquiryForm) {
+        log.info("*******************************inquiryForm:{}", inquiryForm);
+        Long userNo = customMember.getMember().getUserNo();
+        inquiryForm.setUserNo(userNo);
+        inquiryService.save(inquiryForm);
+        return "redirect:/myPage/inquiryList";
+    }
+
     // 문의내역
+    @GetMapping("/inquiryList")
+    public String inquiryList(@AuthenticationPrincipal CustomMember customMember, Model model) {
+        Long userNo = customMember.getMember().getUserNo();
+        List<InquiryDTO> inquiryDTOList = inquiryService.findAllList(userNo);
+        log.info("**********MyPageController /inquiryList list:{}", inquiryDTOList);
+        model.addAttribute("list", inquiryDTOList);
+        return "frontend/myPage/inquiryList";
+    }
+
+    // 문의 상세
+    @GetMapping("/inquiryDetail/{inquiryId}")
+    public String inquiryDetail(@PathVariable Long inquiryId, Model model) {
+        InquiryDTO inquiryDTO = inquiryService.findById(inquiryId);
+        model.addAttribute("dto", inquiryDTO);
+        return "frontend/myPage/inquiryDetail";
+    }
 
     // 나의 책장 조회
     @GetMapping("/myBook")

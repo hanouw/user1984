@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{frontend/layouts/baseSidemenu :: baseSidemenu(~{this::content})}">
+    <th:block th:fragment="content">
+        <div class="my_page_h_wrap">
+            <p>문의 작성</p>
+        </div>
+        <form action="" th:action method="post" class="form" >
+            <div class="my_page_wrap">
+                <div class="my_page_wrap_one">
+                    <p>문의서점</p>
+                    <input type="text" th:value="${storeTitle}" disabled>
+                    <input type="hidden" th:value="${storeId}">
+                </div>
+                <div class="my_page_wrap_one">
+                    <p>문의제목</p>
+                    <input type="text" th:field="${inquiryForm.inquiryTitle}" placeholder="문의 제목을 입력하세요." autofocus>
+                </div>
+                <div class="my_page_wrap_one">
+                    <p>문의내용</p>
+                    <textarea th:field="${inquiryForm.inquiryDetail}" placeholder="문의 내용을 입력하세요."></textarea>
+                </div>
+            </div>
+            <div class="my_page_wrap_button">
+                <button class="black_btn" type="submit">저장</button>
+            </div>
+        </form>
+    </th:block>
+</th:block>
+</html>

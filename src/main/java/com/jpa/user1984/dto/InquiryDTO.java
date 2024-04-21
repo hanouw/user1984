@@ -1,41 +1,41 @@
 package com.jpa.user1984.dto;
 
-import com.jpa.user1984.domain.Answer;
 import com.jpa.user1984.domain.Inquiry;
-import com.jpa.user1984.domain.Member;
-import com.jpa.user1984.domain.Store;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class InquiryDTO { // 가져오는
+public class InquiryDTO {
 
     private Long inquiryId;
-    private Member member;
+    private String storeTitle;
     private String inquiryTitle;
     private String inquiryDetail;
-    private Store store;
-    private LocalDateTime createDate;
-    private LocalDateTime lastModifiedDate;
-    private Answer answer;
+    private String createDate;
+    private String lastModifiedDate;
+    private Boolean answer;
 
 
     // Entity -> DTO
     public InquiryDTO(Inquiry inquiry){
         this.inquiryId = inquiry.getInquiryId();
-        this.member = inquiry.getMember();
+        this.storeTitle = inquiry.getStore().getStoreTitle();
         this.inquiryTitle = inquiry.getInquiryTitle();
         this.inquiryDetail = inquiry.getInquiryDetail();
-        this.store = inquiry.getStore();
-        this.createDate = inquiry.getCreateDate();
-        this.lastModifiedDate = inquiry.getLastModifiedDate();
-        this.answer = inquiry.getAnswer();
-
+        this.createDate = displayTime(inquiry.getCreateDate());
+        this.lastModifiedDate = displayTime(inquiry.getLastModifiedDate());
+        this.answer = inquiry.getAnswer() != null;
+    }
+    public String displayTime(LocalDateTime createDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = createDate.format(formatter);
+        return formattedDate;
     }
 }
 

@@ -9,6 +9,7 @@ import com.jpa.user1984.dto.PaymentBookHistoryDTO;
 import com.jpa.user1984.dto.PaymentMemDTO;
 import com.jpa.user1984.repository.PaymentBookHistoryRepository;
 import com.jpa.user1984.repository.PaymentMemRepository;
+import com.jpa.user1984.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
