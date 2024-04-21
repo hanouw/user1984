@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{frontend/layouts/base :: base(~{this::content})}">
+    <th:block th:fragment="content">
+
+        <!-- PAGE -->
+        <section class="section_wrap sec_01">
+            <iframe id="my-pdf"
+                    style="width:100%; height:calc(100vh - 120px);"
+                    th:src="@{'/images/' + ${book.bookFileStored}}"></iframe>
+<!--            <div id="my-pdf" style="width:100%; height:calc(100vh - 120px);"></div>-->
+<!--            <input type="text" id="bookName" th:value="${book.bookFileStored}" style="display:none;">-->
+        </section>
+
+
+        <!-- PAGE -->
+
+    </th:block>
+</th:block>
+<script>
+<!--    $(document).ready(function (){-->
+<!--        let fileName = $("#bookName").val();-->
+<!--        let fileLink = "/images/" + fileName;-->
+<!--        console.log(fileLink);-->
+<!--        PDFObject.embed(fileLink, "#my-pdf");-->
+<!--    });-->
+</script>
+</html>

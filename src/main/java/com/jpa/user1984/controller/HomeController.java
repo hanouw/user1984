@@ -110,6 +110,14 @@ public class HomeController {
         }
         return "frontend/home/book";
     }
+    // 책 상세오픈
+    @GetMapping("/book/{bookId}/open")
+    public String bookOpen(@PathVariable Long bookId, Model model){
+        BookDTO findBook = bookService.findOne(bookId);
+        model.addAttribute("book", findBook);
+
+        return "frontend/home/bookOpen";
+    }
 
     // 서점
 
