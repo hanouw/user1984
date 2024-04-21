@@ -63,6 +63,10 @@
 </th:block>
 <script th:inline="javascript">
   $(document).ready(function () {
+    let paymentSuccess = [[${paymentSuccess}]];
+    if (paymentSuccess) {
+      alert('구매가 정상적으로 완료되었습니다!');
+    }
     document.getElementById("deleteBtn").addEventListener("click", function() {
       let confirmation = confirm("주문 내역을 삭제하시면 복구할 수 없습니다. 정말 삭제하시겠습니까?");
       let orderBookId = $(this).attr("data-orderBookId");
@@ -77,9 +81,9 @@
             console.log(e);
           }
         });
-
       }
     });
+
   });
 </script>
 </html>

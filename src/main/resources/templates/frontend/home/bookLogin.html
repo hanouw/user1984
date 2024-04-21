@@ -28,6 +28,7 @@
                         </div>
                         <div class="book_storetext_wrap">
                             <p th:text="${book.store.storeTitle}">[판매서점]환상문학</p>
+                            <p id="storeIdSerch" th:text="${book.store.storeId}" style="display:none;"></p>
                             <span th:text="${book.store.storeAddress}">서울시 마포구 성지1길 30 지하1층</span>
                         </div>
                         <div class="book_storetext_btnwrap">
@@ -63,14 +64,9 @@
                         </div>
                     </div>
                     <div class="book_button_wrap" sec:authorize="isAuthenticated()">
-                        <button class="blackLine_btn" id="cartLoginButton"  th:data-bookId="${book.bookId}">
+                        <button class="blackLine_btn cart" id="cartBtn" th:data-bookId="${book.bookId}">
                             장바구니에 담기</button>
-                        <button class="point_btn" th:onclick="|location.href='@{/cart/list}'|">구매하기</button>
-                    </div>
-                    <div class="book_button_wrap notLogin" sec:authorize="isAnonymous()">
-                        <button class="blackLine_btn">
-                            장바구니에 담기</button>
-                        <button class="point_btn">구매하기</button>
+                        <button class="point_btn cart" id="orderBtn" th:data-bookId="${book.bookId}">구매하기</button>
                     </div>
                 </div>
             </div>
@@ -238,11 +234,27 @@
 </th:block>
 <script th:inline="javascript">
 $(document).ready(function (){
-    $(".notLogin").on("click", function () {
-        let confirmation = confirm("로그인이 필요한 서비스입니다. 로그인 하시겠습니까?");
-        if (confirmation) {
-            window.location.href = '/login';
-        }
+
+
+    $("#orderBtn").on("click", function () {
+        let bookId = $(this).attr("data-bookId");
+        $.ajax({
+            url: '/cart/' + bookId + '/addBook',
+            type: 'GET',
+            success: function(response) {
+                window.location.href = '/cart/list';
+            },
+            error: function(error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+
+    $("#cartBtn").on("click", function () {
+    // 배너띠광고 창 클릭 이벤트
+    $("#clickToAd").on("click", function () {
+        let storeIdSerch = $("#storeIdSerch").val();
+        window.location.href = '/store/' + storeIdSerch;
     });
 
     $("#cartLoginButton").on("click", function () {
@@ -254,12 +266,15 @@ $(document).ready(function (){
             type: 'GET',
             success: function(response) {
                 if (response === 'success') {
-                    alert('장바구니에 도서가 추가되었습니다.');
+                    let confirmation = confirm("장바구니에 도서가 추가되었습니다. 장바구니로 이동하시겠습니까?");
+                    if (confirmation) {
+                        window.location.href = '/cart/list';
+                    }
                 } else if(response === 'fail') {
-                    alert('이미 장바구니에 담겨있는 도서입니다.');
+                    alert("이미 장바구니에 담겨있는 도서입니다.");
                 }
             },
-            error: function(xhr, status, error) {
+            error: function(error) {
                 console.error('Error:', error);
             }
         });

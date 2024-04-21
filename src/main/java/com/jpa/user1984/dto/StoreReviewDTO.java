@@ -16,26 +16,26 @@ import java.time.LocalDateTime;
 public class StoreReviewDTO { // 가져오는
 
     private Long storeReviewId;
-    private Member member;
+    private Long userNo;
     private String storeReviewDetail;
     private StoreReviewStatus storeReviewStatus;
     private LocalDateTime createDate;
     private LocalDateTime lastModifiedDate;
     private Long storeReviewPosition;
     private Integer step;
-    private Store store;
+    private Long storeId;
 
 
     public StoreReviewDTO(StoreReview storeReview) {
         this.storeReviewId = storeReview.getStoreReviewId();
-        this.member = storeReview.getMember();
+        this.userNo = storeReview.getMember().getUserNo();
         this.storeReviewDetail = storeReview.getStoreReviewDetail();
         this.createDate = storeReview.getCreateDate();
         this.lastModifiedDate = storeReview.getLastModifiedDate();
         this.storeReviewStatus = storeReview.getStoreReviewStatus();
         this.storeReviewPosition = storeReview.getStoreReviewPosition();
         this.step = storeReview.getStep();
-        this.store = storeReview.getStore();
+        this.storeId = storeReview.getStore().getStoreId();
     }
 
 }

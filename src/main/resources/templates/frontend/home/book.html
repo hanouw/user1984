@@ -27,6 +27,7 @@
                         </div>
                         <div class="book_storetext_wrap">
                             <p th:text="${book.store.storeTitle}">[판매서점]환상문학</p>
+                            <p id="storeIdSerch" th:text="${book.store.storeId}" style="display:none;"></p>
                             <span th:text="${book.store.storeAddress}">서울시 마포구 성지1길 30 지하1층</span>
                         </div>
                         <div class="book_storetext_btnwrap">
@@ -60,11 +61,6 @@
                                 <span>원</span>
                             </div>
                         </div>
-                    </div>
-                    <div class="book_button_wrap" sec:authorize="isAuthenticated()">
-                        <button class="blackLine_btn" id="cartLoginButton"  th:data-bookId="${book.bookId}">
-                            장바구니에 담기</button>
-                        <button class="point_btn" th:onclick="|location.href='@{/cart/list}'|">구매하기</button>
                     </div>
                     <div class="book_button_wrap notLogin" sec:authorize="isAnonymous()">
                         <button class="blackLine_btn">
@@ -244,6 +240,12 @@ $(document).ready(function (){
         }
     });
 
+    // 배너띠광고 창 클릭 이벤트
+    $("#clickToAd").on("click", function () {
+        let storeIdSerch = $("#storeIdSerch").text();
+        window.location.href = '/store/' + storeIdSerch;
+    });
+
     $("#cartLoginButton").on("click", function () {
         console.log("장바구니 버튼 클릭");
         let bookId = $(this).attr("data-bookId");
@@ -263,6 +265,8 @@ $(document).ready(function (){
             }
         });
     });
+
+
 
 
 });

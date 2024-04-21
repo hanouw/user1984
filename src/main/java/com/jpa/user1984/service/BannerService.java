@@ -18,18 +18,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BannerService {
     private final BannerRepository bannerRepository;
-    private final FileUploadService fileUploadService;
-
-    //저장
-    public void save(BannerForm bannerForm) throws IOException{
-        String projectPath = System.getProperty("user.dir") + "";
-
-        ProductFile imgFile = fileUploadService.saveFile(bannerForm.getBannerImg());
-        Banner entity = bannerForm.toEntity();
-        entity.setBannerImgOrg(imgFile.getOrgFileName());
-        entity.setBannerImgStored(imgFile.getStoredFileName());
-        Banner bannerSaved = bannerRepository.save(entity);
-    }
 
     //목록조회
     public List<BannerDTO> findAll(){
@@ -46,11 +34,5 @@ public class BannerService {
         return new BannerDTO(banner);
     }
 
-    public void updateOne(BannerForm bannerForm) {
-        Banner banner = bannerRepository.findById(bannerForm.getBannerId()).orElse(null);
-        banner.setBannerTitle(bannerForm.getBannerTitle());
-    }
-
-    //수정
 
 }

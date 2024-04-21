@@ -182,9 +182,19 @@
 
 <script th:inline="javascript">
   $(document).ready(function(){
+
+  // 배너띠광고 창 클릭 이벤트
+    $("#clickToAd").on("click", function () {
+        window.location.href = '/login';
+    });
+
     let storeIdVal = [[${store.storeId}]]; // 스토어번호
     let storeUserReview = $("#storeUserReviewList");  // 스토어유저리뷰목록
     console.log(storeIdVal);
+    //HeaderAd 버튼클릭(비로그인)
+    function clickToAd() {
+        window.location.href = '/login';
+    }
 
 
 
@@ -226,47 +236,8 @@
       });
     }
 
-
     getStoreUserReviewList();  // 댓글 목록 요청 호출!
 
-
-
-
-
-    // ***** 댓글 등록 ********************
-
-    $("#newStoreUserReviewBtn").on("click", function(){
-      console.log("new storeUserReview button clicked!!");
-      let storeUserReviewTxt = $("#storeUserReview").val(); // 댓글 내용 가져오기
-      let data = {
-        storeReviewDetail: storeUserReviewTxt,
-        storeId: storeIdVal,
-        storeReviewPosition: 0,
-        step: 0
-      };
-      console.log(data);
-      saveStoreUserReview(data, function(){
-        $("#storeUserReview").val(""); // 댓글작성란 비우기
-      });
-    });
-    // 댓글 저장 처리 함수
-    function saveStoreUserReview(data, callbackFn) { // 저장데이터와 성공시 실행할 콜백함수 전달받기
-      $.ajax({
-        type: "post",
-        url: "/storeUserReview/add",
-        data: JSON.stringify(data),
-        contentType: "application/json;charset=UTF-8",
-        success: function(result){
-          console.log("댓글 등록 성공!!");
-          console.log(result);
-          callbackFn();  // 콜백함수 호출
-        },
-        error: function(e){
-          console.log("댓글 등록 실패....");
-          console.log(e);
-        }
-      });
-    }
 
     // 화면에 뿌려주는 시간 포맷팅 함수
         function displayTime(timeValue) {
@@ -285,104 +256,7 @@
             return [yy, '/', (mm > 9 ? '':'0') + mm, '/', (dd > 9 ? '':'0') + dd].join('');
           }
         }
-
-
-
   }); // ready
-</script>
-
-
-<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
-<script th:inline="javascript">
-  $(document).ready(function (){
-      // *********************************** 결제
-      let IMP = window.IMP;
-      IMP.init("imp20085076");
-      let userEmail = $("#user").attr("data-email");
-      let userName = $("#user").attr("data-name");
-      let userTel = $("#user").attr("data-tel");
-      let storeId = $("#subscribeButton").attr("data-storeId");
-      let storeTitle = $("#storeTitle").text();
-      let name = storeTitle + " 구독";
-      let price = $("#price").text();
-      let amount = parseInt($("#price").text().replace(',', ''), 10);
-      $("#subscribeButton").on("click", function () {
-          console.log("IMP 실행");
-          let merchantUid = createMerchantUid();
-          let data = {
-              orderMembershipId: merchantUid,
-              orderMembershipMethod: "card",
-              storeId: storeId,
-              price: price
-          };
-          console.log("data: ", data);
-          IMP.request_pay(
-              {
-                  pg: "html5_inicis",
-                  pay_method: "card",
-                  merchant_uid: merchantUid,
-                  name: name,
-                  amount: amount,
-                  buyer_email: userEmail,
-                  buyer_name: userName,
-                  buyer_tel: userTel,
-              },
-              function (rsp) {
-                  console.log(rsp);
-                  if (rsp.success) {
-                      $.ajax({
-                          type: 'POST',
-                          url: '/order/validation/' + rsp.imp_uid
-                      }).done(function (result) { // PaymentController 에서 IamportResponse<Payment> 넘겨줌
-                          if (rsp.paid_amount === result.response.amount) {
-                              console.log("rsp.paid_amount : ", rsp.paid_amount);
-                              console.log("result.response.amount : ", result.response.amount);
-                              console.log(result);
-                              $.ajax({
-                                  type: 'POST',
-                                  url: '/order/membership',
-                                  data: JSON.stringify(data),
-                                  contentType: "application/json;charset=UTF-8",
-                                  success: function (response) {
-                                      console.log("결제 POST 요청 성공", response);
-                                      // 결제완료 창 띄우기
-                                      let msg = '결제가 완료되었습니다.';
-                                      msg += '고유ID : ' + rsp.imp_uid;
-                                      msg += '상점 거래ID : ' + rsp.merchant_uid;
-                                      msg += '결제 금액 : ' + rsp.paid_amount;
-                                      msg += '카드 승인번호 : ' + rsp.apply_num;
-                                      alert(msg);
-                                      // 결제완료 페이지로 리다이렉트
-                                      window.location.href = '/cart/orderSuccess';
-                                  },
-                                  error: function (e) {
-                                      let msg = '결제에 실패하였습니다. ';
-                                      msg += '에러내용 : ' + rsp.error_msg;
-                                      alert(msg);
-                                      console.log(e);
-                                  }
-                              });
-                          } else {
-                              alert("결제 실패");
-                          }
-                      });
-                  }
-              });
-  });
-  // 주문번호 생성 함수
-  function createMerchantUid() {
-      const date = new Date();
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, "0");
-      const day = String(date.getDate()).padStart(2, "0");
-
-      let merchantUid = year + month + day;
-      for (let i = 0; i < 5; i++) {
-          merchantUid += Math.floor(Math.random() * 8);
-      }
-      return parseInt(merchantUid);
-  };
-});
 </script>
 
 

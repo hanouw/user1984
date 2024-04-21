@@ -17,7 +17,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -35,6 +37,7 @@ public class HomeController {
 
     private final BookService bookService;
     private final BannerService bannerService;
+    private final DisplayService displayService;
     private final StoreService storeService;
     private final StoreReviewService storeReviewService;
     private final FileUploadService fileUploadService;
@@ -45,16 +48,27 @@ public class HomeController {
     @GetMapping("/")
     public String homeController(@AuthenticationPrincipal CustomMember customMember, Model model){
         List<BannerDTO> allBannerList = bannerService.findAll();
+        List<BookDTO> allBookList = bookService.findAll();
+        List<BookDTO> BookCate01 = bookService.findCategory01();
+        List<BookDTO> BookCate02 = bookService.findCategory02();
+        List<BookDTO> BookCate03 = bookService.findCategory03();
+        DisplayDTO displayList = displayService.findOne();
         model.addAttribute("BannerList", allBannerList);
+        model.addAttribute("DisplayList", displayList);
+        model.addAttribute("BookList", allBookList);
+        model.addAttribute("BookCA01", BookCate01);
+        model.addAttribute("BookCA02", BookCate02);
+        model.addAttribute("BookCA03", BookCate03);
         return "frontend/home/index";
     }
 
     //1984소개
     @GetMapping("/about")
-    public String aboutController(){
+    public String aboutController(Model model){
+        DisplayDTO displayList = displayService.findOne();
+        model.addAttribute("DisplayList", displayList);
         return "frontend/home/about";
     }
-
 
     //도서목록
     @GetMapping("/bookList")
@@ -106,6 +120,14 @@ public class HomeController {
         }
         return "frontend/home/book";
     }
+    // 책 상세오픈
+    @GetMapping("/book/{bookId}/open")
+    public String bookOpen(@PathVariable Long bookId, Model model){
+        BookDTO findBook = bookService.findOne(bookId);
+        model.addAttribute("book", findBook);
+
+        return "frontend/home/bookOpen";
+    }
 
     // 서점
 
@@ -150,7 +172,13 @@ public class HomeController {
         //List<CommentDTO> commentList = commentService.getCommentList(boardId, new PageRequestDTO(page, 10));
         List<StoreReviewDTO> storeReviewDTO = storeReviewService.findListByStoreId(storeId);
         log.info("***** HomeController GET /list - commentResponseDTO : {}", storeReviewDTO);
-        return new ResponseEntity<>(storeReviewDTO, HttpStatus.OK);
+        HttpHeaders responseHeader = new HttpHeaders();
+//        responseHeader.add("Content-Type", "text/plain;charset=UTF-8");
+//        responseHeader.add("Content-Type", "APPLICATION_JSON");
+        ResponseEntity<List<StoreReviewDTO>> response = ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(storeReviewDTO);
+        return response;
     }
 //    // 서점댓글 목록 조회 요청
 //    @GetMapping("/list")

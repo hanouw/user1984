@@ -4,17 +4,25 @@
     <!-- header -->
     <header class="header_body">
         <div class="header_wrap">
-            <h1 class="main_logo"></h1>
+            <a th:href="@{/}"><h1 class="main_logo"></h1></a>
             <div class="menu_wrap">
                 <ul class="menu_list">
                     <li><a th:href="@{/about}">1984소개</a></li>
                     <li><a th:href="@{/storeList}">독립서점</a></li>
                     <li><a th:href="@{/bookList}">도서목록</a></li>
-                    <li><a th:href="@{/myPage/info}">마이페이지</a></li>
+                    <li>
+                        <a th:href="@{/login}" sec:authorize="!isAuthenticated()">로그인</a>
+                        <a th:href="@{/myPage/info}" sec:authorize="isAuthenticated()">마이페이지</a>
+                    </li>
                 </ul>
             </div>
         </div>
-        <a class="header_ad" href=""> ✨ 10,000원으로 30일간 <span>환상문학</span>의 모든 도서를 무제한으로 ✨ </a>
+        <a class="header_ad" id="clickToAd">
+            ✨ 10,000원으로 30일간
+            <span th:text="${book != null && book.getStore() != null ? book.getStore().getStoreTitle() : store.getStoreTitle()}">독립서점</span>
+            의 모든 도서를 무제한으로 ✨
+        </a>
+
     </header>
     <!-- header -->
 </th:block>

@@ -141,75 +141,157 @@
                 </div>
             </div>
         </section>
-        <section class="section_wrap">
-            <div class="section_wrap_pagebody">
-                <!-- 리뷰헤더 -->
-                <div class="sec_h_wrap flex_between">
-                    <h2>한줄리뷰</h2>
-                    <select name="" id="">
-                        <option value="">최신순</option>
-                        <option value="">이전순</option>
-                    </select>
-                </div>
+      <section class="section_wrap">
+        <div class="section_wrap_pagebody">
+          <!-- 리뷰헤더 -->
+          <div class="sec_h_wrap flex_between">
+            <h2>한줄리뷰</h2>
+          </div>
 
-                <!-- 리뷰 -->
-                <div class="review_wrap flex_between">
-                    <div class="review_text_wrap">
-                        <h4>아이디</h4>
-                        <p>내요오오오옹내요오오오옹내요오오오옹 내요오오오옹내요오오오옹내요오오오옹 내요오오오옹내요오오오옹내요오오오옹</p>
-                        <span>2024-4-10</span>
-                    </div>
-                    <div class="review_btn_wrap">
-                        <button class="greyLine_btn">댓글쓰기</button>
-                    </div>
-                </div>
+          <!-- 리뷰 나눔선 -->
+          <div class="review_wrap flex_between">
+            <div class="review_text_wrap"></div>
+          </div>
 
-                <!-- 리뷰 -->
-                <div class="review_wrap flex_between">
-                    <div class="review_text_wrap">
-                        <h4>아이디</h4>
-                        <p>내요오오오옹내요오오오옹내요오오오옹 내요오오오옹내요오오오옹내요오오오옹 내요오오오옹내요오오오옹내요오오오옹</p>
-                        <span>2024-4-10</span>
-                    </div>
-                    <div class="review_btn_wrap">
-                        <button class="greyLine_btn">댓글쓰기</button>
-                    </div>
-                </div>
-
-                <!-- 리뷰 나눔선 -->
-                <div class="review_wrap flex_between">
-                    <div class="review_text_wrap"></div>
-                </div>
-
-                <!-- 페이징 -->
-                <div class="paging_wrap">
-                    <div class="paging_bar">
-                        <ul class="flex_between">
-                            <li>Prev</li>
-                            <li>1</li>
-                            <li>2</li>
-                            <li>3</li>
-                            <li>4</li>
-                            <li>5</li>
-                            <li>Next</li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- 리뷰작성 -->
-                <div class="sec_h_wrap">
-                    <h2>리뷰작성</h2>
-                    <div class="review_input_form">
-                        <form action="post">
-                            <input class="review_input" type="text" />
-                            <button type="submit" class="review_input_btn point_btn">댓글작성</button>
-                        </form>
-                    </div>
-                </div>
+          <!-- 리뷰작성 -->
+          <div class="sec_h_wrap">
+            <h2>리뷰작성</h2>
+            <div class="review_input_form">
+              <form id="storeUserReviewForm">
+                <!--              <input type="text" class="form-control"  id="storeUserReviewer">-->
+                <input class="review_input" type="text" id="storeUserReview"/>
+                <button type=button class="review_input_btn point_btn" id="newStoreUserReviewBtn">댓글작성</button>
+              </form>
             </div>
-        </section>
+          </div>
+
+
+          <!-- 리뷰 목록 (답글 버튼) -->
+          <!-- 댓글 리스트 : printReplyList 함수에서 동적으로 추가 -->
+
+          <div class="review_wrap flex_between" id="storeUserReviewList">
+
+          </div>
+
+
+        </div>
+      </section>
+
         <div id="user" th:data-email="${user.userEmail}" th:data-name="${user.userName}" th:data-tel="${user.userPhoneNum}"></div>
     </th:block>
 </th:block>
+
+<script th:inline="javascript">
+  $(document).ready(function(){
+    let storeIdVal = [[${store.storeId}]]; // 스토어번호
+    let storeUserReview = $("#storeUserReviewList");  // 스토어유저리뷰목록
+    console.log(storeIdVal);
+
+
+
+    // 댓글 목록 화면에 출력하는 함수
+    function printStoreUserReviewList(list) {
+      let html = '';
+      for(let i = 0; i < list.length; i++) {
+        html += '<div class="row align-items-center p-2">';
+        html += '<div>';
+        html += '</div><div class="col mr-2">';
+        html += '<div class="h5 mb-0 font-weight-bold text-gray-800">'+ list[i].storeReviewDetail +'</div>';
+        html += ' <span class="ml2 text-gray-500"> '+ displayTime(list[i].createDate) +' </span></div></div>';
+        html += '<div class="col-auto btn-group-sm">';
+        html += '<button class="btn btn-info mr-1" data-storeReviewPositionId="'+ list[i].storeReviewPositionId +'" data-step="'+ list[i].step +'">답글</button>';
+        // html += '<button class="btn btn-warning mr-1 storeUserReviewModifBtn" data-storeUserReviewId="'+ list[i].id +'">수정</button>';
+        html += '</div></div><hr />';
+      }
+      storeUserReview.html(html); // 목록 태그 컨테이너 안에 붙히기
+    }
+
+
+    // ***** 댓글 목록 ********************
+    // 댓글 목록 요청 함수
+    function getStoreUserReviewList() {
+      console.log("getStoreUserReviewList!");
+      $.ajax({
+        type: "get",
+        url: "/storeUserReview/list/" + storeIdVal ,
+        dataType: "JSON",
+        success: function(result){
+          console.log("댓글 목록 요청 성공!");
+          console.log(result);
+          // 댓글 목록 화면에 띄우기
+          printStoreUserReviewList(result);
+        },
+        error: function(e){
+          console.log("댓글 목록 요청 실패....");
+          console.log(e);
+        }
+      });
+    }
+
+
+    getStoreUserReviewList();  // 댓글 목록 요청 호출!
+
+
+
+
+
+    // ***** 댓글 등록 ********************
+
+    $("#newStoreUserReviewBtn").on("click", function(){
+      console.log("new storeUserReview button clicked!!");
+      let storeUserReviewTxt = $("#storeUserReview").val(); // 댓글 내용 가져오기
+      let data = {
+        storeReviewDetail: storeUserReviewTxt,
+        storeId: storeIdVal,
+        storeReviewPosition: 0,
+        step: 0
+      };
+      console.log(data);
+      saveStoreUserReview(data, function(){
+        $("#storeUserReview").val(""); // 댓글작성란 비우기
+      });
+    });
+    // 댓글 저장 처리 함수
+    function saveStoreUserReview(data, callbackFn) { // 저장데이터와 성공시 실행할 콜백함수 전달받기
+      $.ajax({
+        type: "post",
+        url: "/storeUserReview/add",
+        data: JSON.stringify(data),
+        contentType: "application/json;charset=UTF-8",
+        success: function(result){
+          console.log("댓글 등록 성공!!");
+          console.log(result);
+          callbackFn();  // 콜백함수 호출
+        },
+        error: function(e){
+          console.log("댓글 등록 실패....");
+          console.log(e);
+        }
+      });
+    }
+
+    // 화면에 뿌려주는 시간 포맷팅 함수
+        function displayTime(timeValue) {
+          let today = new Date();
+          let dateObj = new Date(timeValue);
+          let gap = today.getTime() - dateObj;
+          if(gap < (1000 * 60 * 60 * 24) && today.getDate() == dateObj.getDate()) {
+            let hh = dateObj.getHours();
+            let mi = dateObj.getMinutes();
+            let ss = dateObj.getSeconds();
+            return [(hh > 9 ? '':'0') + hh, ':', (mi > 9 ? '':'0') + mi, ':', (ss > 9 ? '':'0') + ss].join('');
+          }else {
+            let yy = dateObj.getFullYear();
+            let mm = dateObj.getMonth() + 1;
+            let dd = dateObj.getDate();
+            return [yy, '/', (mm > 9 ? '':'0') + mm, '/', (dd > 9 ? '':'0') + dd].join('');
+          }
+        }
+
+
+</script>
+
+
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <script th:inline="javascript" th:if="isAuth">
     $(document).ready(function (){
@@ -224,7 +306,9 @@
         let name = storeTitle + " 구독";
         let price = $("#price").text();
         let amount = parseInt($("#price").text().replace(',', ''), 10);
-        $("#subscribeButton").on("click", function () {
+
+
+        $("#subscribeButton, #clickToAd").on("click", function () {
             console.log("IMP 실행");
             let merchantUid = createMerchantUid();
             let data = {
@@ -271,7 +355,7 @@
                                         msg += '카드 승인번호 : ' + rsp.apply_num;
                                         alert(msg);
                                         // 결제완료 페이지로 리다이렉트
-                                        window.location.href = '/cart/orderSuccess';
+                                        window.location.href = '/myPage/membershipOrderSuccess/' + merchantUid + '?success=true';
                                     },
                                     error: function (e) {
                                         let msg = '결제에 실패하였습니다. ';
@@ -287,6 +371,7 @@
                     }
                 });
     });
+
     // 주문번호 생성 함수
     function createMerchantUid() {
         const date = new Date();
@@ -300,6 +385,9 @@
         }
         return parseInt(merchantUid);
     };
+
+
+
 });
 </script>
 </html>
