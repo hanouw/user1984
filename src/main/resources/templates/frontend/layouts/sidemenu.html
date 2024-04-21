@@ -10,11 +10,11 @@
         <hr />
         <ul>
             <li><a th:href="@{/myPage/info}">회원정보</a></li>
-            <li><a th:href="@{/myPage/bookshelf}">나의책장</a></li>
-            <li><a th:href="@{/}">나의서점</a></li>
+            <li><a th:href="@{/myPage/myBook}">나의책장</a></li>
+            <li><a th:href="@{/myPage/myStore}">나의서점</a></li>
             <li><a th:href="@{/cart/list}">장바구니</a></li>
             <li><a th:href="@{/myPage/bookOrderList}">구매내역</a></li>
-            <li><a th:href="@{/}">문의하기</a></li>
+            <li><a th:href="@{/}">문의내역</a></li>
         </ul>
         <form th:action="@{/logout}" method="post">
             <button class="btn_login" type="submit">로그아웃</button>
@@ -25,6 +25,7 @@
         <div class="mypage_status_bar flex_between">
             <div class="mp_stBar_lb">
                 <a href="" class="flex_between">
+<!--                    TODO 수 불러오기-->
                     <span>구매도서</span>
                     <span>999,999</span>
                 </a>
