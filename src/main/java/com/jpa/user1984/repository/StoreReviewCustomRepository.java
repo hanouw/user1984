@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface StoreReviewCustomRepository {
 
-    List<StoreReview> findStoreReviewList(Long StoreId);
-    int updateStep(Long StoreReviewId, Integer step);
+    List<StoreReview> findStoreReviewList(Long storeId);
+    int updateStep(Long storeReviewId, Integer step);
 }

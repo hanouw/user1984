@@ -40,6 +40,7 @@ public class HomeController {
     private final DisplayService displayService;
     private final StoreService storeService;
     private final StoreReviewService storeReviewService;
+    private final BookReviewService bookReviewService;
     private final FileUploadService fileUploadService;
     private final MemberService memberService;
 
@@ -119,6 +120,29 @@ public class HomeController {
         return "frontend/home/bookOpen";
     }
 
+    // 책 댓글 등록
+    @PostMapping("/bookUserReview/add")
+    public ResponseEntity<String> bookReviewAdd(@RequestBody BookReviewForm bookReviewForm, @AuthenticationPrincipal CustomMember customMember, Member member) {
+        log.info("**** HomeController POST /add - bookReviewAdd : {}", bookReviewForm);
+        Member findMember = memberService.findMemberByIdDtMember(customMember.getMember().getUserNo());
+        bookReviewService.bookReviewAdd(bookReviewForm, findMember);
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+    // 책 댓글 목록
+    @GetMapping("/bookUserReview/list/{bookId}")
+    @ResponseBody
+    public ResponseEntity<List<BookReviewDTO>> getBookReviewList(@PathVariable("bookId") Long bookId) {
+
+        log.info("***** CommentController GET /storeUserReview/list/{bookId} - bookId : {}", bookId);
+        List<BookReviewDTO> bookReviewDTO = bookReviewService.findListByBookId(bookId);
+        log.info("***** HomeController GET /list - commentResponseDTO : {}", bookReviewDTO);
+        HttpHeaders responseHeader = new HttpHeaders();
+        ResponseEntity<List<BookReviewDTO>> response = ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(bookReviewDTO);
+        return response;
+    }
+
     // 서점
 
     // 독립서점 목록
@@ -155,7 +179,7 @@ public class HomeController {
     // 서점 댓글 목록
     @GetMapping("/storeUserReview/list/{storeId}")
     @ResponseBody
-    public ResponseEntity<List<StoreReviewDTO>> getList(@PathVariable("storeId") Long storeId) {
+    public ResponseEntity<List<StoreReviewDTO>> getStoreReviewList(@PathVariable("storeId") Long storeId) {
 
         log.info("***** CommentController GET /storeUserReview/list/{storeId} - storeId : {}", storeId);
         // Board id에 해당하는 댓글들 중, 1페이지 10개 댓글 가져와줘~
