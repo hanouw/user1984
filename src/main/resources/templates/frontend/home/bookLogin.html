@@ -317,7 +317,7 @@ $(document).ready(function (){
 
     // 배너띠광고 창 클릭 이벤트
     $("#clickToAd").on("click", function () {
-        let storeIdSerch = $("#storeIdSerch").val();
+        let storeIdSerch = $("#storeIdSerch").text();
         window.location.href = '/store/' + storeIdSerch;
     });
 
