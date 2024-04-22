@@ -66,7 +66,12 @@ public class BookService {
     }
 
     // 조회 5개
-//    public
+    public List<BookDTO> findFiveByStoreId(Long storeId){
+        List<Book> bookList = bookRepository.findAll();
+
+//        return new BookDTO(bookList);
+        return null;
+    }
 
     //카테고리01 랜덤 조회
     public List<BookDTO> findCategory01() {

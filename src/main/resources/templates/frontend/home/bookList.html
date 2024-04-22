@@ -83,7 +83,7 @@
                             $('#books-container').append(bookHtml);
                         }
 
-                        lastBookId = result[9].bookId + 1;
+                        lastBookId = result[result.length-1].bookId + 1;
                         // lastBookId = lastBookId + 10;
                     } else {
                         console.log("전부 로딩됨")
