@@ -11,7 +11,7 @@
                 <div class="st_sec_01_text">
                     <div class="st_title_wrap">
                         <p class="st_title" th:text="${store.storeTitle}" id="storeTitle">코뿔소서점</p>
-                        <a th:href='@{/bookList/store/{storeId}(storeId=${store.getStoreId()})}' class="st_ca_btn">
+                        <a th:href='@{/bookList/store/{storeId}(storeId=${store.getStoreId()})}' class="st_ca_btn">서울</a>
                     </div>
                     <div class="st_iftext_wrap line_bt_gr">
                         <p th:text="${store.getStoreText()}">
