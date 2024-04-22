@@ -4,6 +4,7 @@ import com.jpa.user1984.domain.MemberStatus;
 import com.jpa.user1984.dto.MemberDTO;
 import com.jpa.user1984.dto.MemberLoginDTO;
 import com.jpa.user1984.dto.MemberForm;
+import com.jpa.user1984.security.domain.CustomMember;
 import com.jpa.user1984.service.CartService;
 import com.jpa.user1984.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +33,10 @@ public class MemberController {
 
     // 회원가입 폼 요청
     @GetMapping("/signup")
-    public String signupForm(@ModelAttribute MemberForm memberForm){ // 빈 객체를 전달하여 여기에 입력할 것이라는 것을 알려주는 역할
+    public String signupForm(@ModelAttribute MemberForm memberForm, @AuthenticationPrincipal CustomMember customMember){ // 빈 객체를 전달하여 여기에 입력할 것이라는 것을 알려주는 역할
+        if(customMember != null){
+            return "redirect:/";
+        }
         return "frontend/member/signup";
     }
 
@@ -46,7 +51,10 @@ public class MemberController {
 
     // 로그인 폼 요청
     @GetMapping("/login")
-    public String loginForm(@ModelAttribute MemberLoginDTO memberLoginDTO, HttpServletRequest request){
+    public String loginForm(@ModelAttribute MemberLoginDTO memberLoginDTO, HttpServletRequest request, @AuthenticationPrincipal CustomMember customMember){
+        if(customMember != null){
+            return "redirect:/";
+        }
         String referrer = request.getHeader("Referer");
         if(referrer != null){
             request.getSession().setAttribute("prevPage", referrer);
