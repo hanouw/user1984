@@ -2,6 +2,7 @@ package com.jpa.user1984.service;
 
 import com.jpa.user1984.domain.Inquiry;
 import com.jpa.user1984.dto.InquiryDTO;
+import com.jpa.user1984.dto.InquiryForm;
 import com.jpa.user1984.repository.InquiryRepository;
 import com.jpa.user1984.repository.MemberRepository;
 import com.jpa.user1984.repository.StoreRepository;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +25,12 @@ public class InquiryService{
     private final MemberRepository memberRepository;
     private final StoreRepository storeRepository;
 
-
+    public void save(InquiryForm inquiryForm) {
+        Inquiry entity = inquiryForm.toEntity();
+        entity.setMember(memberRepository.findById(inquiryForm.getUserNo()).orElse(null));
+        entity.setStore(storeRepository.findById(inquiryForm.getStoreId()).orElse(null));
+        inquiryRepository.save(entity);
+    }
 
     public List<InquiryDTO> findAllList(Long userNo) {
         List<Inquiry> all = inquiryRepository.findAll();
