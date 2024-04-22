@@ -20,12 +20,36 @@
             </div>
             <div class="my_page_wrap_one">
                 <p>등록일</p>
-                <input type="text" th:field="${dto.createDate}" disabled>
-            </div>
-            <div class="my_page_wrap_button">
-                <button th:onclick="history.go(-1)" class="grey_btn">목록</button>
+                <input type="text" th:field="${dto.inquiryCreateDate}" disabled>
             </div>
         </div>
+        <div th:if="${dto.answer}">
+            <div class="my_page_h_wrap">
+                <p>답변</p>
+            </div>
+            <div class="my_page_wrap">
+                <div class="my_page_wrap_one">
+                    <p>제목</p>
+                    <input type="text" th:field="${dto.answerTitle}" disabled>
+                </div>
+                <div class="my_page_wrap_one">
+                    <p>답변내용</p>
+                    <input type="text" th:field="${dto.answerDetail}" disabled>
+                </div>
+                <div class="my_page_wrap_one">
+                    <p>등록자</p>
+                    <input type="text" th:field="${dto.storeLoginId}" disabled>
+                </div>
+                <div class="my_page_wrap_one">
+                    <p>등록일</p>
+                    <input type="text" th:field="${dto.answerCreateDate}" disabled>
+                </div>
+                <div class="my_page_wrap_button">
+                    <button th:onclick="history.go(-1)" class="grey_btn">목록</button>
+                </div>
+            </div>
+        </div>
+
     </th:block>
 </th:block>
 </html>

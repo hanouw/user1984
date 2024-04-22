@@ -56,7 +56,8 @@
                         </div>
                     </div>
                     <div class="st_button_wrap">
-                        <button class="blackLine_btn" id="inquiryButton" th:data-storeId="${store.storeId}">문의하기</button>
+                        <button class="blackLine_btn" th:onclick="|location.href='@{/myPage/inquiry/{storeId}(storeId=${store.storeId})}'|">문의하기
+                        </button>
                         <button class="point_btn" id="subscribeButton" th:data-storeId="${store.storeId}">구독하기</button>
                     </div>
                 </div>
