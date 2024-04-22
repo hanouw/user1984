@@ -11,11 +11,10 @@
                 <div class="st_sec_01_text">
                     <div class="st_title_wrap">
                         <p class="st_title" th:text="${store.storeTitle}" id="storeTitle">코뿔소서점</p>
-                        <a th:href='@{/bookList/store/{storeId}(storeId=${store.getStoreId()})}' class="st_ca_btn">
+                        <a th:href='@{/bookList/store/{storeId}(storeId=${store.getStoreId()})}' class="st_ca_btn">서울</a>
                     </div>
                     <div class="st_iftext_wrap line_bt_gr">
-                        <p th:text="${store.getStoreText()}">
-                        </p>
+                        <p th:text="${store.getStoreText()}"></p>
                     </div>
                     <div class="st_storetext01_wrap line_bt_gr">
                         <div>
@@ -50,7 +49,7 @@
                         <div>
                             <span class="st_storetext03_span">구독권 판매가</span>
                             <div>
-                                <span class="st_pay_text" id="price"> 12,000 </span>
+                                <span class="st_pay_text" id="price"> 12000 </span>
                                 <span>원</span>
                             </div>
                         </div>
