@@ -42,7 +42,7 @@ iamport:
   secret: BIbJ0zJL1smO9Kdbjmmf7epKUC6F0sM1swDVgzjfpJdwYXugBcgAjhE7LGZ976K14ZxK9tVY2cZx1PRv
 
 file:
-  dir: C:/lhw/images/
+#  dir: C:/lhw/images/
 #  dir: /Users/hoseonyoo/Documents/file/
-#  dir: C:\thejoeun\dataCollection\
+  dir: C:\thejoeun\dataCollection\
   #dir: C:\HJ\pj1984\

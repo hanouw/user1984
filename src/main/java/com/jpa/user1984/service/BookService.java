@@ -68,9 +68,13 @@ public class BookService {
     // 조회 5개
     public List<BookDTO> findFiveByStoreId(Long storeId){
         List<Book> bookList = bookRepository.findAll();
-
-//        return new BookDTO(bookList);
-        return null;
+        Collections.shuffle(bookList); // 랜덤
+        List<BookDTO> list = bookList.stream()
+                .filter(b -> b.getStore().getStoreId().equals(storeId))
+                .map(BookDTO::new)
+                .limit(5)
+                .toList();
+        return list;
     }
 
     //카테고리01 랜덤 조회
