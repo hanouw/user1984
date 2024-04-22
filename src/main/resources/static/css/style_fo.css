@@ -44,6 +44,7 @@ ul.menu_list{
     display: flex;
     justify-content: flex-end;
 }
+
 ul.menu_list > li{
     margin-left: 40px;
 }
@@ -178,7 +179,7 @@ footer{
     opacity:0;
     transition:opacity 1.2s ease-in-out;
 }
-div.sec_01_bannerarea > ul > li.active{
+div.sec_01_bannerarea > ul > li.activeBanner{
     opacity:1;
 }
 .banner_li_wrap{
@@ -390,7 +391,10 @@ h1.about-sec02-h1{
     height: 28.5px;
     transform: translateX(6px);
     z-index: 0;
-
+}
+.btn_padding{
+    padding:8px 14px;
+    border-radius:4px;
 }
 .top_search_area > input:focus {outline: none;}
 .top_search_area > button{
@@ -631,7 +635,7 @@ a.book_ca_btn{
 }
 hr.bold_hr{
     height: 1px;
-    border: 0;
+    border: 0px;
     background-color: var(--mainblack);
 }
 .sec_text_wrap{
@@ -752,8 +756,29 @@ hr.bold_hr{
     top: 0;
     left: 0;
 }
-
-
+div.item_date_listwrap{
+    height:42px;
+}
+.item_date_listwrap > span,
+.item_date_listwrap > input{
+    margin-right:8px;
+}
+.item_date_listwrap > input{
+    padding:0px 10px;
+}
+.item_date_listwrap > input:first-child{
+    margin-left:4px;
+}
+.book_view_mark{
+    position:fixed;
+    width:27.5%;
+    height:40px;
+    line-height:40px;
+    top:70px;
+    left:60px;
+    background-color: #333639;
+    color:#fff;
+}
 
 
 
@@ -789,35 +814,33 @@ hr.bold_hr{
     width: 100%;
 }
 .paging_bar > ul{
-    width: 40%;
-    max-width: 500px;
-    border: 1px solid var(--mainblack);
-    margin: 0 auto;
+    text-align:center;
 }
 .paging_bar > ul > li{
-    cursor: pointer;
-}
-.paging_bar > ul > li:hover{
-    background-color: var(--mainblack);
-    color: var(--mainwhite);
+    display:inline-block;
 }
 div.paging_bar > ul > li > a, a.pageLink{
-    padding:0px 15px;
-    height:32px;
-    line-height:32px;
-    cursor:pointer;
+        padding:10px 16px;
+        background-color:#fff;
+        color:#000;
+        border:1px solid #dcdcdc;
+        border-radius:4px;
+        cursor:pointer;
 }
 div.paging_bar > ul > li > a:hover,
 a.pageLink:hover{
-    background-color: var(--mainblack);
-    color: var(--pointcolor);
+        color:var(--pointcolor);
+        background-color:var(--mainblack);
+        border:1px solid var(--mainblack);
 }
 .disabled {
     pointer-events: none;
 }
-.active {
-    pointer-events: none;
-    color: var(--pointcolor);
+li.active > a.pageLink{
+        pointer-events: none;
+        background-color: #000;
+        color: #fff;
+        border:1px solid #000;
 }
 .review_input_form{
     margin-top: 20px;
@@ -907,7 +930,10 @@ div.mypage_status_bar > div > a:active{
     padding-bottom: 20px;
     border-bottom: 2px solid var(--mainblack);
 }
-.my_page_h_wrap .my_page_h_text {
+.my_page_h_wrap > h2{
+    width:20%;
+}
+.my_page_h_wrap .my_page_span_text{
     font-size: 20px;
     text-align: right;
 }
@@ -1059,7 +1085,7 @@ span.priceText_big{
 }
 /*나의 책장*/
 .book_wrap_pagebody{
-    width:calc(100% - 80px);
+    width:calc(100% - 40px);
     max-width: 1400px;
     margin: 0 auto;
     position: relative;
@@ -1126,6 +1152,10 @@ span.priceText_big{
     display: flex;
     justify-content:flex-start;
 }
+.flex_end{
+    display: flex;
+    justify-content: flex-end;
+}
 /*BUTTON*/
 button{
     font-size: 14px;
@@ -1139,6 +1169,18 @@ button.grey_btn{
     color: var(--mainwhite);
 }
 button.grey_btn:hover{
+    background-color: var(--maingr02);
+    border: 1px solid var(--maingr02);
+    color: var(--pointcolor);
+}
+button.grey_libtn{
+    padding: 12px 22px;
+    background-color: var(--maingr01);
+    border: 1px solid var(--maingr01);
+    border-radius: 4px;
+    color: var(--mainwhite);
+}
+button.grey_libtn:hover{
     background-color: var(--maingr02);
     border: 1px solid var(--maingr02);
     color: var(--pointcolor);
@@ -1264,7 +1306,8 @@ div.my_page_wrap_one > select{
     margin-bottom: 28px;
 }
 .my_page_title > hr{
-    border: 1px solid var(--black);
+    background-color:var(--black);
+    height:2px;
 }
 
 /* 로그아웃 버튼 */
