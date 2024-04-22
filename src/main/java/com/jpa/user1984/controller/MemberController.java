@@ -6,6 +6,7 @@ import com.jpa.user1984.dto.MemberLoginDTO;
 import com.jpa.user1984.dto.MemberForm;
 import com.jpa.user1984.service.CartService;
 import com.jpa.user1984.service.MemberService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -45,7 +46,11 @@ public class MemberController {
 
     // 로그인 폼 요청
     @GetMapping("/login")
-    public String loginForm(@ModelAttribute MemberLoginDTO memberLoginDTO){
+    public String loginForm(@ModelAttribute MemberLoginDTO memberLoginDTO, HttpServletRequest request){
+        String referrer = request.getHeader("Referer");
+        if(referrer != null){
+            request.getSession().setAttribute("prevPage", referrer);
+        }
         return "frontend/member/login";
     }
 

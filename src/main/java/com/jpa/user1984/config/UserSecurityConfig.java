@@ -1,6 +1,7 @@
 package com.jpa.user1984.config;
 
 import com.jpa.user1984.security.CustomMemberSecurityService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -57,7 +58,8 @@ public class UserSecurityConfig extends ConfigForExtend{
         http.formLogin(login -> login.loginPage("/login") // 로그인 페이지는 이 페이지야~
                 .usernameParameter("userId")
                 .passwordParameter("userPassword")
-                .defaultSuccessUrl("/", true)) // 로그인 처리 성공했으면
+                        .successHandler(new LoginSuccessHandler("/")).permitAll())
+//                .defaultSuccessUrl("/", true)) // 로그인 처리 성공했으면
                 .rememberMe(remember -> remember.userDetailsService(customMemberSecurityService)
                         .tokenRepository(memberTokenRepository())
                         .tokenValiditySeconds(3600))
