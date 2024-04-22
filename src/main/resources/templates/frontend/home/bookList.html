@@ -42,6 +42,7 @@
 
 <script>
     $(document).ready(function() {
+        let storeId = 0;
         let lastBookId = 1;
         let loading = false;
         let scrollListenerSwi = true;
@@ -60,7 +61,7 @@
             $('#loading-indicator').show();
 
             $.ajax({
-                url: '/tenBook/' + lastBookId,
+                url: '/tenBook/' + storeId + '/' + lastBookId,
                 type: 'GET',
                 dataType:'json',
                 success: function(result) {
@@ -82,7 +83,8 @@
                             $('#books-container').append(bookHtml);
                         }
 
-                        lastBookId = lastBookId + 10;
+                        lastBookId = result[result.length-1].bookId + 1;
+                        // lastBookId = lastBookId + 10;
                     } else {
                         console.log("전부 로딩됨")
                         // 더 이상 로드할 게시물이 없음

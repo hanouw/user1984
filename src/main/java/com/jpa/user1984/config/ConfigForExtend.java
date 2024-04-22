@@ -13,6 +13,7 @@ public class ConfigForExtend {
         return (web) -> web.ignoring()
                 .requestMatchers(new AntPathRequestMatcher("/css/**"))
                 .requestMatchers(new AntPathRequestMatcher("/img/**"))
+                .requestMatchers(new AntPathRequestMatcher("/pdf/**"))
                 .requestMatchers(new AntPathRequestMatcher("/js/**"))
                 .requestMatchers(new AntPathRequestMatcher("/images/**"))
                 .requestMatchers(new AntPathRequestMatcher("/ajaxUsernameAvail"))

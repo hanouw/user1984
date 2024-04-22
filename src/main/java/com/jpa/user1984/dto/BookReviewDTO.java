@@ -16,6 +16,7 @@ public class BookReviewDTO { // 가져오는
 
     private Long bookReviewId;
     private Long userNo;
+    private String userName;
     private String bookReviewDetail;
     private BookReviewStatus bookReviewStatus;
     private LocalDateTime createDate;
@@ -27,6 +28,7 @@ public class BookReviewDTO { // 가져오는
     public BookReviewDTO(BookReview bookReview) {
         this.bookReviewId = bookReview.getBookReviewId();
         this.userNo = bookReview.getMember().getUserNo();
+        this.userName = bookReview.getMember().getUserName();
         this.bookReviewDetail = bookReview.getBookReviewDetail();
         this.createDate = bookReview.getCreateDate();
         this.lastModifiedDate = bookReview.getLastModifiedDate();
