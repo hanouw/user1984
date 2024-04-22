@@ -4,10 +4,14 @@
     <th:block th:fragment="content">
         <div class="my_page_h_wrap">
             <h2>나의 서점</h2>
-            <div class="top_search_area">
-                <input type="text" id="keyword" placeholder="서점명을 입력해주세요." />
-                <button class="blackfl_btn" id="searchBtn">검색</button>
-            </div>
+            <form action="" th:action method="get">
+                <div class="top_search_area">
+                    <input type="text" name="keyword" th:value="${pageResponseDTO.pageRequestDTO.keyword}" placeholder="서점명을 입력해주세요." />
+                    <input type="hidden" name="page" th:value="${pageResponseDTO.pageRequestDTO.page}"  />
+                    <input type="hidden" name="searchType" value="storeTitle"  />
+                    <button type="submit" class="blackfl_btn">검색</button>
+                </div>
+            </form>
         </div>
         <section class="section_wrap">
             <div class="book_wrap_pagebody">
@@ -26,6 +30,31 @@
                 </div>
             </div>
         </section>
+        <div class="paging_wrap">
+            <div class="paging_bar">
+                <ul class="flex_between">
+                    <li th:classappend="${pageResponseDTO.prev == false} ? 'disabled'">
+                        <a class="pageLink"
+                           th:href="@{/myPage/myStore(page=${pageResponseDTO.startPage - 1}, keyword=${pageResponseDTO.pageRequestDTO.keyword})}">
+                            Previous</a>
+                    </li>
+
+                    <li th:each="page : ${pageResponseDTO.pageNumList}" class="page-item"
+                        th:classappend="${pageResponseDTO.pageRequestDTO.page == page} ? 'active'">
+                        <a class="pageLink"
+                           th:href="@{/myPage/myStore(page=${page}, keyword=${pageResponseDTO.pageRequestDTO.keyword})}"
+                           th:text="${page}">
+                        </a>
+                    </li>
+
+                    <li th:classappend="${pageResponseDTO.next == false} ? 'disabled'">
+                        <a class="pageLink"
+                           th:href="@{/myPage/myStore(page=${pageResponseDTO.endPage + 1}, keyword=${pageResponseDTO.pageRequestDTO.keyword})}">
+                            Next</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
 
 
     </th:block>

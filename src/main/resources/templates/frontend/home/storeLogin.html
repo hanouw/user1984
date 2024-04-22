@@ -56,7 +56,8 @@
                         </div>
                     </div>
                     <div class="st_button_wrap">
-                        <button class="blackLine_btn" id="inquiryButton" th:data-storeId="${store.storeId}">문의하기</button>
+                        <button class="blackLine_btn" th:onclick="|location.href='@{/myPage/inquiry/{storeId}(storeId=${store.storeId})}'|">문의하기
+                        </button>
                         <button class="point_btn" id="subscribeButton" th:data-storeId="${store.storeId}">구독하기</button>
                     </div>
                 </div>
@@ -287,8 +288,7 @@
             return [yy, '/', (mm > 9 ? '':'0') + mm, '/', (dd > 9 ? '':'0') + dd].join('');
           }
         }
-
-
+    });
 </script>
 
 
@@ -355,7 +355,7 @@
                                         msg += '카드 승인번호 : ' + rsp.apply_num;
                                         alert(msg);
                                         // 결제완료 페이지로 리다이렉트
-                                        window.location.href = '/myPage/membershipOrderSuccess/' + merchantUid + '?success=true';
+                                        window.location.href = '/myPage/membershipOrderDetail/' + merchantUid + '?success=true';
                                     },
                                     error: function (e) {
                                         let msg = '결제에 실패하였습니다. ';

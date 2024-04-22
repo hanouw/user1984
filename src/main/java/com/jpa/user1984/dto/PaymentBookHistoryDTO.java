@@ -42,7 +42,7 @@ public class PaymentBookHistoryDTO {
         this.orderBookId = paymentBookHistory.getPaymentBook().getOrderBookId();
         this.paymentBookStatus = paymentBookHistory.getPaymentBook().getPaymentBookStatus();
         this.orderBookMethod = paymentBookHistory.getPaymentBook().getOrderBookMethod();
-        this.createDate = displayTime(paymentBookHistory.getPaymentBook().getCreateDate());
+        this.createDate = displayTime(paymentBookHistory.getCreateDate());
         this.price = paymentBookHistory.getPrice();
         this.totalAmount = paymentBookHistory.getPaymentBook().getTotalAmount();
 

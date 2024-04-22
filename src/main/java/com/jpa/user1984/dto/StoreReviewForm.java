@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 public class StoreReviewForm { // 리뷰 저장할때 데이터 받아주는 폼객체
 
     private Long storeReviewId;
-//    private Member member;
     private String storeReviewDetail;
 //    private StoreReviewStatus storeReviewStatus;
 //    private LocalDateTime createDate;

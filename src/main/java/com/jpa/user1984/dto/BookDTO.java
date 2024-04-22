@@ -33,7 +33,7 @@ public class BookDTO {
     private LocalDateTime createDate;
     private LocalDateTime lastModifiedDate;
 
-    private List<BookReview> bookUserReviews;
+    private List<BookReview> bookUserReviewList;
 
     //Entity -> DTO
     public BookDTO(Book book){
@@ -64,7 +64,7 @@ public class BookDTO {
         this.createDate = book.getCreateDate();
         this.lastModifiedDate = book.getLastModifiedDate();
 
-        this.bookUserReviews = book.getBookUserReviews();
+        this.bookUserReviewList = book.getBookUserReviewList();
     }
 
 }

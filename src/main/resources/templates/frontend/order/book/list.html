@@ -5,6 +5,16 @@
 
         <!-- 내용 -->
         <div class="my_page_h_wrap">
+            <div class="item">
+                <span><button id="todayBtn" class="grey_btn dateBtn" th:value="today">오늘</button></span>
+                <span><button id="oneWeekBtn" class="grey_btn dateBtn" th:value="oneWeek">일주일</button></span>
+                <span><button id="oneMonthBtn" class="grey_btn dateBtn" th:value="oneMonth">한달</button></span>
+                <input type="date" id="startDate"
+                       th:value="${bookPageResponseDTO.pageRequestDTO.startDate}"/>
+                <input type="date" id="endDate"
+                       th:value="${bookPageResponseDTO.pageRequestDTO.endDate}"/>
+                <button class="black_btn" type="button" id="dateSelectedBtn">조회</button>
+            </div>
             <span>
                 <span><a th:href="@{/myPage/bookOrderList}">도서주문</a></span>
                 <span><a class="smaller" th:href="@{/myPage/membershipOrderList}">구독주문</a></span>
@@ -85,11 +95,18 @@
         let content = $(".mycart_table_wrap");
         let paginationDiv = $(".paging_wrap");
         let currPage = 1;
+        let datePeriodSelected = '';
+        let startDateSelected = '';
+        let endDateSelected = '';
+
         getList(1);
         // 목록 요청 함수 - 문서가 로딩되자마자 한번 실행되고, pageNum 누를때마다, 필터링을 할때마다 요청돼야함
         function getList(page) { // page = 요청된 페이지 번호
+            console.log("getList 실행")
             currPage = page;
             console.log(page);
+            startDateSelected = $("#startDate").val();
+            endDateSelected = $("#endDate").val();
             let keyword = $("#keyword").val();
             $.ajax({
                 type: "GET",
@@ -97,7 +114,10 @@
                 data: {
                     page: currPage,
                     keyword: keyword,
-                    searchType: "bookTitle"
+                    searchType: "bookTitle",
+                    datePeriod: datePeriodSelected,
+                    startDate: startDateSelected,
+                    endDate: endDateSelected
                 },
                 success: function(response){
                     console.log(response);
@@ -128,6 +148,8 @@
             html += '</table>';
             content.html(html);
             $('#keyword').val(response.pageRequestDTO.keyword);
+            $('#startDate').val(response.pageRequestDTO.startDate);
+            $('#endDate').val(response.pageRequestDTO.endDate);
         };
 
         // 페이지네이션 출력
@@ -167,11 +189,58 @@
             getList(pageNum);
         });
 
-        // 조회 버튼 클릭시
-        $("#searchBtn").on("click", function (e) {
-            getList(1);
+        // 오늘, 일주일, 한달 버튼 클릭시
+        $(".dateBtn").on("click", function (e) {
+            console.log("datePeriod 클릭")
+            if (valueCheck()) {
+                datePeriodSelected = $(this).val();
+                console.log(datePeriodSelected);
+                getList(1);
+            }
         });
-    });
 
+        // 달력 조회버튼 클릭시
+        $("#dateSelectedBtn").on("click", function (e) {
+            console.log('달력 조회 클릭')
+            if(valueCheck()){
+                datePeriodSelected = null;
+                getList(1);
+            }
+        });
+
+        // 키워드 검색 버튼 클릭시
+        $("#searchBtn").on("click", function (e) {
+            if(valueCheck()) {
+                getList(1);
+            }
+        });
+
+        function valueCheck() {
+            let keywordValue = $("#keyword").val().trim();
+            let startValue = $("#startDate").val();
+            let endValue = $("#endDate").val();
+            if (keywordValue === ''  && startValue === '' && endValue === '') {
+                return true;
+            }
+            else if (keywordValue !== '' && startValue !== '' && endValue !== '') {
+                return true;
+            }
+            else if (keywordValue.length !== 0) {
+                if (startValue === '' && endValue === '') {
+                    return true;
+                }
+                else if (startValue === '' || endValue === '') {
+                    return alert("조회 시작일과 종료일을 모두 입력해주세요.");
+                }
+            }
+            else if (startValue === '' || endValue === '') {
+                return alert("조회 시작일과 종료일을 모두 입력해주세요.");
+            }
+            return true;
+        }
+
+
+
+    });
 </script>
 </html>

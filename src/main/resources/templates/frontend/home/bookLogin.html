@@ -169,34 +169,6 @@
                 <!-- 리뷰헤더 -->
                 <div class="sec_h_wrap flex_between">
                     <h2>한줄리뷰</h2>
-                    <select name="" id="">
-                        <option value="">최신순</option>
-                        <option value="">이전순</option>
-                    </select>
-                </div>
-
-                <!-- 리뷰 -->
-                <div class="review_wrap flex_between">
-                    <div class="review_text_wrap">
-                        <h4>아이디</h4>
-                        <p>내요오오오옹내요오오오옹내요오오오옹 내요오오오옹내요오오오옹내요오오오옹 내요오오오옹내요오오오옹내요오오오옹</p>
-                        <span>2024-4-10</span>
-                    </div>
-                    <div class="review_btn_wrap">
-                        <button class="greyLine_btn">댓글쓰기</button>
-                    </div>
-                </div>
-
-                <!-- 리뷰 -->
-                <div class="review_wrap flex_between">
-                    <div class="review_text_wrap">
-                        <h4>아이디</h4>
-                        <p>내요오오오옹내요오오오옹내요오오오옹 내요오오오옹내요오오오옹내요오오오옹 내요오오오옹내요오오오옹내요오오오옹</p>
-                        <span>2024-4-10</span>
-                    </div>
-                    <div class="review_btn_wrap">
-                        <button class="greyLine_btn">댓글쓰기</button>
-                    </div>
                 </div>
 
                 <!-- 리뷰 나눔선 -->
@@ -204,34 +176,142 @@
                     <div class="review_text_wrap"></div>
                 </div>
 
-                <!-- 페이징 -->
-                <div class="paging_wrap">
-                    <div class="paging_bar">
-                        <ul class="flex_between">
-                            <li>Prev</li>
-                            <li>1</li>
-                            <li>2</li>
-                            <li>3</li>
-                            <li>4</li>
-                            <li>5</li>
-                            <li>Next</li>
-                        </ul>
-                    </div>
-                </div>
                 <!-- 리뷰작성 -->
                 <div class="sec_h_wrap">
                     <h2>리뷰작성</h2>
                     <div class="review_input_form">
-                        <form action="post">
-                            <input class="review_input" type="text" />
-                            <button type="submit" class="review_input_btn point_btn">댓글작성</button>
+                        <form id="bookUserReviewForm">
+                            <!--              <input type="text" class="form-control"  id="bookUserReviewer">-->
+                            <input class="review_input" type="text" id="bookUserReview"/>
+                            <button type=button class="review_input_btn point_btn" id="newBookUserReviewBtn">댓글작성</button>
                         </form>
                     </div>
                 </div>
+
+
+                <!-- 리뷰 목록 (답글 버튼) -->
+                <!-- 댓글 리스트 : printReplyList 함수에서 동적으로 추가 -->
+
+                <div class="review_wrap flex_between" id="bookUserReviewList">
+
+                </div>
+
+
             </div>
         </section>
     </th:block>
 </th:block>
+
+<script th:inline="javascript">
+    $(document).ready(function(){
+      let bookIdVal = [[${book.bookId}]];
+      let bookUserReview = $("#bookUserReviewList");
+      console.log(bookIdVal);
+
+
+
+      // 댓글 목록 화면에 출력하는 함수
+      function printBookUserReviewList(list) {
+        let html = '';
+        for(let i = 0; i < list.length; i++) {
+          html += '<div class="row align-items-center p-2">';
+          html += '<div>';
+          html += '</div><div class="col mr-2">';
+          html += '<div class="h5 mb-0 font-weight-bold text-gray-800">'+ list[i].bookReviewDetail +'</div>';
+          html += ' <span class="ml2 text-gray-500"> '+ displayTime(list[i].createDate) +' </span></div></div>';
+          html += '<div class="col-auto btn-group-sm">';
+          html += '<button class="btn btn-info mr-1" data-bookReviewPositionId="'+ list[i].bookReviewPositionId +'" data-step="'+ list[i].step +'">답글</button>';
+          // html += '<button class="btn btn-warning mr-1 bookUserReviewModifBtn" data-bookUserReviewId="'+ list[i].id +'">수정</button>';
+          html += '</div></div><hr />';
+        }
+        bookUserReview.html(html); // 목록 태그 컨테이너 안에 붙히기
+      }
+
+
+      // ***** 댓글 목록 ********************
+      // 댓글 목록 요청 함수
+      function getBookUserReviewList() {
+        console.log("getBookUserReviewList!");
+        $.ajax({
+          type: "get",
+          url: "/bookUserReview/list/" + bookIdVal ,
+          dataType: "JSON",
+          success: function(result){
+            console.log("댓글 목록 요청 성공!");
+            console.log(result);
+            // 댓글 목록 화면에 띄우기
+            printBookUserReviewList(result);
+          },
+          error: function(e){
+            console.log("댓글 목록 요청 실패....");
+            console.log(e);
+          }
+        });
+      }
+
+
+      getBookUserReviewList();  // 댓글 목록 요청 호출!
+
+
+
+
+
+      // ***** 댓글 등록 ********************
+
+      $("#newBookUserReviewBtn").on("click", function(){
+        console.log("new bookUserReview button clicked!!");
+        let bookUserReviewTxt = $("#bookUserReview").val(); // 댓글 내용 가져오기
+        let data = {
+          bookReviewDetail: bookUserReviewTxt,
+          bookId: bookIdVal,
+          bookReviewPosition: 0,
+          step: 0
+        };
+        console.log(data);
+        saveBookUserReview(data, function(){
+          $("#bookUserReview").val(""); // 댓글작성란 비우기
+        });
+      });
+      // 댓글 저장 처리 함수
+      function saveBookUserReview(data, callbackFn) { // 저장데이터와 성공시 실행할 콜백함수 전달받기
+        $.ajax({
+          type: "post",
+          url: "/bookUserReview/add",
+          data: JSON.stringify(data),
+          contentType: "application/json;charset=UTF-8",
+          success: function(result){
+            console.log("댓글 등록 성공!!");
+            console.log(result);
+            callbackFn();  // 콜백함수 호출
+          },
+          error: function(e){
+            console.log("댓글 등록 실패....");
+            console.log(e);
+          }
+        });
+      }
+  
+      // 화면에 뿌려주는 시간 포맷팅 함수
+          function displayTime(timeValue) {
+            let today = new Date();
+            let dateObj = new Date(timeValue);
+            let gap = today.getTime() - dateObj;
+            if(gap < (1000 * 60 * 60 * 24) && today.getDate() == dateObj.getDate()) {
+              let hh = dateObj.getHours();
+              let mi = dateObj.getMinutes();
+              let ss = dateObj.getSeconds();
+              return [(hh > 9 ? '':'0') + hh, ':', (mi > 9 ? '':'0') + mi, ':', (ss > 9 ? '':'0') + ss].join('');
+            }else {
+              let yy = dateObj.getFullYear();
+              let mm = dateObj.getMonth() + 1;
+              let dd = dateObj.getDate();
+              return [yy, '/', (mm > 9 ? '':'0') + mm, '/', (dd > 9 ? '':'0') + dd].join('');
+            }
+          }
+   });
+
+</script>
+
 <script th:inline="javascript">
 $(document).ready(function (){
 

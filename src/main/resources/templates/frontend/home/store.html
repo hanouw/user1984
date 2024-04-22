@@ -56,8 +56,8 @@
                         </div>
                     </div>
                     <div class="st_button_wrap">
-                        <button class="blackLine_btn" id="inquiryButton" th:data-storeId="${store.storeId}">문의하기</button>
-                        <button class="point_btn" id="subscribeButton" th:data-storeId="${store.storeId}">구독하기</button>
+                        <button class="blackLine_btn notLogin">문의하기</button>
+                        <button class="point_btn notLogin">구독하기</button>
                     </div>
                 </div>
             </div>
@@ -196,7 +196,12 @@
         window.location.href = '/login';
     }
 
-
+    $(".notLogin").on("click", function () {
+    let confirmation = confirm("로그인이 필요한 서비스입니다. 로그인 하시겠습니까?");
+    if (confirmation) {
+        window.location.href = '/login';
+    }
+  });
 
     // 댓글 목록 화면에 출력하는 함수
     function printStoreUserReviewList(list) {
