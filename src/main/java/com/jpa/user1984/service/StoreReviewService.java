@@ -1,11 +1,9 @@
 package com.jpa.user1984.service;
 
-import com.jpa.user1984.domain.Member;
-import com.jpa.user1984.domain.Store;
-import com.jpa.user1984.domain.StoreReview;
-import com.jpa.user1984.domain.StoreReviewStatus;
+import com.jpa.user1984.domain.*;
 import com.jpa.user1984.dto.StoreReviewDTO;
 import com.jpa.user1984.dto.StoreReviewForm;
+import com.jpa.user1984.repository.PaymentMemRepository;
 import com.jpa.user1984.repository.StoreRepository;
 import com.jpa.user1984.repository.StoreReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +22,7 @@ public class StoreReviewService {
 
     private final StoreReviewRepository storeReviewRepository;
     private final StoreRepository storeRepository;
+    private final PaymentMemRepository paymentMemRepository;
 
     // 서점리뷰 목록 조회
     public List<StoreReviewDTO> findListByStoreId(Long storeId) {
@@ -44,6 +43,11 @@ public class StoreReviewService {
         storeReview.setStore(store); // Comment Entity에 Board객체 채우기
         storeReview.setMember(member);
         storeReview.setStoreReviewStatus(StoreReviewStatus.ON);
+        PaymentMem result =
+            paymentMemRepository.findPaymentMemByMember_UserNoAndAndStore_StoreId(member.getUserNo(), store.getStoreId()).orElse(null);
+        if (result != null) {
+            result.setStoreReviewStatus(StoreReviewStatus.ON);
+        }
         StoreReview saved = null; // 저장된 entity를 담아줄 변수 미리 선언
         // 일반 댓글 : id=null, storeReviewPosition=0, step=0, level=0
         if (storeReview.getStoreReviewPosition() == 0) {

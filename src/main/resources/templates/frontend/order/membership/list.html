@@ -10,9 +10,9 @@
                 <span><button id="oneWeekBtn" class="grey_btn dateBtn" th:value="oneWeek">일주일</button></span>
                 <span><button id="oneMonthBtn" class="grey_btn dateBtn" th:value="oneMonth">한달</button></span>
                 <input type="date" id="startDate"
-                       th:value="${bookPageResponseDTO.pageRequestDTO.startDate}"/>
+                       th:field="${memPageResponseDTO.pageRequestDTO.startDate}"/>
                 <input type="date" id="endDate"
-                       th:value="${bookPageResponseDTO.pageRequestDTO.endDate}"/>
+                       th:field="${memPageResponseDTO.pageRequestDTO.endDate}"/>
                 <button class="black_btn" type="button" id="dateSelectedBtn">조회</button>
             </div>
             <span>
@@ -133,14 +133,19 @@
         function printList(response) {
             let html = '';
             html += '<table class="mycart_table">';
-            html += '<tr class="myTable_th_body"><th>서점명</th><th>구매일자</th><th>주문번호</th><th>주문금액</th><th>종료일</th> </tr>';
+            html += '<tr class="myTable_th_body"><th>서점명</th><th>구매일자</th><th>주문번호</th><th>주문금액</th><th>종료일</th><th>리뷰</th> </tr>';
             $.each(response.paymentMemDTO, function (index, list) {
                 html += '<tr class="myTable_td_body_2"><td class="flex_start"><div class="cart_img_body_3"><img src="/images/' + list.storeImgStored + '" alt="" /></div>';
                 html += '<div class="cart_img_table_2"><p>' + list.storeTitle + '</p><span>' + list.storeAddress + '</span></div></td>';
                 html += '<td>' + list.membershipStartDate + '</td>';
                 html += '<td><a href="/myPage/membershipOrderDetail/' + list.orderMembershipId + '">' + list.orderMembershipId + '</a></td>';
                 html += '<td>' + list.price + '</td>';
-                html += '<td>' + list.membershipEndDate + '</td></tr>';
+                html += '<td>' + list.membershipEndDate + '</td>';
+                if (list.reviewStatus) {
+                    html += '<td><button class="greyLine_btn" onclick="location.href=\'/store/' + list.storeId + '\'">작성완료</button></td></tr>';
+                } else {
+                    html += '<td><button class="black_btn"  onclick="location.href=\'/store/' + list.storeId + '\'">리뷰작성</button></td></tr>';
+                }
             });
             html += '</table>';
             content.html(html);

@@ -34,7 +34,7 @@ public class PaymentBookHistoryDTO {
     private String bookWriter;
     private String bookImgStored;
 
-    // private String reviewStatus;
+    private Boolean reviewStatus;
 
 
     public PaymentBookHistoryDTO(PaymentBookHistory paymentBookHistory) {
@@ -57,6 +57,8 @@ public class PaymentBookHistoryDTO {
         this.bookEbookPrice = paymentBookHistory.getBook().getBookEbookPrice();
         this.bookWriter = paymentBookHistory.getBook().getBookWriter();
         this.bookImgStored = paymentBookHistory.getBook().getBookImgStored();
+
+        this.reviewStatus = paymentBookHistory.getBookReviewStatus().getValue().equals("STATUS_ON");
     }
 
     public String displayTime(LocalDateTime createDate) {

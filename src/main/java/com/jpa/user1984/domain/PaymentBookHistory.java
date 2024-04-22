@@ -27,7 +27,6 @@ public class PaymentBookHistory extends TimeEntity{
     private String price;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private BookReviewStatus bookReviewStatus;
 
     public void setPaymentBook(PaymentBook paymentBook){
