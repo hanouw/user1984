@@ -2,14 +2,14 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{frontend/layouts/baseSidemenu :: baseSidemenu(~{this::content})}">
 <th:block th:fragment="content">
-    <div class="my_page_h_wrap">
+    <div class="my_page_h_wrap flex_between">
         <h2>나의 책장</h2>
         <form action="" th:action method="get">
             <div class="top_search_area">
                 <input type="text" name="keyword" th:value="${pageResponseDTO.pageRequestDTO.keyword}" placeholder="도서명을 입력해주세요." />
                 <input type="hidden" name="page" th:value="${pageResponseDTO.pageRequestDTO.page}"  />
                 <input type="hidden" name="searchType" value="bookTitle"  />
-                <button type="submit" class="blackfl_btn">검색</button>
+                <button type="submit" class="blackfl_btn btn_padding">검색</button>
             </div>
         </form>
     </div>
@@ -18,14 +18,16 @@
             <div class="item_list_wrap">
                 <ul class="flex_start flex_wrap">
                     <li th:each="book : ${bookList}">
-                        <div class="item_img_wrap">
-                            <img th:src="|/images/${book.bookImgStored}|" alt="">
-                        </div>
-                        <p><a th:text="${book.bookTitle}" th:href="@{/book/{bookId}(bookId=${book.bookId})}"></a></p>
-                        <span>
-                            <span th:text="${book.bookWriter}"></span> /
-                            <span th:text="${book.bookPub}"></span>
-                        </span>
+                        <a th:href="@{/bookOpen/{bookId}(bookId=${book.bookId})}">
+                            <div class="item_img_wrap">
+                                <img th:src="|/images/${book.bookImgStored}|" alt="">
+                            </div>
+                            <p><a th:text="${book.bookTitle}" th:href="@{/bookOpen/{bookId}(bookId=${book.bookId})}"></a></p>
+                            <span>
+                                <span th:text="${book.bookWriter}"></span> /
+                                <span th:text="${book.bookPub}"></span>
+                            </span>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -33,11 +35,11 @@
     </section>
     <div class="paging_wrap">
         <div class="paging_bar">
-            <ul class="flex_between">
+            <ul>
                 <li th:classappend="${pageResponseDTO.prev == false} ? 'disabled'">
                     <a class="pageLink"
                        th:href="@{/myPage/myBook(page=${pageResponseDTO.startPage - 1}, keyword=${pageResponseDTO.pageRequestDTO.keyword})}">
-                    Previous</a>
+                    Prev</a>
                 </li>
 
                 <li th:each="page : ${pageResponseDTO.pageNumList}" class="page-item"

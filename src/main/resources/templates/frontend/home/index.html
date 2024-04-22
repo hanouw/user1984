@@ -306,12 +306,12 @@
     $(document).ready(function() {
         let banners = $('.sec_01_bannerarea ul li');
         let current = 0;
-        banners.eq(current).addClass('active');
+        banners.eq(current).addClass('activeBanner');
 
         function slideShow() {
-            banners.eq(current).removeClass('active');
+            banners.eq(current).removeClass('activeBanner');
             current = (current + 1) % banners.length;
-            banners.eq(current).addClass('active');
+            banners.eq(current).addClass('activeBanner');
         }
 
         setInterval(slideShow, 2400);

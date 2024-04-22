@@ -131,33 +131,26 @@ public class HomeController {
     public String bookDetail(@PathVariable Long bookId, Model model, @AuthenticationPrincipal CustomMember customMember) {
         BookDTO findBook = bookService.findOne(bookId);
         model.addAttribute("book", findBook);
-        Long StoreId = findBook.getStore().getStoreId();
-//        bookService.find
+        Long storeId = findBook.getStore().getStoreId();
+        List<BookDTO> fiveBookByStoreId = bookService.findFiveByStoreId(storeId);
         if (customMember != null){
             log.info("로그인된 book 페이지로 이동중");
             MemberDTO findMember = memberService.findMemberById(customMember.getMember().getUserNo());
             model.addAttribute("user", findMember);
+            model.addAttribute("fiveBookByStoreId", fiveBookByStoreId);
             return "frontend/home/bookLogin";
         }
+        model.addAttribute("fiveBookByStoreId", fiveBookByStoreId);
         return "frontend/home/book";
     }
 
-    // 책 상세오픈 TODO
-    @GetMapping("/book/{bookId}/open")
+    // 책 상세오픈
+    @GetMapping("/bookOpen/{bookId}")
     public String bookOpen(@PathVariable Long bookId, Model model){
         BookDTO findBook = bookService.findOne(bookId);
         model.addAttribute("book", findBook);
 
         return "frontend/home/bookOpen";
-    }
-
-    // 책을 불러오는 컨트롤러[none]
-    @GetMapping("/book/{bookId}/openbook")
-    public String bookOpenPage(@PathVariable Long bookId, Model model){
-        BookDTO findBook = bookService.findOne(bookId);
-        model.addAttribute("book", findBook);
-
-        return "frontend/home/bookOpenPage";
     }
 
     // 책 댓글 등록
@@ -200,6 +193,8 @@ public class HomeController {
     public String storeDetail(@PathVariable("storeId") Long storeId, Model model, @AuthenticationPrincipal CustomMember customMember) {
         StoreDTO findStore = storeService.getOneStore(storeId);
         model.addAttribute("store", findStore);
+        List<BookDTO> fiveBookByStoreId = bookService.findFiveByStoreId(storeId);
+        model.addAttribute("fiveBookByStoreId", fiveBookByStoreId);
         if(customMember != null){
             log.info("******* 지금 if문 실행됨 customMember = {}", customMember);
             MemberDTO findMember = memberService.findMemberById(customMember.getMember().getUserNo());
