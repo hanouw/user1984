@@ -2,6 +2,7 @@ package com.jpa.user1984.controller;
 
 
 
+import com.jpa.user1984.domain.BookStatus;
 import com.jpa.user1984.dto.BannerDTO;
 import com.jpa.user1984.dto.BookDTO;
 import com.jpa.user1984.dto.BookListDTO;
@@ -25,10 +26,12 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import retrofit2.http.Path;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @Slf4j
@@ -86,18 +89,34 @@ public class HomeController {
     }
 
     // 도서 10권 찾아오기
-    @GetMapping("/tenBook/{bookId}")
+    @GetMapping("/tenBook/{storeId}/{bookId}")
     @ResponseBody
-    public List<BookListDTO> gotBookById(@PathVariable Long bookId){
+    public List<BookListDTO> gotBookById(@PathVariable Long bookId, @PathVariable Long storeId){
         log.info("*******  HomeController gotBookById");
         List<BookListDTO> tenBookList = new ArrayList<BookListDTO>();
-        for (Long bookPosition=bookId; bookPosition < bookId+10; bookPosition++ ){
-            try{
-                BookDTO oneBook = bookService.findOne(bookPosition);
-                tenBookList.add(new BookListDTO(oneBook));
-            }catch (NullPointerException e){
-                log.info("******* 마지막 호출됨");
-                break;
+        if(storeId==0L){
+            for (Long i = bookId; tenBookList.size() < 10; i++ ) {
+                try {
+                    BookDTO oneBook = bookService.findOne(i);
+                    if(oneBook.getBookStatus().equals(BookStatus.ON)){
+                        tenBookList.add(new BookListDTO(oneBook));
+                    }
+                } catch (NullPointerException e) {
+                    log.info("******* 마지막 호출됨");
+                    break;
+                }
+            }
+        }else {
+            List<BookDTO> allBookByStoreId = bookService.findAllByStoreId(storeId);
+            if(allBookByStoreId.size()<bookId){
+                return tenBookList;
+            }
+            for (int i = bookId.intValue(); tenBookList.size() < 10; i++ ) {
+                try {
+                    tenBookList.add(new BookListDTO(allBookByStoreId.get(i-1)));
+                } catch (NullPointerException e) {
+                    break;
+                }
             }
         }
         log.info("*******  HomeController gotBookById - tenBookList : {}", tenBookList);
@@ -112,7 +131,7 @@ public class HomeController {
         BookDTO findBook = bookService.findOne(bookId);
         model.addAttribute("book", findBook);
         Long StoreId = findBook.getStore().getStoreId();
-//        bookService.fin TODO 하단 책 5권 추가
+//        bookService.find
         if (customMember != null){
             log.info("로그인된 book 페이지로 이동중");
             MemberDTO findMember = memberService.findMemberById(customMember.getMember().getUserNo());

@@ -6,6 +6,7 @@
         <section class="section_wrap sec_01">
             <div class="st_search_bar">
                 <div class="search_bar_body">
+                    <input id="storeId" th:value="${store.getStoreId()}" type="hidden">
                     <div>
                         <button class="blackfl_btn">전체</button>
                         <button class="blackLine_btn">국내도서</button>
@@ -21,7 +22,7 @@
         <section class="section_wrap">
             <div class="section_wrap_pagebody list_body">
                 <div class="sec_h_wrap">
-                    <h2 th:text="${store.getStoreTitle()} + 에서만 확인가능한 도서목록을 확인해보세요."></h2>
+                    <h2>1984에서만 확인가능한 도서목록을 확인해보세요.</h2>
                 </div>
                 <div class="item_list_wrap" id="item_list">
                     <ul class="flex_start flex_wrap" id="books-container">
@@ -42,6 +43,8 @@
 
 <script>
     $(document).ready(function() {
+        let storeId = $("#storeId").val();
+        console.log(storeId);
         let lastBookId = 1;
         let loading = false;
         let scrollListenerSwi = true;
@@ -60,7 +63,7 @@
             $('#loading-indicator').show();
 
             $.ajax({
-                url: '/tenBook/' + lastBookId,
+                url: '/tenBook/' + storeId + '/' + lastBookId,
                 type: 'GET',
                 dataType:'json',
                 success: function(result) {
@@ -110,7 +113,7 @@
             var documentHeight = $('#item_list').height();
             var documentTotal = $(document).height();
             var windowHeight = $(window).height();
-            if(scrollTop + windowHeight >= documentHeight + 600){
+            if(scrollTop + windowHeight >= documentHeight + 400){
                 console.log("스크롤 감지됨")
                 console.log(lastBookId)
                 console.log(documentTotal)
