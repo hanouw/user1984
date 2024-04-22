@@ -163,64 +163,65 @@
                 </div>
             </div>
         </section>
-        <section class="section_wrap">
-            <div class="section_wrap_pagebody">
-                <!-- 리뷰헤더 -->
-                <div class="sec_h_wrap flex_between">
-                    <h2>한줄리뷰</h2>
-                </div>
-
-                <!-- 리뷰 나눔선 -->
-                <div class="review_wrap flex_between">
-                    <div class="review_text_wrap"></div>
-                </div>
-
-                <!-- 리뷰작성 -->
-                <div class="sec_h_wrap">
-                    <h2>리뷰작성</h2>
-                    <div class="review_input_form">
-                        <form id="bookUserReviewForm">
-                            <!--              <input type="text" class="form-control"  id="bookUserReviewer">-->
-                            <input class="review_input" type="text" id="bookUserReview"/>
-                            <button type=button class="review_input_btn point_btn" id="newBookUserReviewBtn">댓글작성</button>
-                        </form>
-                    </div>
-                </div>
-
-
-                <!-- 리뷰 목록 (답글 버튼) -->
-                <!-- 댓글 리스트 : printReplyList 함수에서 동적으로 추가 -->
-
-                <div class="review_wrap flex_between" id="bookUserReviewList">
-
-                </div>
-
-
+      <section class="section_wrap">
+        <div class="section_wrap_pagebody">
+          <!-- 리뷰작성 -->
+          <div class="sec_h_wrap">
+            <h2>리뷰작성</h2>
+            <div class="review_input_form">
+              <form id="bookUserReviewForm">
+                <input class="review_input" type="text" id="bookUserReview"/>
+                <button type=button class="review_input_btn point_btn" id="newBookUserReviewBtn">댓글작성</button>
+              </form>
             </div>
-        </section>
+          </div>
+
+          <div class="sec_h_wrap flex_between">
+            <h2>한줄리뷰</h2>
+          </div>
+
+          <div>
+            <div class="review_text_wrap" id="bookUserReviewList"></div>
+          </div>
+
+        </div>
+      </section>
+
     </th:block>
 </th:block>
 
 
 <script th:inline="javascript">
     $(document).ready(function(){
+
+    let bookIdVal = [[${book.bookId}]];
+    let bookUserReview = $("#bookUserReviewList");
   
-      // 댓글 목록 화면에 출력하는 함수
-      function printBookUserReviewList(list) {
-        let html = '';
-        for(let i = 0; i < list.length; i++) {
-          html += '<div class="row align-items-center p-2">';
-          html += '<div>';
-          html += '</div><div class="col mr-2">';
-          html += '<div class="h5 mb-0 font-weight-bold text-gray-800">'+ list[i].bookReviewDetail +'</div>';
-          html += ' <span class="ml2 text-gray-500"> '+ displayTime(list[i].createDate) +' </span></div></div>';
-          html += '<div class="col-auto btn-group-sm">';
-          html += '<button class="btn btn-info mr-1" data-bookReviewPositionId="'+ list[i].bookReviewPositionId +'" data-step="'+ list[i].step +'">답글</button>';
-          // html += '<button class="btn btn-warning mr-1 bookUserReviewModifBtn" data-bookUserReviewId="'+ list[i].id +'">수정</button>';
-          html += '</div></div><hr />';
-        }
-        bookUserReview.html(html); // 목록 태그 컨테이너 안에 붙히기
-      }
+      // 댓글 리스트 동적으로 만들기
+
+    function printBookUserReviewList(list) {
+    let html = '';
+
+    list.forEach((bookReview) => {
+        html += `
+            <div class="review_wrap flex_between"> <!-- Flexbox 사용 -->
+                <div class="review_text_wrap">
+                    <h4>${bookReview.userName}</h4>
+                    <p>${bookReview.bookReviewDetail}</p>
+                    <span>${displayTime(bookReview.createDate)}</span>
+                </div>
+                <div class="review_btn_wrap"> <!-- 버튼이 오른쪽으로 오게 함 -->
+                    <button class="mr-1 point_btn"
+                            data-bookReviewPositionId="${bookReview.bookReviewPositionId}"
+                            data-step="${bookReview.step}">답글쓰기</button>
+                </div>
+            </div>
+
+        `;
+    });
+
+    bookUserReview.html(html); // 댓글 컨테이너에 부착
+  }
   
   
       // ***** 댓글 목록 ********************

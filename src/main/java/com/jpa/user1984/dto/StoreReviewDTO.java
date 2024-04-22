@@ -17,6 +17,7 @@ public class StoreReviewDTO { // 가져오는
 
     private Long storeReviewId;
     private Long userNo;
+    private String userName;
     private String storeReviewDetail;
     private StoreReviewStatus storeReviewStatus;
     private LocalDateTime createDate;
@@ -29,6 +30,7 @@ public class StoreReviewDTO { // 가져오는
     public StoreReviewDTO(StoreReview storeReview) {
         this.storeReviewId = storeReview.getStoreReviewId();
         this.userNo = storeReview.getMember().getUserNo();
+        this.userName = storeReview.getMember().getUserName();
         this.storeReviewDetail = storeReview.getStoreReviewDetail();
         this.createDate = storeReview.getCreateDate();
         this.lastModifiedDate = storeReview.getLastModifiedDate();
