@@ -111,13 +111,23 @@ public class HomeController {
         }
         return "frontend/home/book";
     }
-    // 책 상세오픈
+
+    // 책 상세오픈 TODO
     @GetMapping("/book/{bookId}/open")
     public String bookOpen(@PathVariable Long bookId, Model model){
         BookDTO findBook = bookService.findOne(bookId);
         model.addAttribute("book", findBook);
 
         return "frontend/home/bookOpen";
+    }
+
+    // 책을 불러오는 컨트롤러[none]
+    @GetMapping("/book/{bookId}/openbook")
+    public String bookOpenPage(@PathVariable Long bookId, Model model){
+        BookDTO findBook = bookService.findOne(bookId);
+        model.addAttribute("book", findBook);
+
+        return "frontend/home/bookOpenPage";
     }
 
     // 책 댓글 등록
@@ -212,6 +222,19 @@ public class HomeController {
     @GetMapping("/images/{fileName}")
     public Resource getImages(@PathVariable("fileName") String fileName) throws MalformedURLException {
         return new UrlResource("file:" + fileUploadService.getPath(fileName));
+    }
+
+    // PDF 데이터 요청
+    @ResponseBody
+    @GetMapping("/pdf/{fileName}")
+    public ResponseEntity<Resource> getPDF(@PathVariable("fileName") String fileName) throws MalformedURLException {
+
+        Resource resource = new UrlResource("file:" + fileUploadService.getPath(fileName));
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + fileName + "\"")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PDF.toString())
+                .body(resource);
     }
 
     @GetMapping("/cms/home")

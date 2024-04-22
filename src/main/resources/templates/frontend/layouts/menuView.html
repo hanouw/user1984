@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="menuViewFrag">
+    <!-- header -->
+    <header class="header_body_view">
+        <div class="header_wrap_view">
+            <a th:href="@{/}"><h1 class="main_logo_view"></h1></a>
+            <div class="menu_wrap_view">
+                <ul class="view_menu_list">
+                    <li><a th:href="@{/about}">1984소개</a></li>
+                    <li><a th:href="@{/storeList}">독립서점</a></li>
+                    <li><a th:href="@{/bookList}">도서목록</a></li>
+                    <li>
+                        <a th:href="@{/login}" sec:authorize="!isAuthenticated()">로그인</a>
+                        <a th:href="@{/myPage/info}" sec:authorize="isAuthenticated()">마이페이지</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <!-- header -->
+</th:block>
+</html>
