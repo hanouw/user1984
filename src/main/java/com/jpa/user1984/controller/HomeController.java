@@ -154,6 +154,7 @@ public class HomeController {
 
         return "frontend/home/storeList";
     }
+
     // 서점 상세페이지 요청
     @GetMapping("/store/{storeId}")
     public String storeDetail(@PathVariable("storeId") Long storeId, Model model, @AuthenticationPrincipal CustomMember customMember) {
@@ -168,6 +169,8 @@ public class HomeController {
         log.info("******************************************************* store로 가기 직전이다!");
         return "frontend/home/store";
     }
+
+
     // 서점 댓글 등록
     @PostMapping("/storeUserReview/add")
     public ResponseEntity<String> storeReviewAdd(@RequestBody StoreReviewForm storeReviewForm, @AuthenticationPrincipal CustomMember customMember, Member member) {
@@ -175,6 +178,7 @@ public class HomeController {
         Member findMember = memberService.findMemberByIdDtMember(customMember.getMember().getUserNo());
         storeReviewService.storeReviewAdd(storeReviewForm, findMember);
         return new ResponseEntity<>("success", HttpStatus.OK);
+
     }
     // 서점 댓글 목록
     @GetMapping("/storeUserReview/list/{storeId}")

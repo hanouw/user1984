@@ -715,7 +715,7 @@ hr.bold_hr{
 }
 .review_text_wrap{
     margin:20px 0px;
-    max-width: 600px;
+    /*max-width: 600px;*/
 }
 .review_text_wrap > h4{
     font-size:20px;
