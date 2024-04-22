@@ -142,22 +142,13 @@ public class HomeController {
         return "frontend/home/book";
     }
 
-    // 책 상세오픈 TODO
-    @GetMapping("/book/{bookId}/open")
+    // 책 상세오픈
+    @GetMapping("/bookOpen/{bookId}")
     public String bookOpen(@PathVariable Long bookId, Model model){
         BookDTO findBook = bookService.findOne(bookId);
         model.addAttribute("book", findBook);
 
         return "frontend/home/bookOpen";
-    }
-
-    // 책을 불러오는 컨트롤러[none]
-    @GetMapping("/book/{bookId}/openbook")
-    public String bookOpenPage(@PathVariable Long bookId, Model model){
-        BookDTO findBook = bookService.findOne(bookId);
-        model.addAttribute("book", findBook);
-
-        return "frontend/home/bookOpenPage";
     }
 
     // 책 댓글 등록
