@@ -6,6 +6,7 @@
         <section class="section_wrap sec_01">
             <div class="st_search_bar">
                 <div class="search_bar_body">
+                    <input id="storeId" th:value="${store.getStoreId()}" type="hidden">
                     <div>
                         <button class="blackfl_btn">전체</button>
                         <button class="blackLine_btn">국내도서</button>
@@ -25,23 +26,15 @@
                 </div>
                 <div class="item_list_wrap" id="item_list">
                     <ul class="flex_start flex_wrap" id="books-container">
-                        <!--                        <li th:each="book : ${allbookList}">-->
-                        <!--                            <div th:onclick="|location.href='@{/book/{bookId}(bookId=${book.bookId})}'|" class="item_img_wrap">-->
-                        <!--                                <img th:src="|/images/${book.bookImgStored}|" alt="">-->
-                        <!--                            </div>-->
-                        <!--                            <p th:text="${book.bookTitle}"></p>-->
-                        <!--                            <span>-->
-                        <!--                                <span th:text="${book.bookWriter}"></span>-->
-                        <!--                                <span th:text="${book.bookPub}"></span>-->
-                        <!--                            </span>-->
+                        <!--          여기에 내용 들어감               -->
                     </ul>
                 </div>
             </div>
-            <div class="sec_h_wrap" id="loading-indicator" style="display: none;">
-                <h2>No more posts to load.</h2>
+            <div id="loading-indicator" style="display: none;">
+                <h2>로딩중...</h2>
             </div>
             <div class="sec_h_wrap" id="no-more-posts" style="display: none;">
-                <h2>No more posts to load.</h2>
+                <h2>끝입니다</h2>
             </div>
         </section>
         <!-- PAGE -->
@@ -50,22 +43,27 @@
 
 <script>
     $(document).ready(function() {
+        let storeId = $("#storeId").val();
+        console.log(storeId);
         let lastBookId = 1;
         let loading = false;
-        if (loading) {
-            return;
-        }
+        let scrollListenerSwi = true;
 
-        loading = true;
 
         function loadMorePosts() {
 
+            if (loading) {
+                return;
+            }
+
+            loading = true;
+
             // 로딩 표시
-            $('#no-more-posts').show();
+            $('#no-more-posts').hide();
             $('#loading-indicator').show();
 
             $.ajax({
-                url: '/tenBook/' + lastBookId,
+                url: '/tenBook/' + storeId + '/' + lastBookId,
                 type: 'GET',
                 dataType:'json',
                 success: function(result) {
@@ -75,7 +73,7 @@
                             let book = result[i];
                             let bookHtml =
                                 '<li>' +
-                                '<div onclick="location.href=/book/' +book.bookId + '" class="item_img_wrap">' +
+                                '<div onclick="location.href=\'/book/' + book.bookId + '\'" class="item_img_wrap">' +
                                 '<img src="/images/' + book.bookImgStored + '" alt="">' +
                                 '</div>' +
                                 '<p>' + book.bookTitle + '</p>' +
@@ -93,6 +91,8 @@
                         // 더 이상 로드할 게시물이 없음
                         $('#loading-indicator').hide();
                         $('#no-more-posts').show();
+                        loading = false;
+                        scrollListenerSwi = false;
                     }
                     loading = false;
                 },
@@ -104,14 +104,19 @@
         }
         loadMorePosts()
         window.addEventListener('scroll', function(event){
+            if(scrollListenerSwi !== true){
+                event.preventDefault();
+                return
+            }
             // 현재 스크롤 위치
             var scrollTop = $(window).scrollTop();
             var documentHeight = $('#item_list').height();
-            // var documentHeight = $(document).height();
+            var documentTotal = $(document).height();
             var windowHeight = $(window).height();
-            if(scrollTop + windowHeight >= documentHeight){
+            if(scrollTop + windowHeight >= documentHeight + 400){
                 console.log("스크롤 감지됨")
                 console.log(lastBookId)
+                console.log(documentTotal)
                 console.log(scrollTop)
                 console.log(documentHeight)
                 console.log(windowHeight)

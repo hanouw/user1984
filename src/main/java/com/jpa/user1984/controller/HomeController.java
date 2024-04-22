@@ -2,6 +2,7 @@ package com.jpa.user1984.controller;
 
 
 
+import com.jpa.user1984.domain.BookStatus;
 import com.jpa.user1984.dto.BannerDTO;
 import com.jpa.user1984.dto.BookDTO;
 import com.jpa.user1984.dto.BookListDTO;
@@ -25,10 +26,12 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import retrofit2.http.Path;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @Slf4j
@@ -77,19 +80,43 @@ public class HomeController {
         return "frontend/home/bookList";
     }
 
+    // 서점별 도서 목록
+    @GetMapping("/bookList/store/{id}")
+    public String bookListStoreForm(@PathVariable Long id, Model model){
+        StoreDTO oneStore = storeService.getOneStore(id);
+        model.addAttribute("store", oneStore);
+        return "frontend/home/bookListStore";
+    }
+
     // 도서 10권 찾아오기
-    @GetMapping("/tenBook/{bookId}")
+    @GetMapping("/tenBook/{storeId}/{bookId}")
     @ResponseBody
-    public List<BookListDTO> gotBookById(@PathVariable Long bookId){
+    public List<BookListDTO> gotBookById(@PathVariable Long bookId, @PathVariable Long storeId){
         log.info("*******  HomeController gotBookById");
         List<BookListDTO> tenBookList = new ArrayList<BookListDTO>();
-        for (Long bookPosition=bookId; bookPosition < bookId+10; bookPosition++ ){
-            try{
-                BookDTO oneBook = bookService.findOne(bookPosition);
-                tenBookList.add(new BookListDTO(oneBook));
-            }catch (NullPointerException e){
-                log.info("******* 마지막 호출됨");
-                break;
+        if(storeId==0L){
+            for (Long i = bookId; tenBookList.size() < 10; i++ ) {
+                try {
+                    BookDTO oneBook = bookService.findOne(i);
+                    if(oneBook.getBookStatus().equals(BookStatus.ON)){
+                        tenBookList.add(new BookListDTO(oneBook));
+                    }
+                } catch (NullPointerException e) {
+                    log.info("******* 마지막 호출됨");
+                    break;
+                }
+            }
+        }else {
+            List<BookDTO> allBookByStoreId = bookService.findAllByStoreId(storeId);
+            if(allBookByStoreId.size()<bookId){
+                return tenBookList;
+            }
+            for (int i = bookId.intValue(); tenBookList.size() < 10; i++ ) {
+                try {
+                    tenBookList.add(new BookListDTO(allBookByStoreId.get(i-1)));
+                } catch (NullPointerException e) {
+                    break;
+                }
             }
         }
         log.info("*******  HomeController gotBookById - tenBookList : {}", tenBookList);
@@ -103,6 +130,8 @@ public class HomeController {
     public String bookDetail(@PathVariable Long bookId, Model model, @AuthenticationPrincipal CustomMember customMember) {
         BookDTO findBook = bookService.findOne(bookId);
         model.addAttribute("book", findBook);
+        Long StoreId = findBook.getStore().getStoreId();
+//        bookService.find
         if (customMember != null){
             log.info("로그인된 book 페이지로 이동중");
             MemberDTO findMember = memberService.findMemberById(customMember.getMember().getUserNo());
@@ -111,13 +140,23 @@ public class HomeController {
         }
         return "frontend/home/book";
     }
-    // 책 상세오픈
+
+    // 책 상세오픈 TODO
     @GetMapping("/book/{bookId}/open")
     public String bookOpen(@PathVariable Long bookId, Model model){
         BookDTO findBook = bookService.findOne(bookId);
         model.addAttribute("book", findBook);
 
         return "frontend/home/bookOpen";
+    }
+
+    // 책을 불러오는 컨트롤러[none]
+    @GetMapping("/book/{bookId}/openbook")
+    public String bookOpenPage(@PathVariable Long bookId, Model model){
+        BookDTO findBook = bookService.findOne(bookId);
+        model.addAttribute("book", findBook);
+
+        return "frontend/home/bookOpenPage";
     }
 
     // 책 댓글 등록
@@ -216,6 +255,19 @@ public class HomeController {
     @GetMapping("/images/{fileName}")
     public Resource getImages(@PathVariable("fileName") String fileName) throws MalformedURLException {
         return new UrlResource("file:" + fileUploadService.getPath(fileName));
+    }
+
+    // PDF 데이터 요청
+    @ResponseBody
+    @GetMapping("/pdf/{fileName}")
+    public ResponseEntity<Resource> getPDF(@PathVariable("fileName") String fileName) throws MalformedURLException {
+
+        Resource resource = new UrlResource("file:" + fileUploadService.getPath(fileName));
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + fileName + "\"")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PDF.toString())
+                .body(resource);
     }
 
     @GetMapping("/cms/home")

@@ -1,6 +1,7 @@
 package com.jpa.user1984.config;
 
 import com.jpa.user1984.security.CustomMemberSecurityService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -42,6 +43,7 @@ public class UserSecurityConfig extends ConfigForExtend{
 //                                .requestMatchers("/main/**").hasAnyAuthority("STATUS_USER") // authenticated는 사용자 정보를 기반으로 사용자가 인증되었는지 확인 //hasAnyRole을 할 경우에는 앞에 ROLE_~~ 로 시작해야함
 //                                .anyRequest().authenticated()
 //                );
+        http.cors(cors -> cors.disable());
 
         http.authorizeHttpRequests(request -> // anyRequest(): 어떤 요청이든 permitAll(): 다 허용
 //                request.anyRequest().permitAll()
@@ -53,11 +55,15 @@ public class UserSecurityConfig extends ConfigForExtend{
                 .anyRequest().authenticated()
         );
 
+//        http.headers(header ->
+//                header.frameOptions(frameOptionsConfig -> {frameOptionsConfig.sameOrigin();}));
+
 
         http.formLogin(login -> login.loginPage("/login") // 로그인 페이지는 이 페이지야~
                 .usernameParameter("userId")
                 .passwordParameter("userPassword")
-                .defaultSuccessUrl("/", true)) // 로그인 처리 성공했으면
+                        .successHandler(new LoginSuccessHandler("/")).permitAll())
+//                .defaultSuccessUrl("/", true)) // 로그인 처리 성공했으면
                 .rememberMe(remember -> remember.userDetailsService(customMemberSecurityService)
                         .tokenRepository(memberTokenRepository())
                         .tokenValiditySeconds(3600))

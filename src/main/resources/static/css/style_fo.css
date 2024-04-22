@@ -15,9 +15,26 @@ header{
     position: fixed;
     z-index: 9999;
 }
+
+.header_body_view{
+    width: 100%;
+    line-height: 60px;
+    background-color: #333639;
+    margin:0 auto;
+    position: fixed;
+    z-index: 9999;
+    border-bottom:0.3px solid #acacac;
+}
+
 .header_wrap{
     width:calc(100% - 80px);
     max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+.header_wrap_view{
+    width:calc(100% - 40px);
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -38,6 +55,22 @@ ul.menu_list > li > a:hover{
     color: var(--pointcolor);
 }
 
+ul.view_menu_list{
+    display: flex;
+    justify-content: flex-end;
+}
+ul.view_menu_list > li{
+    margin-left: 20px;
+}
+ul.view_menu_list > li > a{
+    font-size: 18px;
+    color: var(--mainwhite);
+}
+ul.view_menu_list > li > a:hover{
+    color: var(--pointcolor);
+}
+
+
 /* logo */
 .main_logo{
     width: 80px;
@@ -45,6 +78,15 @@ ul.menu_list > li > a:hover{
     margin-top: 20px;
     background-image: url(../img/main_logo.svg);
     background-position: 100%;
+}
+
+.main_logo_view{
+    width: 40px;
+    height: 40px;
+    margin-top: 10px;
+    background-image: url(../img/main_logo.svg);
+    background-size:40px;
+    background-position: center;
 }
 /* header_AD */
 a.header_ad{
@@ -110,6 +152,11 @@ footer{
 }
 .sec_ad_01{
     padding-top: 172px;
+}
+.sec_view_01{
+    position:fixed;
+    left:0;
+    top: 60px;
 }
 
 /*메인배너*/
@@ -343,7 +390,9 @@ h1.about-sec02-h1{
     height: 28.5px;
     transform: translateX(6px);
     z-index: 0;
+
 }
+.top_search_area > input:focus {outline: none;}
 .top_search_area > button{
     z-index: 99;
 }

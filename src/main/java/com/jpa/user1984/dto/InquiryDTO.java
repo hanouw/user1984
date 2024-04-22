@@ -17,9 +17,16 @@ public class InquiryDTO {
     private String storeTitle;
     private String inquiryTitle;
     private String inquiryDetail;
-    private String createDate;
-    private String lastModifiedDate;
+    private String inquiryCreateDate;
+    private String inquiryLastModifiedDate;
+
     private Boolean answer;
+    private Long answerId;
+    private String answerTitle;
+    private String answerDetail;
+    private String answerCreateDate;
+    private String answerLastModifiedDate;
+    private String storeLoginId;
 
 
     // Entity -> DTO
@@ -28,9 +35,18 @@ public class InquiryDTO {
         this.storeTitle = inquiry.getStore().getStoreTitle();
         this.inquiryTitle = inquiry.getInquiryTitle();
         this.inquiryDetail = inquiry.getInquiryDetail();
-        this.createDate = displayTime(inquiry.getCreateDate());
-        this.lastModifiedDate = displayTime(inquiry.getLastModifiedDate());
+        this.inquiryCreateDate = displayTime(inquiry.getCreateDate());
+        this.inquiryLastModifiedDate = displayTime(inquiry.getLastModifiedDate());
+
         this.answer = inquiry.getAnswer() != null;
+        if (this.answer) {
+            this.answerId = inquiry.getAnswer().getAnswerId();
+            this.answerTitle = inquiry.getAnswer().getAnswerTitle();
+            this.answerDetail = inquiry.getAnswer().getAnswerDetail();
+            this.answerCreateDate = displayTime(inquiry.getAnswer().getCreateDate());
+            this.answerLastModifiedDate = displayTime(inquiry.getAnswer().getLastModifiedDate());
+            this.storeLoginId = inquiry.getStore().getStoreLoginId();
+        }
     }
     public String displayTime(LocalDateTime createDate) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
