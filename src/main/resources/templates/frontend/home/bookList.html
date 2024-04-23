@@ -8,8 +8,7 @@
                 <div class="search_bar_body">
                     <div>
                         <button class="blackfl_btn">전체</button>
-                        <button class="blackLine_btn">국내도서</button>
-                        <button class="blackLine_btn">인문</button>
+                        <button th:each="oneCategory : ${allCategory.subList(0,4)}" class="blackLine_btn" th:text="${oneCategory.getBookCategoryName()}"></button>
                     </div>
                     <div class="top_search_area">
                         <input type="text" placeholder="검색어를 입력해주세요." />

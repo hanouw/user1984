@@ -2,15 +2,12 @@ package com.jpa.user1984.controller;
 
 
 
-import com.jpa.user1984.domain.BookStatus;
+import com.jpa.user1984.domain.*;
 import com.jpa.user1984.dto.BannerDTO;
 import com.jpa.user1984.dto.BookDTO;
 import com.jpa.user1984.dto.BookListDTO;
 import com.jpa.user1984.dto.MemberDTO;
 import com.jpa.user1984.dto.StoreDTO;
-import com.jpa.user1984.domain.Member;
-import com.jpa.user1984.domain.Store;
-import com.jpa.user1984.domain.StoreReview;
 import com.jpa.user1984.dto.*;
 import com.jpa.user1984.security.domain.CustomMember;
 import com.jpa.user1984.service.*;
@@ -46,6 +43,7 @@ public class HomeController {
     private final BookReviewService bookReviewService;
     private final FileUploadService fileUploadService;
     private final MemberService memberService;
+    private final CategoryService categoryService;
 
     // 메뉴 리스트 //
     //메인
@@ -76,7 +74,9 @@ public class HomeController {
 
     //도서목록
     @GetMapping("/bookList")
-    public String bookListController(){
+    public String bookListController(Model model){
+        List<BookCategory> allCategory = categoryService.findAllCategory();
+        model.addAttribute("allCategory", allCategory);
         return "frontend/home/bookList";
     }
 

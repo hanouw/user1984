@@ -6,11 +6,8 @@
     <section class="section_wrap sec_01">
       <div class="st_search_bar">
         <div class="search_bar_body">
-          <div>
-            <button class="blackfl_btn">전체</button>
-            <button class="blackLine_btn">서울</button>
-            <button class="blackLine_btn">경기</button>
-            <button class="blackLine_btn">인천</button>
+          <div class="store_location">
+              <!--     버튼 색 바뀌기       -->
           </div>
           <div class="top_search_area">
             <input type="text" placeholder="검색어를 입력해주세요."/>
@@ -45,5 +42,26 @@
     <!-- PAGE -->
   </th:block>
 </th:block>
-<script></script>
+<script>
+  $(document).ready(function () {
+    let storeLocation = $(".store_location");
+    getButton("blackfl_btn", "blackLine_btn");
+
+    function getButton(val01, val02) {
+      let html = '';
+      html += '<button class=' + val01 + ' id="all" type="button">전체</button>'
+      html +='<button class=' + val02 +' id="seoul" type="button">서울</button>';
+      storeLocation.html(html);
+    }
+
+    storeLocation.on("click", "button#all", function (e){
+      getButton("blackfl_btn", "blackLine_btn")
+    })
+
+    storeLocation.on("click", "button#seoul", function (e){
+      getButton("blackLine_btn", "blackfl_btn")
+    })
+  });
+
+</script>
 </html>
