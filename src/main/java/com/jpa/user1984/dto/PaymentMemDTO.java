@@ -30,6 +30,8 @@ public class PaymentMemDTO {
     private String storeImgStored;
     private String storeAddress;
 
+    private Boolean reviewStatus;
+
     // Entity -> DTO
     public PaymentMemDTO(PaymentMem paymentMem) {
         this.orderMembershipNo = paymentMem.getOrderMembershipNo();
@@ -48,6 +50,8 @@ public class PaymentMemDTO {
         this.storeTitle = paymentMem.getStore().getStoreTitle();
         this.storeImgStored = paymentMem.getStore().getStoreImageStored();
         this.storeAddress = paymentMem.getStore().getStoreAddress();
+
+        this.reviewStatus = paymentMem.getStoreReviewStatus().getValue().equals("STATUS_ON");
     }
 
     public String displayTime(LocalDateTime createDate) {

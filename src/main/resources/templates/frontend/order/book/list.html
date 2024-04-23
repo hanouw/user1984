@@ -10,9 +10,9 @@
                 <span><button id="oneWeekBtn" class="grey_btn dateBtn" th:value="oneWeek">일주일</button></span>
                 <span><button id="oneMonthBtn" class="grey_btn dateBtn" th:value="oneMonth">한달</button></span>
                 <input type="date" id="startDate"
-                       th:value="${bookPageResponseDTO.pageRequestDTO.startDate}"/>
+                       th:field="${bookPageResponseDTO.pageRequestDTO.startDate}"/>
                 <input type="date" id="endDate"
-                       th:value="${bookPageResponseDTO.pageRequestDTO.endDate}"/>
+                       th:field="${bookPageResponseDTO.pageRequestDTO.endDate}"/>
                 <button class="black_btn" type="button" id="dateSelectedBtn">조회</button>
             </div>
             <div class="flex_between">
@@ -145,7 +145,11 @@
                 html += '<td><a href="/myPage/bookOrderDetail/' + order.orderBookId + '">' + order.orderBookId + '</a></td>';
                 html += '<td>' + order.bookPub + '</td>';
                 html += '<td>' + order.bookEbookPrice + '</td>';
-                html += '<td><button class="greyLine_btn deleteButton" data-bookId="' + order.bookId + '">리뷰작성</button></td></tr>';
+                if (order.reviewStatus) {
+                    html += '<td><button class="greyLine_btn" onclick="location.href=\'/book/' + order.bookId + '\'">작성완료</button></td></tr>';
+                } else {
+                    html += '<td><button class="black_btn"  onclick="location.href=\'/book/' + order.bookId + '\'">리뷰작성</button></td></tr>';
+                }
             });
             html += '</table>';
             content.html(html);

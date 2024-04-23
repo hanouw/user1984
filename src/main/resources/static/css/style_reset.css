@@ -19,6 +19,7 @@ time, mark, audio, video {
     vertical-align: baseline;
     text-decoration: none;
     color:var(--mainblack);
+    word-break: keep-all;
 }
 /* a태그,btn태그 */
 a, button{

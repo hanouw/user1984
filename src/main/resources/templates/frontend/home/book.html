@@ -134,7 +134,7 @@
             <div class="review_input_form">
               <form id="bookUserReviewForm">
                 <input class="review_input" type="text" id="bookUserReview"/>
-                <button type=button class="review_input_btn point_btn" id="newBookUserReviewBtn">댓글작성</button>
+                <button type=button class="review_input_btn point_btn notLogin" id="newBookUserReviewBtn">댓글작성</button>
               </form>
             </div>
           </div>
@@ -174,9 +174,9 @@
                     <span>${displayTime(bookReview.createDate)}</span>
                 </div>
                 <div class="review_btn_wrap"> <!-- 버튼이 오른쪽으로 오게 함 -->
-                    <button class="mr-1 point_btn"
-                            data-bookReviewPositionId="${bookReview.bookReviewPositionId}"
-                            data-step="${bookReview.step}">답글쓰기</button>
+<!--                    <button class="mr-1 point_btn"-->
+<!--                            data-bookReviewPositionId="${bookReview.bookReviewPositionId}"-->
+<!--                            data-step="${bookReview.step}">답글쓰기</button>-->
                 </div>
             </div>
 

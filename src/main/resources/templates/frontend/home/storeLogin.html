@@ -11,7 +11,7 @@
                 <div class="st_sec_01_text">
                     <div class="st_title_wrap">
                         <p class="st_title" th:text="${store.storeTitle}" id="storeTitle">코뿔소서점</p>
-                        <a th:href='@{/bookList/store/{storeId}(storeId=${store.getStoreId()})}' class="st_ca_btn">서울</a>
+                      <a th:href='@{/bookList/store/{storeId}(storeId=${store.getStoreId()})}' class="st_ca_btn">책보러가기</a>
                     </div>
                     <div class="st_iftext_wrap line_bt_gr">
                         <p th:text="${store.getStoreText()}">
@@ -56,7 +56,7 @@
                         </div>
                     </div>
                     <div class="st_button_wrap">
-                        <button class="blackLine_btn" th:onclick="|location.href='@{/myPage/inquiry/{storeId}(storeId=${store.storeId})}'|">문의하기
+                        <button class="blackLine_btn" type="button" th:onclick="|location.href='@{/myPage/inquiry/{storeId}(storeId=${store.storeId})}'|">문의하기
                         </button>
                         <button class="point_btn" id="subscribeButton" th:data-storeId="${store.storeId}">구독하기</button>
                     </div>
@@ -156,9 +156,9 @@
                     <span>${displayTime(storeReview.createDate)}</span>
                 </div>
                 <div class="review_btn_wrap"> <!-- 버튼이 오른쪽으로 오게 함 -->
-                    <button class="mr-1 point_btn"
-                            data-storeReviewPositionId="${storeReview.storeReviewPositionId}"
-                            data-step="${storeReview.step}">답글쓰기</button>
+<!--                    <button class="mr-1 point_btn"-->
+<!--                            data-storeReviewPositionId="${storeReview.storeReviewPositionId}"-->
+<!--                            data-step="${storeReview.step}">답글쓰기</button>-->
                 </div>
             </div>
 

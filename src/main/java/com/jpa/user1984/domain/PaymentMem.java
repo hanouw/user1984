@@ -34,7 +34,6 @@ public class PaymentMem {
     private Store store;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private StoreReviewStatus storeReviewStatus;
 
     @Enumerated(EnumType.STRING)
