@@ -14,6 +14,7 @@ public class Cart {
     private Long cartId;
 
     @OneToOne
+    @JoinColumn(name = "userNo")
     private Member member;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cart")

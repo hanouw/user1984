@@ -12,12 +12,12 @@ public class StoreReview extends TimeEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long storeReviewId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userNo")
     private Member member;
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, unique = true)
     private String storeReviewDetail;
-    @Column(nullable = false, length = 200)
+    @Column(nullable = false)
     private Long storeReviewPosition;
     @Column(nullable = false)
     private Integer step;
@@ -25,8 +25,7 @@ public class StoreReview extends TimeEntity{
     @Column(nullable = false)
     private StoreReviewStatus storeReviewStatus;
 
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "storeId")
     private Store store;
 

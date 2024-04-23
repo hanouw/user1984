@@ -37,26 +37,21 @@ public class Book extends TimeEntity{
 
     @Column(nullable = false)
     private String bookPub;
-    @Column
     private String bookPaperPrice;
     @Column(nullable = false)
     private String bookEbookPrice;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "book_category_id")
     private BookCategory bookCategory;
 
-    @Column
     private String bookIntro;
-    @Column
     private String bookIndex;
-    @Column
     private String bookReview;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookReviewId")
     private List<BookReview> bookUserReviewList = new ArrayList<>();
 
-    @Column
     private String bookWriterProfile;
 
     @Enumerated(EnumType.STRING)

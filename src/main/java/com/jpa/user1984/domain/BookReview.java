@@ -15,9 +15,9 @@ public class BookReview extends TimeEntity{
     @ManyToOne
     @JoinColumn(name = "userNo")
     private Member member;
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false)
     private String bookReviewDetail;
-    @Column(nullable = false, length = 200)
+    @Column(nullable = false)
     private Long bookReviewPosition;
     @Column(nullable = false)
     private Integer step;
