@@ -4,24 +4,26 @@
     <th:block th:fragment="content">
 
         <!-- 내용 -->
-        <div class="my_page_h_wrap">
-            <div class="item">
+        <div class="my_page_h_wrap" style="margin-top:20px;">
+            <div class="item flex_end item_date_listwrap" style="margin-bottom:20px;">
                 <span><button id="todayBtn" class="grey_btn dateBtn" th:value="today">오늘</button></span>
                 <span><button id="oneWeekBtn" class="grey_btn dateBtn" th:value="oneWeek">일주일</button></span>
                 <span><button id="oneMonthBtn" class="grey_btn dateBtn" th:value="oneMonth">한달</button></span>
                 <input type="date" id="startDate"
-                       th:value="${bookPageResponseDTO.pageRequestDTO.startDate}"/>
+                       th:field="${bookPageResponseDTO.pageRequestDTO.startDate}"/>
                 <input type="date" id="endDate"
-                       th:value="${bookPageResponseDTO.pageRequestDTO.endDate}"/>
+                       th:field="${bookPageResponseDTO.pageRequestDTO.endDate}"/>
                 <button class="black_btn" type="button" id="dateSelectedBtn">조회</button>
             </div>
-            <span>
-                <span><a th:href="@{/myPage/bookOrderList}">도서주문</a></span>
-                <span><a class="smaller" th:href="@{/myPage/membershipOrderList}">구독주문</a></span>
-            </span>
-            <div class="top_search_area">
-                <input type="text" id="keyword" placeholder="도서명을 입력해주세요." />
-                <button class="blackfl_btn" id="searchBtn">검색</button>
+            <div class="flex_between">
+                <div style="transform: translateY(10px);">
+                    <span><a th:href="@{/myPage/bookOrderList}">도서주문</a></span>
+                    <span><a class="smaller" th:href="@{/myPage/membershipOrderList}">구독주문</a></span>
+                </div>
+                <div class="top_search_area">
+                    <input type="text" id="keyword" placeholder="도서명을 입력해주세요." />
+                    <button class="blackfl_btn btn_padding" id="searchBtn">검색</button>
+                </div>
             </div>
         </div>
         <div class="mycart_table_wrap">
@@ -143,7 +145,11 @@
                 html += '<td><a href="/myPage/bookOrderDetail/' + order.orderBookId + '">' + order.orderBookId + '</a></td>';
                 html += '<td>' + order.bookPub + '</td>';
                 html += '<td>' + order.bookEbookPrice + '</td>';
-                html += '<td><button class="greyLine_btn deleteButton" data-bookId="' + order.bookId + '">리뷰작성</button></td></tr>';
+                if (order.reviewStatus) {
+                    html += '<td><button class="greyLine_btn" onclick="location.href=\'/book/' + order.bookId + '\'">작성완료</button></td></tr>';
+                } else {
+                    html += '<td><button class="black_btn"  onclick="location.href=\'/book/' + order.bookId + '\'">리뷰작성</button></td></tr>';
+                }
             });
             html += '</table>';
             content.html(html);
@@ -155,27 +161,27 @@
         // 페이지네이션 출력
         function printPagination(response) {
             let html = '';
-            html += '<div class="paging_bar"><ul class="flex_between">';
+            html += '<div class="paging_bar"><ul style="padding-top:30px;">';
             if (response.prev) {
                 html += '<li>';
             } else {
                 html += '<li class="disabled">';
             }
-            html += '<a class="pageLink" href="' + (response.startPage - 1) + '">Previous</a></li>';
+            html += '<a class="pageLink" style="margin:2px;" href="' + (response.startPage - 1) + '">Prev</a></li>';
             response.pageNumList.forEach(function (pageNum, i) {
                 if (pageNum == currPage) {
                     html += '<li class="active">';
                 } else {
                     html += '<li>';
                 }
-                html += ' <a class="pageLink" href="' + pageNum + '">' + pageNum + '</a></li>';
+                html += ' <a class="pageLink" style="margin:2px;" href="' + pageNum + '">' + pageNum + '</a></li>';
             })
             if (response.next) {
                 html += '<li>';
             } else {
                 html += '<li class="disabled">';
             }
-            html += '<a class="pageLink" href="' + (response.endPage + 1) + '">Next</a></li></ul></div>';
+            html += '<a class="pageLink" style="margin:2px;" href="' + (response.endPage + 1) + '">Next</a></li></ul></div>';
 
             paginationDiv.html(html);
         };

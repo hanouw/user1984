@@ -46,6 +46,11 @@ public class Store extends TimeEntity{
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StoreStatus storeStatus;
+
+    @ManyToOne
+    @JoinColumn(name = "membership_no")
+    private Membership membership;
+
     @Column(length = 100)
     private String storeOperateTime;
     @Column(length = 400)

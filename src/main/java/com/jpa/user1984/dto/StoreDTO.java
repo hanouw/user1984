@@ -44,6 +44,7 @@ public class StoreDTO { // 가져오는
     private String storeImageStored03;
 
     private List<StoreReview> storeUserReviewList;
+    private String price;
 
     //
 //    private List<StoreReviewDTO> storeReviewList;  // 댓글 목록 // 필요하면 다시 만드셈
@@ -82,5 +83,6 @@ public class StoreDTO { // 가져오는
         this.storeImageStored03 = store.getStoreImageStored03();
 
         this.storeUserReviewList = store.getStoreUserReviewList();
+        this.price = store.getMembership().getPrice();
     }
 }

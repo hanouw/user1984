@@ -30,12 +30,12 @@
                     </ul>
                 </div>
             </div>
-            <div id="loading-indicator" style="display: none;">
-                <h2>로딩중...</h2>
-            </div>
-            <div class="sec_h_wrap" id="no-more-posts" style="display: none;">
-                <h2>끝입니다</h2>
-            </div>
+<!--            <div id="loading-indicator" style="display: none;">-->
+<!--                <h2>로딩중...</h2>-->
+<!--            </div>-->
+<!--            <div class="sec_h_wrap" id="no-more-posts" style="display: none;">-->
+<!--                <h2>끝입니다</h2>-->
+<!--            </div>-->
         </section>
         <!-- PAGE -->
     </th:block>
@@ -44,7 +44,6 @@
 <script>
     $(document).ready(function() {
         let storeId = $("#storeId").val();
-        console.log(storeId);
         let lastBookId = 1;
         let loading = false;
         let scrollListenerSwi = true;
@@ -85,7 +84,7 @@
                             $('#books-container').append(bookHtml);
                         }
 
-                        lastBookId = lastBookId + 10;
+                        lastBookId = result[result.length-1].bookId + 1;
                     } else {
                         console.log("전부 로딩됨")
                         // 더 이상 로드할 게시물이 없음
