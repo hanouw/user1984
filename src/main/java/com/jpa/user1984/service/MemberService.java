@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -72,40 +73,39 @@ public class MemberService {
     }
 
     // 회원 정보 수정
-    public void modifyMember(MemberDTO memberDTO){
+    public void modifyMember(MemberDTO memberDTO) {
         Member member = memberRepository.findById(memberDTO.getUserNo()).orElse(null);
-        assert member!= null;
+        assert member != null;
         member.setUserId(memberDTO.getUserId());
         member.setUserName(memberDTO.getUserName());
         member.setUserPhoneNum(memberDTO.getUserPhoneNum());
         member.setUserEmail(memberDTO.getUserEmail());
         member.setUserStatus(memberDTO.getUserStatus());
-
-//        log.info("******* memberDTO = {}", memberDTO.getUserId());
-//        Member member = memberRepository.findById(memberDTO.getUserNo())
-//                .map(m -> {
-//                    m.setUserId(memberDTO.getUserId());
-//                    m.setUserName(memberDTO.getUserName()); // Likely meant userName here
-//                    m.setUserPhoneNum(memberDTO.getUserPhoneNum());
-//                    m.setUserEmail(memberDTO.getUserEmail());
-//                    m.setUserStatus(memberDTO.getUserStatus());
-//                    return m;
-//                })
-//                .orElse(null);
-//        log.info("******* member = {}", member.getUserId());
     }
 
-    // 로그인
-//    public MemberLoginDTO login(MemberLoginDTO memberLoginDTO){
-//        Member dbMember = memberRepository.findByUserId(memberLoginDTO.getUserId());
-////        if(dbMember.isPresent()) { // Optional 객체가 값을 가지고 있다면 true, 값이 없다면 false 리턴
-//        if(dbMember != null){
-//            MemberStatus memberStatus = dbMember.getUserStatus();
-//            if(dbMember.getUserPassword().equals(memberLoginDTO.getUserPassword()) && memberStatus == MemberStatus.USER){
-//                memberLoginDTO.setUserStatus(memberStatus);
-//                return memberLoginDTO;
-//            }
-//        }
-//        return null;
-//    }
+    public List<MemberDTO> findFilterMember(String filterType, String keyword){
+        try {
+            List<Member> storeList = memberRepository.findAll();
+            List<MemberDTO> memberDTOList = null;
+            switch (filterType){
+                case "email":
+                    memberDTOList = storeList.stream()
+                            .filter(b -> b.getUserEmail().contains(keyword))
+                            .map(b -> new MemberDTO())
+                            .collect(Collectors.toList());
+                    log.info("******* email storeDTOList = {}", memberDTOList);
+                    break;
+                case "phoneNum":
+                    memberDTOList = storeList.stream()
+                            .filter(b -> b.getUserPhoneNum().contains(keyword))
+                            .map(b -> new MemberDTO())
+                            .collect(Collectors.toList());
+                    log.info("******* phoneNum storeDTOList = {}", memberDTOList);
+                    break;
+            }
+            return memberDTOList;
+        }catch (Exception e){
+            return null;
+        }
+    }
 }

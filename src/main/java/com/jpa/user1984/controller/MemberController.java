@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.nio.file.AccessDeniedException;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -104,5 +105,32 @@ public class MemberController {
         }catch (Exception e){
             return new ResponseEntity<String>(HttpStatus.FORBIDDEN);
         }
+    }
+
+    // Email 중복 확인
+    @PostMapping("/ajaxEmailAvail")
+    public ResponseEntity<Boolean> ajaxEmailAvail(String emailInput) {
+        log.info("Controller /ajaxEmailAvail - emailInput : {}", emailInput);
+        List<MemberDTO> findMember = memberService.findFilterMember("email", emailInput);
+        log.info("******* email findMember = {}", findMember);
+        if(findMember.isEmpty()){ // null -> DB에 없다 -> 사용 가능
+            return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+    }
+
+    @PostMapping("/ajaxPhoneNumAvail")
+    public ResponseEntity<Boolean> ajaxPhoneNumAvail(String phoneNumInput) {
+        log.info("Controller /ajaxUserAvail - phoneNumInput : {}", phoneNumInput);
+        List<MemberDTO> findMember = memberService.findFilterMember("phoneNum", phoneNumInput);
+        log.info("******* phoneNum findMember = {}", findMember);
+        log.info("******* phoneNum findMember size = {}", findMember.size());
+        log.info("******* phoneNum findMember size = {}", findMember.size());
+        if(findMember.isEmpty()){ // null -> DB에 없다 -> 사용 가능
+            return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<Boolean>(false, HttpStatus.OK);
     }
 }

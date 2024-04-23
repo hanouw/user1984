@@ -44,7 +44,7 @@ public class StoreReviewService {
         storeReview.setMember(member);
         storeReview.setStoreReviewStatus(StoreReviewStatus.ON);
         PaymentMem result =
-            paymentMemRepository.findPaymentMemByMember_UserNoAndAndStore_StoreId(member.getUserNo(), store.getStoreId()).orElse(null);
+            paymentMemRepository.findByMember_UserNoAndAndStore_StoreId(member.getUserNo(), store.getStoreId()).orElse(null);
         if (result != null) {
             result.setStoreReviewStatus(StoreReviewStatus.ON);
         }
