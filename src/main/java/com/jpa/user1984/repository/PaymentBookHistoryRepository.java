@@ -7,5 +7,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PaymentBookHistoryRepository extends JpaRepository<PaymentBookHistory, Long>, PaymentBookHistoryCustomRepository {
-    Optional<PaymentBookHistory> findPaymentBookHistoryByPaymentBook_Member_UserNoAndBook_BookId(Long userNo, Long BookId);
+    Optional<PaymentBookHistory> findByPaymentBook_Member_UserNoAndBook_BookId(Long userNo, Long bookId);
+
 }
