@@ -118,7 +118,7 @@
                             <div class="item_img_wrap" th:style="'background-image: url(\'/images/' + @{${oneBook.bookImgStored}} + '\');'">                            </div>
                             <p th:text="*{oneBook.getBookTitle()}"></p>
                             <span>
-                                <span th:text="*{oneBook.getBookWriter()}"></span>
+                                <span th:text="*{oneBook.getBookWriter()} + ' / '"></span>
                                 <span th:text="*{oneBook.getBookPub()}"></span>
                             </span>
                         </li>
