@@ -95,26 +95,30 @@ public class HomeController {
     public List<BookListDTO> gotBookById(@PathVariable Long bookId, @PathVariable Long storeId){
         log.info("*******  HomeController gotBookById");
         List<BookListDTO> tenBookList = new ArrayList<BookListDTO>();
+        int allSize = bookService.findAll().size();
         if(storeId==0L){
-                for (Long i = bookId; tenBookList.size() < 10; i++ ) {
-                    try {
-                        BookDTO oneBook = bookService.findOne(i);
-                        if(oneBook.getBookStatus().equals(BookStatus.ON)){
-                            tenBookList.add(new BookListDTO(oneBook));
-                        }
-                    } catch (Exception e) {
-                        log.info("******* 마지막 호출됨");
+            for (Long i = bookId; tenBookList.size() < 10; i++ ) {
+                try {
+                    if(i>allSize){
                         break;
                     }
+                    BookDTO oneBook = bookService.findOne(i);
+                    if(oneBook.getBookStatus().equals(BookStatus.ON)){
+                        tenBookList.add(new BookListDTO(oneBook));
+                    }
+                } catch (Exception e) {
+                    log.info("******* 마지막 호출됨");
+                    break;
                 }
+            }
         }else {
             List<BookDTO> allBookByStoreId = bookService.findAllByStoreId(storeId);
-//            if(allBookByStoreId.size()<bookId){
-//                log.info("***************** bookId보다 작음 발생 : {}", tenBookList);
-//                return tenBookList;
-//            }
+
             try {
                 for (int i = bookId.intValue(); tenBookList.size() < 10; i++ ) {
+                    if(i> allBookByStoreId.size()){
+                        break;
+                    }
                     tenBookList.add(new BookListDTO(allBookByStoreId.get(i - 1)));
                 }
             } catch (Exception e) {
