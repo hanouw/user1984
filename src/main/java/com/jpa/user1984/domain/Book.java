@@ -49,7 +49,7 @@ public class Book extends TimeEntity{
     private String bookIndex;
     private String bookReview;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookReviewId")
+    @OneToMany(mappedBy = "bookReviewId")
     private List<BookReview> bookUserReviewList = new ArrayList<>();
 
     private String bookWriterProfile;
