@@ -22,7 +22,7 @@
         <section class="section_wrap">
             <div class="section_wrap_pagebody list_body">
                 <div class="sec_h_wrap">
-                    <h2>1984에서만 확인가능한 도서목록을 확인해보세요.</h2>
+                    <h2 th:text="${store.getStoreTitle()} + '에서만 확인가능한 도서목록을 확인해보세요.'"></h2>
                 </div>
                 <div class="item_list_wrap" id="item_list">
                     <ul class="flex_start flex_wrap" id="books-container">
@@ -77,7 +77,7 @@
                                 '</div>' +
                                 '<p>' + book.bookTitle + '</p>' +
                                 '<span>' +
-                                '<span>' + book.bookWriter + '</span>' +
+                                '<span>' + book.bookWriter + '</span> / ' +
                                 '<span>' + book.bookPub + '</span>' +
                                 '</span>' +
                                 '</li>';

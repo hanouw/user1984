@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{frontend/layouts/base :: base(~{this::content})}">
     <th:block th:fragment="content">
@@ -75,7 +75,7 @@
                                 '</div>' +
                                 '<p>' + book.bookTitle + '</p>' +
                                 '<span>' +
-                                '<span>' + book.bookWriter + '</span>' +
+                                '<span>' + book.bookWriter + '</span> / ' +
                                 '<span>' + book.bookPub + '</span>' +
                                 '</span>' +
                                 '</li>';
