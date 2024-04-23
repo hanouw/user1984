@@ -18,7 +18,9 @@ public class ConfigForExtend {
                 .requestMatchers(new AntPathRequestMatcher("/images/**"))
                 .requestMatchers(new AntPathRequestMatcher("/icon/**"))
                 .requestMatchers(new AntPathRequestMatcher("/ajaxUsernameAvail"))
-                .requestMatchers(new AntPathRequestMatcher("/ajaxUserStatusAvail"));
+                .requestMatchers(new AntPathRequestMatcher("/ajaxUserStatusAvail"))
+                .requestMatchers(new AntPathRequestMatcher("/ajaxPhoneNumAvail"))
+                .requestMatchers(new AntPathRequestMatcher("/ajaxEmailAvail"));
     }
     // 비밀번호 암호화를 위한 도구
     @Bean
