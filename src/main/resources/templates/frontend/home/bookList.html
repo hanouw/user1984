@@ -8,8 +8,7 @@
                 <div class="search_bar_body">
                     <div>
                         <button class="blackfl_btn">전체</button>
-                        <button class="blackLine_btn">국내도서</button>
-                        <button class="blackLine_btn">인문</button>
+                        <button th:each="oneCategory : ${allCategory.subList(0,4)}" class="blackLine_btn" th:text="${oneCategory.getBookCategoryName()}"></button>
                     </div>
                     <div class="top_search_area">
                         <input type="text" placeholder="검색어를 입력해주세요." />
@@ -29,12 +28,12 @@
                     </ul>
                 </div>
             </div>
-            <div id="loading-indicator" style="display: none;">
-                <h2>로딩중...</h2>
-            </div>
-            <div class="sec_h_wrap" id="no-more-posts" style="display: none;">
-                <h2>끝입니다</h2>
-            </div>
+<!--            <div id="loading-indicator" style="display: none;">-->
+<!--                <h2>로딩중...</h2>-->
+<!--            </div>-->
+<!--            <div class="sec_h_wrap" id="no-more-posts" style="display: none;">-->
+<!--                <h2>끝입니다</h2>-->
+<!--            </div>-->
         </section>
         <!-- PAGE -->
     </th:block>

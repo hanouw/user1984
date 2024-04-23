@@ -15,11 +15,11 @@ public class PaymentBookHistory extends TimeEntity{
     @Column(name = "order_book_history_id")
     private Long orderBookHistoryId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "book_id")
     private Book book;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "order_book_no")
     private PaymentBook paymentBook;
 
@@ -27,7 +27,6 @@ public class PaymentBookHistory extends TimeEntity{
     private String price;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private BookReviewStatus bookReviewStatus;
 
     public void setPaymentBook(PaymentBook paymentBook){

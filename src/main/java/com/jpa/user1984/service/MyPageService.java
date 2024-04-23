@@ -27,7 +27,7 @@ public class MyPageService {
     private final PaymentBookHistoryRepository paymentBookHistoryRepository;
     private final PaymentMemRepository paymentMemRepository;
 
-    // 도서주문내역 조회
+    // 내역 조회
     public List<PaymentBookHistoryDTO> findHistoryList(Long userNo, PageRequestDTO pageRequestDTO) {
         List<PaymentBookHistory> historyEntityList = paymentBookHistoryRepository.findBookListByUserNo(userNo, pageRequestDTO);
         List<PaymentBookHistoryDTO> list = new ArrayList<>();

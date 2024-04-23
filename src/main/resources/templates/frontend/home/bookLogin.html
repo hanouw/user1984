@@ -115,49 +115,12 @@
                 </div>
                 <div class="item_list_wrap">
                     <ul class="flex_start">
-                        <li>
-                            <div class="item_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014614/XL')"></div>
-                            <p>위험을 향해 달리다</p>
+                        <li th:each="oneBook : ${fiveBookByStoreId}" th:onclick="|location.href='@{/book/{id}(id=${oneBook.getBookId})}'|">
+                            <div class="item_img_wrap" th:style="'background-image: url(\'/images/' + @{${oneBook.bookImgStored}} + '\');'">                            </div>
+                            <p th:text="*{oneBook.getBookTitle()}"></p>
                             <span>
-                                <span>이제하</span>
-                                지음 /
-                                <span>샘터사</span>
-                            </span>
-                        </li>
-                        <li>
-                            <div class="item_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014616/XL')"></div>
-                            <p>위험을 향해 달리다</p>
-                            <span>
-                                <span>이제하</span>
-                                지음 /
-                                <span>샘터사</span>
-                            </span>
-                        </li>
-                        <li>
-                            <div class="item_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014615/XL')"></div>
-                            <p>위험을 향해 달리다</p>
-                            <span>
-                                <span>이제하</span>
-                                지음 /
-                                <span>샘터사</span>
-                            </span>
-                        </li>
-                        <li>
-                            <div class="item_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014613/XL')"></div>
-                            <p>위험을 향해 달리다</p>
-                            <span>
-                                <span>이제하</span>
-                                지음 /
-                                <span>샘터사</span>
-                            </span>
-                        </li>
-                        <li>
-                            <div class="item_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014611/XL')"></div>
-                            <p>위험을 향해 달리다</p>
-                            <span>
-                                <span>이제하</span>
-                                지음 /
-                                <span>샘터사</span>
+                                <span th:text="*{oneBook.getBookWriter()}"></span>
+                                <span th:text="*{oneBook.getBookPub()}"></span>
                             </span>
                         </li>
                     </ul>
@@ -211,9 +174,9 @@
                           <span>${displayTime(bookReview.createDate)}</span>
                       </div>
                       <div class="review_btn_wrap"> <!-- 버튼이 오른쪽으로 오게 함 -->
-                          <button class="mr-1 point_btn"
-                                  data-bookReviewPositionId="${bookReview.bookReviewPositionId}"
-                                  data-step="${bookReview.step}">답글쓰기</button>
+<!--                          <button class="mr-1 point_btn"-->
+<!--                                  data-bookReviewPositionId="${bookReview.bookReviewPositionId}"-->
+<!--                                  data-step="${bookReview.step}">답글쓰기</button>-->
                       </div>
                   </div>
 

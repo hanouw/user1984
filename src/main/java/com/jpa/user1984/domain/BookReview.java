@@ -17,13 +17,12 @@ public class BookReview extends TimeEntity{
     private Member member;
     @Column(nullable = false)
     private String bookReviewDetail;
-    @Column(nullable = false)
-    private Long bookReviewPosition;
-    @Column(nullable = false)
-    private Integer step;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private BookReviewStatus bookReviewStatus;
+
+    private Long bookReviewPosition; // grouping = id
+    private Integer step; // 댓글 순서
 
     @ManyToOne
     @JoinColumn(name = "bookId")

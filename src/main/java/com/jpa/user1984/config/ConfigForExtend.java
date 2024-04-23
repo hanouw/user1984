@@ -16,6 +16,7 @@ public class ConfigForExtend {
                 .requestMatchers(new AntPathRequestMatcher("/pdf/**"))
                 .requestMatchers(new AntPathRequestMatcher("/js/**"))
                 .requestMatchers(new AntPathRequestMatcher("/images/**"))
+                .requestMatchers(new AntPathRequestMatcher("/icon/**"))
                 .requestMatchers(new AntPathRequestMatcher("/ajaxUsernameAvail"))
                 .requestMatchers(new AntPathRequestMatcher("/ajaxUserStatusAvail"));
     }

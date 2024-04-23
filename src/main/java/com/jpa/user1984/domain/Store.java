@@ -45,6 +45,8 @@ public class Store extends TimeEntity{
     @ManyToOne
     @JoinColumn(name = "membership_no")
     private Membership membership;
+
+    @Column(length = 100)
     private String storeOperateTime;
     private String storeTag;
     private String storeAccount;

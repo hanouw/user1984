@@ -110,53 +110,16 @@
         <section class="section_wrap">
             <div class="section_wrap_pagebody page_line">
                 <div class="sec_h_wrap">
-                    <h2><span th:text="${book.getStore().getStoreTitle()}">환상문학</span>의 다른 도서들</h2>
+                    <h2><span th:text="${book.getStore().getStoreTitle()}"></span>의 다른 도서들</h2>
                 </div>
                 <div class="item_list_wrap">
                     <ul class="flex_start">
-                        <li>
-                            <div class="item_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014614/XL')"></div>
-                            <p>위험을 향해 달리다</p>
+                        <li th:each="oneBook : ${fiveBookByStoreId}" th:onclick="|location.href='@{/book/{id}(id=${oneBook.getBookId})}'|">
+                            <div class="item_img_wrap" th:style="'background-image: url(\'/images/' + @{${oneBook.bookImgStored}} + '\');'">                            </div>
+                            <p th:text="*{oneBook.getBookTitle()}"></p>
                             <span>
-                                <span>이제하</span>
-                                지음 /
-                                <span>샘터사</span>
-                            </span>
-                        </li>
-                        <li>
-                            <div class="item_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014616/XL')"></div>
-                            <p>위험을 향해 달리다</p>
-                            <span>
-                                <span>이제하</span>
-                                지음 /
-                                <span>샘터사</span>
-                            </span>
-                        </li>
-                        <li>
-                            <div class="item_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014615/XL')"></div>
-                            <p>위험을 향해 달리다</p>
-                            <span>
-                                <span>이제하</span>
-                                지음 /
-                                <span>샘터사</span>
-                            </span>
-                        </li>
-                        <li>
-                            <div class="item_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014613/XL')"></div>
-                            <p>위험을 향해 달리다</p>
-                            <span>
-                                <span>이제하</span>
-                                지음 /
-                                <span>샘터사</span>
-                            </span>
-                        </li>
-                        <li>
-                            <div class="item_img_wrap" style="background-image: url('https://image.yes24.com/goods/117014611/XL')"></div>
-                            <p>위험을 향해 달리다</p>
-                            <span>
-                                <span>이제하</span>
-                                지음 /
-                                <span>샘터사</span>
+                                <span th:text="*{oneBook.getBookWriter()}"></span>
+                                <span th:text="*{oneBook.getBookPub()}"></span>
                             </span>
                         </li>
                     </ul>
@@ -171,7 +134,7 @@
             <div class="review_input_form">
               <form id="bookUserReviewForm">
                 <input class="review_input" type="text" id="bookUserReview"/>
-                <button type=button class="review_input_btn point_btn" id="newBookUserReviewBtn">댓글작성</button>
+                <button type=button class="review_input_btn point_btn notLogin" id="newBookUserReviewBtn">댓글작성</button>
               </form>
             </div>
           </div>
@@ -211,9 +174,9 @@
                     <span>${displayTime(bookReview.createDate)}</span>
                 </div>
                 <div class="review_btn_wrap"> <!-- 버튼이 오른쪽으로 오게 함 -->
-                    <button class="mr-1 point_btn"
-                            data-bookReviewPositionId="${bookReview.bookReviewPositionId}"
-                            data-step="${bookReview.step}">답글쓰기</button>
+<!--                    <button class="mr-1 point_btn"-->
+<!--                            data-bookReviewPositionId="${bookReview.bookReviewPositionId}"-->
+<!--                            data-step="${bookReview.step}">답글쓰기</button>-->
                 </div>
             </div>
 
