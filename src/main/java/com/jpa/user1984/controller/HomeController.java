@@ -29,6 +29,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -185,7 +186,9 @@ public class HomeController {
     // 독립서점 목록
     @GetMapping("/storeList")
     public String storeListController(Model model){
-        List<StoreDTO> storeList = storeService.findAll();
+        List<StoreDTO> storeList = storeService.findAll().stream()
+                .filter(l -> l.getStoreStatus().getValue().equals("STATUS_STORE"))
+                .collect(Collectors.toList());
         model.addAttribute("storeList", storeList);
         System.out.println("storeList = " + storeList);
 

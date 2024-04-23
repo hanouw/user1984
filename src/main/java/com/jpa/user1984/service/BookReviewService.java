@@ -44,7 +44,7 @@ public class BookReviewService {
         bookReview.setMember(member);
         bookReview.setBookReviewStatus(BookReviewStatus.ON);
         PaymentBookHistory result =
-            paymentBookHistoryRepository.findPaymentBookHistoryByPaymentBook_Member_UserNoAndBook_BookId(member.getUserNo(), book.getBookId()).orElse(null);
+            paymentBookHistoryRepository.findByPaymentBook_Member_UserNoAndBook_BookId(member.getUserNo(), book.getBookId()).orElse(null);
         if (result != null) {
             result.setBookReviewStatus(BookReviewStatus.ON);
         }
