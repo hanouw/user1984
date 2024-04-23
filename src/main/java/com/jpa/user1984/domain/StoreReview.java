@@ -17,14 +17,12 @@ public class StoreReview extends TimeEntity{
     private Member member;
     @Column(nullable = false, length = 100)
     private String storeReviewDetail;
-    @Column(nullable = false, length = 200)
-    private Long storeReviewPosition;
-    @Column(nullable = false)
-    private Integer step;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StoreReviewStatus storeReviewStatus;
 
+    private Long storeReviewPosition; // grouping = id
+    private Integer step; // 댓글 순서
 
     @ManyToOne
     @JoinColumn(name = "storeId")

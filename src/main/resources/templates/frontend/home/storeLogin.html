@@ -11,7 +11,7 @@
                 <div class="st_sec_01_text">
                     <div class="st_title_wrap">
                         <p class="st_title" th:text="${store.storeTitle}" id="storeTitle">코뿔소서점</p>
-                        <a th:href='@{/bookList/store/{storeId}(storeId=${store.getStoreId()})}' class="st_ca_btn">
+                      <a th:href='@{/bookList/store/{storeId}(storeId=${store.getStoreId()})}' class="st_ca_btn">책보러가기</a>
                     </div>
                     <div class="st_iftext_wrap line_bt_gr">
                         <p th:text="${store.getStoreText()}">
@@ -172,6 +172,8 @@
   </th:block>
 </th:block>
 
+
+
 <script th:inline="javascript">
   $(document).ready(function(){
     let storeIdVal = [[${store.storeId}]]; // 스토어번호
@@ -193,9 +195,9 @@
                     <span>${displayTime(storeReview.createDate)}</span>
                 </div>
                 <div class="review_btn_wrap"> <!-- 버튼이 오른쪽으로 오게 함 -->
-                    <button class="mr-1 point_btn"
-                            data-storeReviewPositionId="${storeReview.storeReviewPositionId}"
-                            data-step="${storeReview.step}">답글쓰기</button>
+<!--                    <button class="mr-1 point_btn"-->
+<!--                            data-storeReviewPositionId="${storeReview.storeReviewPositionId}"-->
+<!--                            data-step="${storeReview.step}">답글쓰기</button>-->
                 </div>
             </div>
 
